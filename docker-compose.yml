@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts_sql:/docker-entrypoint-initdb.d/
+    container_name: pg-practica-proies
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=practica_investigacion
+    ports:
+      - "5433:5432" # Para que vos entres desde afuera por el 5433
+
+  api:
+    build: .
+    container_name: fast-api-nl2sql
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db       # Nombre del servicio de arriba
+      - DB_PORT=5432     # Puerto INTERNO de la red de Docker
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    depends_on:
+      - db

@@ -1,0 +1,52 @@
+# =========================
+# Entornos Virtuales
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Python & FastAPI
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# =========================
+# Variables de Entorno y Secretos (¡CRÍTICO!)
+# =========================
+.env
+.env.*
+*.pem
+# Nunca subas tus API Keys de Groq, Google o DeepSeek
+
+# =========================
+# Docker & Base de Datos
+# =========================
+# Ignorar las carpetas donde Postgres guarda los datos locales (si tenés volúmenes mapeados)
+postgres_data/
+db_data/
+pgdata/
+*.log
+
+# =========================
+# Node.js (Por Claude Code)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# IDEs y SO
+# =========================
+.vscode/
+.idea/
+*.swp
+.DS_Store
