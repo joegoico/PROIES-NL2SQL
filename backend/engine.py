@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
-from backend.custom_methods import custom_sql_query_chain
+from backend.custom.custom_methods import custom_sql_query_chain
 from backend.database import db as database
 load_dotenv()
 

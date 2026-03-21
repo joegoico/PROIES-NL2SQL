@@ -1,11 +1,9 @@
 from __future__ import annotations
-
-from typing import TYPE_CHECKING, Any, TypedDict
-
+from typing import Any
 from langchain_community.utilities import SQLDatabase
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import BasePromptTemplate, PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import Runnable, RunnablePassthrough
 from langchain_classic.chains.sql_database.query import SQLInput, SQLInputWithTables, _strip
     
