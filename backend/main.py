@@ -10,7 +10,7 @@ async def ask_database( query: Query):
     pregunta = query.question
     table_result = table_chain.invoke({"pregunta": pregunta})
     # 2. Generamos el SQL
-    sql_generado = query_chain.invoke({"question": pregunta, "tables": table_result.table_name})
+    sql_generado = query_chain.invoke({"question": pregunta, "table_names_to_use": table_result.table_name})
 
     # 3. Limpiamos por las dudas (A veces el LLM ignora las reglas y mete espacios o saltos de línea)
     sql_limpio = sql_generado.strip().replace("```sql", "").replace("```", "")
