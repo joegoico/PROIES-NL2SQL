@@ -24,3 +24,20 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     depends_on:
       - db
+  frontend: # EL NUEVO SERVICIO
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: streamlit-proies-nl2sql
+    ports:
+      - "8501:8501" # Mapeamos el puerto para verlo en tu IdeaPad
+    depends_on:
+      - api # No levanta hasta que la api esté lista
+      - db
+    networks:
+      - proies-network # Asegurate de usar la misma red que los otros
+
+networks:
+  proies-network:
+    driver: bridge
+  

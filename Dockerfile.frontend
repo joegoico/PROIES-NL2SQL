@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Instalamos las librerías necesarias
+RUN pip install streamlit requests pandas
+
+# Copiamos solo el frontend
+COPY frontend/ /app/frontend/
+
+# Exponemos el puerto de Streamlit
+EXPOSE 8501
+
+# Comando para arrancar Streamlit
+CMD ["streamlit", "run", "frontend/app.py", "--server.port=8501", "--server.address=0.0.0.0"]

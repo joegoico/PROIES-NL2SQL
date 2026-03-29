@@ -1,27 +1,13 @@
-from __future__ import annotations
 from typing import Any
+from backend.prompts import prompt_SQL
 from langchain_community.utilities import SQLDatabase
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import Runnable, RunnablePassthrough
 from langchain_classic.chains.sql_database.query import SQLInput, SQLInputWithTables, _strip
+from sqlalchemy import inspect
     
-template = """Dada la siguiente pregunta del usuario, crea una consulta PostgreSQL sintácticamente correcta para responderla.
-    
-Reglas estrictas:
-1. Devuelve ÚNICAMENTE el código SQL. 
-2. NO incluyas formato markdown (ni ```sql ni ```).
-3. NO incluyas la palabra "SQLQuery:" ni ninguna otra explicación.
-4. NO limites el número de resultados a devolver a menos que el usuario lo pida explícitamente. Si el usuario pide un número específico de resultados, entonces usa LIMIT para limitar los resultados a ese número.
-5. Si el usuario te pide todos los datos que cumplan con la consulta, entonces no uses LIMIT.
-6. Usa solo las siguientes tablas:
-{table_info}
-    
-Pregunta: {input}
-"""
-
-prompt = PromptTemplate.from_template(template)
+_catalog_cached = None
 
 def custom_sql_query_chain(
     llm: BaseLanguageModel,
@@ -76,8 +62,34 @@ def custom_sql_query_chain(
                 if k not in ("question", "table_names_to_use")
             }
         )
-        | prompt
+        | prompt_SQL
         | llm.bind(stop=["\nSQLResult:"])
         | StrOutputParser()
         | _strip
     )
+
+def get_catalog_and_comments(db: SQLDatabase) -> str:
+    """Función para obtener el catálogo de tablas y sus comentarios DE TABALA desde la base de datos."""
+
+    global _catalog_cached
+    if _catalog_cached is not None:
+        return _catalog_cached
+    
+    # Usamos SQLAlchemy para inspeccionar la base de datos y obtener los nombres de las tablas
+    inspector = inspect(db._engine)
+    catalog_info =""
+    table_names = inspector.get_table_names()
+
+    # Recorremos cada tabla y obtenemos su comentario, si existe
+    #Guardamos el resultado en una variable global para evitar hacer esta consulta cada vez que se haga una pregunta
+    for table_name in table_names:
+        table_comment = inspector.get_table_comment(table_name)
+        comentario = table_comment.get("text", "")
+        desc=comentario if comentario else "Sin descripción"
+        catalog_info += f"-{table_name}: {desc}\n"
+    
+    # Guardamos el catálogo en la variable global para futuras consultas
+    _catalog_cached = catalog_info
+    return _catalog_cached
+
+    _
