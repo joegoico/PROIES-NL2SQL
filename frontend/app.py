@@ -40,7 +40,10 @@ if pregunta_usuario:
             
             if response.status_code == 200:
                 data = response.json()
-                
+                # --- DEBUG: Verificamos qué llega del Backend ---
+                with st.expander("🔍 Debug: Ver respuesta cruda del Backend"):
+                    st.json(data) 
+# -----------------------------------------------
                 # --- DISEÑO EN COLUMNAS PARA DEBUEGUER ---
                 col1, col2 = st.columns([1, 2])
                 
@@ -66,24 +69,29 @@ if pregunta_usuario:
                 with col2:
                     st.write("#### 📊 Datos Obtenidos")
                     
-                    # 5c. Mostrar Resultados de Postgres (Dataframe)
-                    results_raw = data.get("results", "[]")
-                    # FastAPI a veces devuelve una lista, a veces un string de lista. Normalizamos:
-                    if isinstance(results_raw, str):
-                        try:
-                            results = ast.literal_eval(results_raw)
-                        except:
-                            results = []
-                    else:
-                        results = results_raw
+                    # 1. Obtenemos los resultados directamente
+                    results = data.get("results", [])
 
-                    if results and len(results) > 0:
+                    # 2. Validación de seguridad: Si por algún motivo es None, lo volvemos lista vacía
+                    if results is None:
+                        results = []
+
+                    # 3. Lógica de visualización
+                    if len(results) > 0:
                         st.success(f"Se encontraron {len(results)} registros.")
-                        # Transformamos la lista de Python en un DataFrame de Pandas para Streamlit
+                        
+                        # Convertimos a DataFrame
+                        # Si results es una lista de tuplas, Pandas lo entiende perfecto
                         df = pd.DataFrame(results)
-                        st.dataframe(df, use_container_width=True) # Tabla interactiva
+                        
+                        # TIP: Si querés ponerle nombres a las columnas dinámicamente:
+                        # df.columns = [f"Columna {i+1}" for i in range(df.shape[1])]
+                        
+                        st.dataframe(df, use_container_width=True)
                     else:
-                        st.warning("No se encontraron resultados en la base de datos para esta consulta.")
+                        st.warning("No se encontraron resultados en la base de datos.")
+                        # Debug por si acaso:
+                        st.write("Respuesta cruda de la API:", data)
                         
             else:
                 st.error(f"Error en la API. Código: {response.status_code}")

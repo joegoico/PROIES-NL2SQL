@@ -2,7 +2,7 @@ from backend.database import db
 from backend.engine import query_chain
 from fastapi import FastAPI
 from backend.custom.custom_classes import Query, table_chain
-from backend.custom.custom_methods import get_catalog_and_comments
+from backend.custom.custom_methods import ejecutar_sql_estructurado, get_catalog_and_comments
 
 app = FastAPI(title="agente PROIES")
 
@@ -36,8 +36,17 @@ async def ask_database(query: Query):
 
     # 5. Ejecutamos contra PostgreSQL
     try:
-        resultado_datos = db.run(sql_limpio)
-        print(f"Datos obtenidos: {resultado_datos}")
-        # Acá podrías retornar los datos al frontend si quisieras
+        resultado_datos = ejecutar_sql_estructurado(db, sql_limpio)
+
+        return {
+            "status": "success",
+            "tables": table_result.table_name,
+            "sql": sql_limpio,
+            "results": resultado_datos # <--- Ahora esto es una lista de verdad
+        }
     except Exception as e:
-        print(f"Error al ejecutar en la DB: {e}")
+        return {
+            "status": "error",
+            "message": str(e),
+            "sql": sql_limpio if 'sql_limpio' in locals() else ""
+        }

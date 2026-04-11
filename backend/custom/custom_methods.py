@@ -6,9 +6,26 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import Runnable, RunnablePassthrough
 from langchain_classic.chains.sql_database.query import SQLInput, SQLInputWithTables, _strip
 from sqlalchemy import inspect
+from sqlalchemy import text
+from fastapi.encoders import jsonable_encoder
     
 _catalog_cached = None
 
+def ejecutar_sql_estructurado(db, sql_query: str):
+    """
+    Ejecuta el SQL y devuelve una lista de diccionarios real.
+    Ej: [{'isbn': '978...', 'precio': 543.00}]
+    """
+    with db._engine.connect() as connection:
+        # Ejecutamos la consulta
+        result = connection.execute(text(sql_query))
+        
+        # Convertimos cada fila en un diccionario usando _mapping
+        # Esto nos da los nombres reales de las columnas de tu Postgres
+        rows = [dict(row._mapping) for row in result]
+    
+    # El jsonable_encoder limpia los Decimals y los convierte en Floats/Ints
+    return jsonable_encoder(rows)
 def custom_sql_query_chain(
     llm: BaseLanguageModel,
     db: SQLDatabase,

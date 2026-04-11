@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:15
@@ -9,7 +11,9 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_DB=practica_investigacion
     ports:
-      - "5433:5432" # Para que vos entres desde afuera por el 5433
+      - "5433:5432"
+    networks:
+      - proies-network
 
   api:
     build: .
@@ -19,25 +23,27 @@ services:
     env_file:
       - .env
     environment:
-      - DB_HOST=db       # Nombre del servicio de arriba
-      - DB_PORT=5432     # Puerto INTERNO de la red de Docker
+      - DB_HOST=db
+      - DB_PORT=5432
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     depends_on:
       - db
-  frontend: # EL NUEVO SERVICIO
+    networks:
+      - proies-network
+
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: streamlit-proies-nl2sql
     ports:
-      - "8501:8501" # Mapeamos el puerto para verlo en tu IdeaPad
+      - "8501:8501"
     depends_on:
-      - api # No levanta hasta que la api esté lista
+      - api
       - db
     networks:
-      - proies-network # Asegurate de usar la misma red que los otros
+      - proies-network
 
 networks:
   proies-network:
     driver: bridge
-  
