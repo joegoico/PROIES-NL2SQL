@@ -336,3 +336,133 @@ COMMENT ON TABLE organismosinternacionales IS 'Catálogo de entes extranjeros o 
 -- Percepción de la política
 COMMENT ON TABLE opinionpoliticasocial IS 'Catálogo de opiniones subjetivas sobre la política social actual';
 COMMENT ON COLUMN opinionpoliticasocial.opinion IS 'Calificación de la política (ej. Corrupta, Normal, Desconoce)';
+
+-- Detalle del personal (Recursos Humanos)
+COMMENT ON TABLE recursoshumanosdetalle IS 'Información detallada de cada integrante: cargo, educación, sueldo, carga horaria y demografía';
+COMMENT ON COLUMN recursoshumanosdetalle.id_organizacion IS 'ID organización (FK)';
+COMMENT ON COLUMN recursoshumanosdetalle.funciones IS 'Cargo o rol específico (ej. Directivos, Maestranza, Técnicos)';
+COMMENT ON COLUMN recursoshumanosdetalle.niveleducativo IS 'Nivel de instrucción (Primario, Secundario, Universitario)';
+COMMENT ON COLUMN recursoshumanosdetalle.profesion IS 'Título o profesión específica del integrante';
+COMMENT ON COLUMN recursoshumanosdetalle.rentado IS 'Indica si percibe salario (SÍ/NO)';
+COMMENT ON COLUMN recursoshumanosdetalle.id_origenrenta IS 'ID origen de fondos para el sueldo (FK a recursoshumanosorigenrenta)';
+COMMENT ON COLUMN recursoshumanosdetalle.monto IS 'Rango salarial o monto percibido';
+COMMENT ON COLUMN recursoshumanosdetalle.horasxsemana IS 'Carga horaria semanal dedicada a la organización';
+COMMENT ON COLUMN recursoshumanosdetalle.sexo IS 'Género del integrante (M/F)';
+COMMENT ON COLUMN recursoshumanosdetalle.edad IS 'Edad del integrante';
+
+-- Origen de los sueldos
+COMMENT ON TABLE recursoshumanosorigenrenta IS 'Catálogo de fuentes de financiamiento para salarios (Estado, Fondos Propios, Pasantías)';
+COMMENT ON COLUMN recursoshumanosorigenrenta.descripcion IS 'Descripción de la fuente de pago (ej. Plan de Empleo, Propia ONG)';
+
+-- Relación N:N Equipamiento
+COMMENT ON TABLE recursosmaterialesequipamiento IS 'Vincula a la organización con los recursos técnicos y herramientas que posee';
+
+-- Catálogo de Religiones
+COMMENT ON TABLE religion IS 'Catálogo de credos o religiones (ej. Catolicismo, Judaísmo, Laico)';
+
+-- Resumen de metas de creación
+COMMENT ON TABLE resumen_objetivos_fundacionales_x_organizacion IS 'Etiquetas de objetivos iniciales al momento de fundación (ej. Reivindicación, Servicio)';
+-- Catálogo de Roles
+COMMENT ON TABLE rolorganizaciones IS 'Catálogo de percepciones sobre la función de las ONGs frente al Estado (Suplir, Denunciar, etc.)';
+COMMENT ON COLUMN rolorganizaciones.rolorganizacion IS 'Descripción del rol (ej. Interpelar al Estado, Contener población)';
+
+-- Supervisión Técnica
+COMMENT ON TABLE supervisor IS 'Catálogo de supervisores responsables de controlar la calidad del relevamiento';
+-- Tipos de organizaciones externas
+COMMENT ON TABLE tipoorganizacionrelacionada IS 'Catálogo de naturalezas de entes vinculados (Estatal, Gremio, Fundación)';
+
+-- Vínculo detallado con el Estado
+COMMENT ON TABLE vinculacionestadodetalle IS 'Detalle de gestiones específicas ante el Estado (subsidios, trámites, proyectos)';
+COMMENT ON COLUMN vinculacionestadodetalle.motivos IS 'Texto libre con el detalle del trámite (ej. pases de transporte, certificados discapacidad)';
+
+-- Vínculo con otras organizaciones (no estatales)
+COMMENT ON TABLE vinculacionotrasorg IS 'Relación con otras ONGs o entidades privadas y existencia de acuerdos formales';
+COMMENT ON COLUMN vinculacionotrasorg.mismatematica IS 'Booleano: ¿Comparten el mismo rubro de trabajo?';
+
+-- Opinión sobre política social
+COMMENT ON TABLE visionrealidadopinionpoliticasocial IS 'Relación entre la organización y su postura sobre la política social actual';
+
+-- Análisis de problemas sociales
+COMMENT ON TABLE visionproblemascausas IS 'Diagnóstico cualitativo: identificación de problemas sociales (Inseguridad, Salud) y sus causas';
+COMMENT ON COLUMN visionproblemascausas.problema IS 'Nombre del problema social identificado (ej. Educación)';
+COMMENT ON COLUMN visionproblemascausas.causa IS 'Explicación subjetiva de por qué ocurre ese problema';
+
+COMMENT ON TABLE visonrealidad IS 'Opiniones subjetivas sobre política social local, situación de la infancia y trabajo infantil';
+COMMENT ON COLUMN visonrealidad.opinionpoliticasociallocal IS 'Visión sobre la gestión política social en el municipio (ej. Tandil, IMT)';
+COMMENT ON COLUMN visonrealidad.opinioninfyadolesc IS 'Opinión sobre la realidad de niños y adolescentes (ej. rebeldía, contención)';
+COMMENT ON COLUMN visonrealidad.opiniontrabinfantil IS 'Postura y percepción sobre el trabajo infantil a nivel local';
+
+COMMENT ON TABLE recursosfinacierospresup IS 'Montos monetarios del presupuesto anual desglosados por origen de fondos';
+COMMENT ON COLUMN recursosfinacierospresup.anio IS 'Año correspondiente al presupuesto (usar 0 si es dato general)';
+COMMENT ON COLUMN recursosfinacierospresup.propia IS 'Monto de fondos propios o autogenerados (numeric)';
+COMMENT ON COLUMN recursosfinacierospresup.estadonacional IS 'Monto recibido del Estado Nacional (numeric)';
+COMMENT ON COLUMN recursosfinacierospresup.estadoprovincial IS 'Monto recibido del Estado Provincial (numeric)';
+COMMENT ON COLUMN recursosfinacierospresup.estadomunicipal IS 'Monto recibido del Municipio (numeric)';
+COMMENT ON COLUMN recursosfinacierospresup.sectorprivado IS 'Monto recibido de empresas o sector privado (numeric)';
+COMMENT ON COLUMN recursosfinacierospresup.organismosinternacionales IS 'Monto recibido de entes internacionales (numeric)';
+
+-- Formas de autogeneración
+COMMENT ON TABLE recursosfinancierosautogformas IS 'Catálogo de métodos de recaudación propia (Rifas, Cuotas, Aranceles)';
+COMMENT ON TABLE recursosfinancierosautogfines IS 'Relación entre organizaciones y sus métodos de generación de recursos propios';
+
+-- Causas de no recepción
+COMMENT ON TABLE recursosfinancieroscausanorecext IS 'Catálogo de motivos por los que no se reciben fondos externos (Desconocimiento, Inaccesibilidad)';
+
+-- Tipos de ayuda estatal y Fines
+COMMENT ON TABLE recursosfinacierosestadotipos IS 'Catálogo de tipos de recursos estatales (Becas, Subsidios)';
+COMMENT ON TABLE recursosfinancierosfines IS 'Catálogo de destinos del dinero (Equipamiento, Construcción, Inmuebles)';
+
+-- Perfil de los demandantes
+COMMENT ON TABLE quienes_efectuan_demandas IS 'Catálogo de quiénes solicitan ayuda (Destinatarios, Vecinos, Agentes)';
+COMMENT ON COLUMN quienes_efectuan_demandas.nombrequienes IS 'Descripción del grupo que efectúa la demanda (ej. Familiares)';
+
+COMMENT ON TABLE quienesefecdem_x_organizacion IS 'Relación entre organizaciones y los perfiles de personas que les realizan pedidos';
+
+-- Gestión de Proyectos
+COMMENT ON TABLE proyectos IS 'Detalle de programas y áreas de trabajo: descripción, fechas, población y estado actual';
+COMMENT ON COLUMN proyectos.descripcion IS 'Nombre o descripción de la actividad (ej. Área educativa, Espectáculos)';
+COMMENT ON COLUMN proyectos.numpoblacionatendida IS 'Cantidad de personas beneficiadas por el proyecto';
+COMMENT ON COLUMN proyectos.fechainicio IS 'Fecha de comienzo del proyecto';
+COMMENT ON COLUMN proyectos.estado IS 'Situación del proyecto (ej. ACTIVO, FINALIZADO)';
+
+COMMENT ON TABLE proyecto_x_organizacionrelacionada IS 'Vinculación de proyectos con otras instituciones colaboradoras';
+
+-- Rangos Etarios
+COMMENT ON TABLE perfiledad IS 'Catálogo de rangos de edad de la población (Niños, Adolescentes, Jóvenes)';
+COMMENT ON COLUMN perfiledad.perfiledad IS 'Nombre del grupo etario atendido';
+
+COMMENT ON TABLE perfiledad_x_organizacion IS 'Vincula organizaciones con las edades de las personas a las que ayudan y su prioridad';
+
+-- Problemáticas Sociales
+COMMENT ON TABLE problemassociedad IS 'Catálogo de problemas que la organización busca resolver (Pobreza, Trabajo infantil, Violencia)';
+COMMENT ON COLUMN problemassociedad.problemassociedad IS 'Descripción de la problemática (ej. Falta de trabajo)';
+
+COMMENT ON TABLE problemasociedad_x_organizacion IS 'Relación entre organizaciones y los problemas sociales que intentan mitigar y su prioridad';
+
+-- Relación N:N Proyectos-Otras Orgs
+COMMENT ON TABLE proyecto_x_organizacionrelacionada IS 'Vincula un proyecto específico con otras instituciones externas que también participan en él';
+
+-- Vínculos Institucionales y Políticos
+COMMENT ON TABLE vinculacion IS 'Detalle de conexiones con el Estado, partidos políticos, programas sociales y participación en redes o foros';
+COMMENT ON COLUMN vinculacion.id_organizacion IS 'ID organización (FK/PK)';
+COMMENT ON COLUMN vinculacion.vincinstanciasestatales IS '¿Posee relación con niveles del Estado? (SI/NO)';
+COMMENT ON COLUMN vinculacion.acuerdosconvenios IS 'Detalle de acuerdos o convenios vigentes';
+COMMENT ON COLUMN vinculacion.redesforos IS '¿Participa en redes, federaciones o foros? (Boolean)';
+COMMENT ON COLUMN vinculacion.funcionariospoliticos IS 'Relación o contacto con funcionarios políticos';
+COMMENT ON COLUMN vinculacion.proyectospartidospoliticos IS '¿Participa en proyectos de partidos políticos? (Boolean)';
+COMMENT ON COLUMN vinculacion.implprogramassoc IS '¿Ejecuta programas sociales públicos? (SI/NO)';
+COMMENT ON COLUMN vinculacion.cualprogramasoc IS 'Nombre del programa social (ej. Plan Trabajar)';
+COMMENT ON COLUMN vinculacion.evalprogrsoc IS 'Opinión o evaluación sobre el impacto de los programas sociales en la organización';
+COMMENT ON COLUMN vinculacion.cualesredesforos IS 'Nombres de las redes o foros donde participa (ej. FEHGRA, IMT, Asociaciones)';
+
+-- Tipología de estructura
+COMMENT ON TABLE organizaciontipo IS 'Clasificación de la organización según su dependencia jerárquica y si tiene otras sedes a cargo';
+COMMENT ON COLUMN organizaciontipo.descripcion IS 'Nombre del tipo organizativo (ej. Tipo 1, Tipo 2)';
+COMMENT ON COLUMN organizaciontipo.depcasamatrizlocal IS '¿Depende de una sede central en la misma localidad? (Boolean)';
+COMMENT ON COLUMN organizaciontipo.depcasamatrizext IS '¿Depende de una sede central externa/nacional/extranjera? (Boolean)';
+COMMENT ON COLUMN organizaciontipo.organizacionesacargo IS '¿Esta organización tiene otras entidades bajo su mando? (Boolean)';
+
+-- Catálogo de Sedes Centrales
+COMMENT ON TABLE orgcasamatrizexterna IS 'Catálogo de sedes centrales, federaciones o ministerios nacionales de los que depende la organización';
+COMMENT ON COLUMN orgcasamatrizexterna.nombre IS 'Nombre de la casa matriz o ente superior (ej. Ministerio de Defensa, Federación)';
+COMMENT ON COLUMN orgcasamatrizexterna.nivel IS 'Ámbito de la casa matriz (Nacional, Internacional, etc.)';
