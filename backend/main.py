@@ -1,52 +1,27 @@
-from backend.database import db
-from backend.engine import query_chain
+import json
+from backend.custom.master_schema import init_schema
+from backend.database import JSON_OUTPUT
 from fastapi import FastAPI
-from backend.custom.custom_classes import Query, table_chain
-from backend.custom.custom_methods import ejecutar_sql_estructurado, get_catalog_and_comments
+from backend.controllers import (nl2sql_controller)
+
 
 app = FastAPI(title="agente PROIES")
 
-# Acordate de importar tu función arriba de todo en main.py
-# from custom.custom_methods import get_catalog_and_comments
+app.include_router(nl2sql_controller.router)
 
-@app.post("/ask")
-async def ask_database(query: Query):
-    pregunta = query.question
+esquema_maestro = {}
+
+async def lifespan(app: FastAPI):
+    # 1. Generar el esquema maestro al iniciar la aplicación
+    init_schema()
     
-    # 1. Traemos las 92 tablas (La 1ra vez va a la DB, las demás lee de RAM)
-    catalogo_texto = get_catalog_and_comments(db)
+    # 2. Cargar el esquema maestro en memoria para uso rápido
+    global esquema_maestro
+    with open(JSON_OUTPUT, 'r', encoding='utf-8') as f:
+        esquema_maestro = json.load(f)
     
-    # 2. Invocamos al recepcionista pasándole AMBAS cosas (la pregunta y el catálogo)
-    table_result = table_chain.invoke({
-        "pregunta": pregunta,
-        "catalogo_tablas": catalogo_texto  # <--- ACÁ CONECTAMOS EL CABLE
-    })
+    print("Esquema maestro cargado en memoria. La aplicación está lista para recibir consultas.")
     
-    print(f"Tablas elegidas por el Router: {table_result.table_name}")
+    yield  # Aquí es donde la aplicación estará corriendo
 
-    # 3. Generamos el SQL (pasando solo las tablas elegidas)
-    sql_generado = query_chain.invoke({
-        "question": pregunta, 
-        "table_names_to_use": table_result.table_name
-    })
 
-    # 4. Limpiamos por las dudas
-    sql_limpio = sql_generado.strip().replace("```sql", "").replace("```", "")
-    print(f"SQL Generado: {sql_limpio}")
-
-    # 5. Ejecutamos contra PostgreSQL
-    try:
-        resultado_datos = ejecutar_sql_estructurado(db, sql_limpio)
-
-        return {
-            "status": "success",
-            "tables": table_result.table_name,
-            "sql": sql_limpio,
-            "results": resultado_datos # <--- Ahora esto es una lista de verdad
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": str(e),
-            "sql": sql_limpio if 'sql_limpio' in locals() else ""
-        }

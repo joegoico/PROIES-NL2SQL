@@ -1,13 +1,12 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
-    volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-      - ./backend/scripts_sql:/docker-entrypoint-initdb.d/
     container_name: pg-practica-proies
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # <-- Cambiado a volumen nombrado (soluciona el bug de inicialización)
+      - ./backend/scripts_sql:/docker-entrypoint-initdb.d/
     environment:
+      - POSTGRES_USER=postgres  # Agregado por las dudas (buena práctica)
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_DB=practica_investigacion
     ports:
@@ -18,6 +17,8 @@ services:
   api:
     build: .
     container_name: fast-api-nl2sql
+    volumes:
+      - .:/app  # <-- CRÍTICO: Sincroniza tu código local con el contenedor en tiempo real
     ports:
       - "8000:8000"
     env_file:
@@ -25,7 +26,11 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
+      - POSTGRES_USER=postgres
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      # Apuntamos a donde realmente pusiste los scripts SQL en tu proyecto
+      - SQL_COMMENTS_PATH=/app/backend/scripts_sql/comments.sql
+      - SCHEMA_MAP_PATH=/app/data/master_schema.json
     depends_on:
       - db
     networks:
@@ -36,6 +41,8 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: streamlit-proies-nl2sql
+    volumes:
+      - ./frontend:/app/frontend # (Opcional) Te permite ver cambios en Streamlit sin reconstruir
     ports:
       - "8501:8501"
     depends_on:
@@ -47,3 +54,7 @@ services:
 networks:
   proies-network:
     driver: bridge
+
+# Declaramos el volumen nombrado al final del archivo
+volumes:
+  pgdata:
