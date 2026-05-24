@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from repositories.db_repository import DBRepository
+from backend.repositories.db_repository import DBRepository
 import os
 from dotenv import load_dotenv
 

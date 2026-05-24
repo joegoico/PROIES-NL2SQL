@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 # Asumiendo que tu instancia de FastAPI se llama 'app' y está en main.py
-from main import app 
+from backend.main import app 
 from backend.service.nl2sql_service import NL2SQLService
 
 # --- 1. Armamos el Mock del Servicio ---

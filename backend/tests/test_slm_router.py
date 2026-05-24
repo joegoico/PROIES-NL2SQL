@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import MagicMock
 
 # ATENCIÓN: Este import va a fallar la primera vez porque el archivo no existe. ¡Es parte del TDD!
-from services.slm_router import SLMRouter 
+from backend.service.slm_router import SLMRouter 
 
 @pytest.fixture
 def catalogo_prueba():
@@ -22,7 +22,7 @@ def test_slm_identifica_una_tabla_correctamente(mocker, catalogo_prueba):
     mock_chain.invoke.return_value = {"indices_elegidos": ["T2"]} 
     
     # Parcheamos la creación de la cadena para que use nuestro mock
-    mocker.patch('services.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
+    mocker.patch('backend.service.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
 
     # 2. Ejecutamos nuestra clase (que aún no hemos programado)
     router = SLMRouter()
@@ -39,7 +39,7 @@ def test_slm_identifica_multiples_tablas(mocker, catalogo_prueba):
     
     mock_chain = MagicMock()
     mock_chain.invoke.return_value = {"indices_elegidos": ["T1", "T45"]}
-    mocker.patch('services.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
+    mocker.patch('backend.service.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
 
     router = SLMRouter()
     pregunta = "¿Qué organizaciones reciben más presupuesto?"
@@ -54,7 +54,7 @@ def test_slm_pregunta_fuera_de_dominio(mocker, catalogo_prueba):
     
     mock_chain = MagicMock()
     mock_chain.invoke.return_value = {"indices_elegidos": []}
-    mocker.patch('services.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
+    mocker.patch('backend.service.slm_router.SLMRouter._crear_cadena', return_value=mock_chain)
 
     router = SLMRouter()
     pregunta = "¿Cómo preparo un mate?"

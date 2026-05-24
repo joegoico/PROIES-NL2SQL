@@ -1,16 +1,12 @@
 from repositories.db_repository import DBRepository
 from fastapi import Depends
-from backend.custom.custom_classes import Query
-from backend.main import esquema_maestro
-# Importaciones de LangChain...
 
 class NL2SQLService:
     def __init__(self, repo: DBRepository = Depends()):
         self.repo = repo
-        self.schema = esquema_maestro
         # Acá podrías inyectar el esquema_en_memoria o las cadenas de LangChain
 
-    def procesar_pregunta(self, pregunta: str):
+    def procesar_pregunta(self, pregunta: str, esquema: dict):
         # 1. SLM: Obtener índices (T1, T45...)
         # indices = self.slm_router.invoke(...)
         

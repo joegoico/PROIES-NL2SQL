@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from backend.custom.custom_methods import custom_sql_query_chain
-from backend.database import db as database
+from backend.database import get_db
 load_dotenv()
 
-db_local = database
+
 
 model = ChatGroq(
     model="llama-3.3-70b-versatile", # Un modelo pesado y muy inteligente para SQL
@@ -30,4 +30,13 @@ Pregunta: {input}
 
 prompt = PromptTemplate.from_template(template)
 
-query_chain= custom_sql_query_chain(llm=model, db=db_local, get_col_comments=True)
+def get_query_chain():
+    """
+    Crea la cadena de LangChain. Al estar encapsulada, get_db() 
+    NO se ejecuta hasta que llamemos explícitamente a get_query_chain().
+    """
+    return custom_sql_query_chain(
+        llm=model, 
+        db=get_db(), 
+        get_col_comments=True
+    )
