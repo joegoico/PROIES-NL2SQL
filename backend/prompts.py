@@ -93,8 +93,8 @@ seleccioná TODAS las tablas involucradas.
 5. Respondé EXCLUSIVAMENTE con un objeto JSON válido, sin markdown, \
 sin explicaciones, sin texto adicional.
 
-FORMATO DE RESPUESTA:
-{{"indices_elegidos": ["T1", "T45"]}}
+FORMATO DE RESPUESTA (usá los índices exactos tal como aparecen en el catálogo):
+{{"indices_elegidos": ["<indice_A>", "<indice_B>"]}}
 
 EJEMPLOS:
   Pregunta: "¿Cuántos proyectos sociales están vigentes?"
