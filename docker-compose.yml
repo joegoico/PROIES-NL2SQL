@@ -29,7 +29,7 @@ services:
       - POSTGRES_USER=postgres
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       # Apuntamos a donde realmente pusiste los scripts SQL en tu proyecto
-      - SQL_COMMENTS_PATH=/app/backend/scripts_sql/comments.sql
+      - SQL_COMMENTS_PATH=/app/backend/scripts_sql/03_comments.sql
       - SCHEMA_MAP_PATH=/app/data/master_schema.json
     depends_on:
       - db

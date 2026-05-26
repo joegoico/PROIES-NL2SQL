@@ -28,7 +28,7 @@ pregunta_usuario = st.chat_input("Ej: ¿Qué libros nuevos tenemos en stock?")
 
 # 5. La lógica de la llamada a la API
 # ¡IMPORTANTE!: Usamos el nombre del servicio de Docker, ej: 'api'
-API_URL = "http://api:8000/ask" 
+API_URL = "http://api:8000/api/ask" 
 
 if pregunta_usuario:
     st.write(f"#### Resultados para: \"{pregunta_usuario}\"")
@@ -36,7 +36,7 @@ if pregunta_usuario:
     with st.spinner("🤖 El asistente de IA está pensando... (La 1ra vez puede tardar un poquito por la carga del catálogo)"):
         try:
             # Llamamos a tu endpoint en FastAPI
-            response = requests.post(API_URL, json={"question": pregunta_usuario}, timeout=60)
+            response = requests.post(API_URL, json={"pregunta": pregunta_usuario}, timeout=60)
             
             if response.status_code == 200:
                 data = response.json()

@@ -24,5 +24,6 @@ class DBRepository:
             return []
             
         except Exception as e:
+            self.db.rollback() # <--- ESTA ES LA LÍNEA CLAVE
             # Capturamos cualquier error de sintaxis de Postgres y lanzamos ValueError para el test
             raise ValueError(f"Error ejecutando SQL en PostgreSQL: {str(e)}")

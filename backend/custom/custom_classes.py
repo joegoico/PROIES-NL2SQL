@@ -1,15 +1,31 @@
-from backend.prompts import prompt_recepcionista
+"""
+backend/custom/custom_classes.py
+─────────────────────────────────────────────────────────────────────────────
+Modelos Pydantic compartidos entre capas de la aplicación.
+
+Eliminados en esta refactorización:
+  - TableSelector: reemplazado por SLMRouter + _parsear_indices()
+  - llm_estricto:  reemplazado por SLMRouter._crear_cadena()
+  - table_chain:   reemplazado por SLMRouter.cadena
+─────────────────────────────────────────────────────────────────────────────
+"""
+
 from pydantic import BaseModel, Field
-from backend.engine import model as llm
 
-class TableSelector(BaseModel):
-    table_name: list[str] = Field(..., description="The name of the table to query")
-
-# Instanciamos a Groq pero le ponemos el "bozal" que creamos arriba
-llm_estricto = llm.with_structured_output(TableSelector, method="json_mode")
-
-# Unimos el prompt estricto con el LLM
-table_chain = prompt_recepcionista | llm_estricto
 
 class Query(BaseModel):
-    question:str
+    """
+    Cuerpo del request para el endpoint POST /api/ask.
+
+    Atributos:
+        pregunta: Consulta en lenguaje natural del usuario final.
+
+    Ejemplo de request body:
+        {"pregunta": "¿Cuántas organizaciones están activas?"}
+    """
+    pregunta: str = Field(
+        ...,
+        min_length=3,
+        description="Consulta en lenguaje natural a convertir en SQL.",
+        examples=["¿Cuántas organizaciones están activas?"],
+    )

@@ -1,109 +1,256 @@
-import pytest
-from unittest.mock import MagicMock
+"""
+backend/models/llm_generator.py
+─────────────────────────────────────────────────────────────────────────────
+Generador de SQL — Segunda Capa del Pipeline NL2SQL
 
-# ATENCIÓN: Fase Roja. Este módulo aún no existe.
-from services.llm_generator import LLMGenerator
+Responsabilidades:
+  1. generar_sql()  — dado un contexto de DDLs filtrados y una pregunta,
+                      producir la query SQL correcta.
+  2. corregir_sql() — dado un SQL roto + el error de PostgreSQL, producir
+                      la query corregida (bucle de reflexión / self-healing).
 
-@pytest.fixture
-def contexto_detallado():
-    """Un string que simula el DDL inyectado después del ruteo."""
-    return """
-    Tabla: organizaciones
-    Descripción: Datos básicos y contacto de las ONGs.
-    Columnas:
-      - id_org: PK
-      - nombre: Nombre oficial
+Cada responsabilidad tiene su propia cadena LCEL con un prompt especializado.
+Ambas cadenas usan StrOutputParser: invoke() retorna siempre un string,
+no un dict. Esto contrasta con SLMRouter que retorna dict/list.
+
+Limpieza de markdown:
+  Los LLMs de chat habitualmente envuelven el SQL en bloques ```sql ... ```.
+  _limpiar_sql() los elimina antes de retornar, garantizando que la query
+  pueda ejecutarse directamente en PostgreSQL sin preprocesamiento adicional.
+─────────────────────────────────────────────────────────────────────────────
+"""
+
+from __future__ import annotations
+
+import os
+import re
+import logging
+from typing import Any
+
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_groq import ChatGroq
+
+from backend.prompts import _SYSTEM_CORRECCION
+
+logger = logging.getLogger(__name__)
+
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Helper de limpieza — función pura, testeable de forma independiente
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _limpiar_sql(texto: str) -> str:
+    """
+    Elimina bloques de código markdown que los LLMs insertan alrededor del SQL.
+
+    Casos que maneja:
+        ```sql\\nSELECT ...\\n```  →  SELECT ...
+        ```\\nSELECT ...\\n```     →  SELECT ...
+        SELECT ...               →  SELECT ...   (sin cambios)
+
+    No modifica el contenido SQL en sí: no normaliza mayúsculas, no agrega
+    punto y coma, no toca los espacios internos.
+
+    Returns:
+        SQL limpio sin fences de markdown, con strip() aplicado.
+    """
+    # Remover apertura: ```sql o ``` con espacios/newlines opcionales
+    limpio = re.sub(r"```(?:sql)?\s*", "", texto, flags=re.IGNORECASE)
+    # Remover cierre: ``` con espacios/newlines opcionales
+    limpio = limpio.replace("```", "")
+    return limpio.strip()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Clase principal
+# ─────────────────────────────────────────────────────────────────────────────
+
+class LLMGenerator:
+    """
+    Generador de SQL de segunda capa del pipeline NL2SQL.
+
+    Recibe el contexto ya filtrado por SLMRouter (DDLs de las tablas
+    relevantes) y produce la query SQL final usando un LLM más potente.
+
+    Tiene dos cadenas LCEL independientes:
+      - cadena:            para generación de SQL desde cero.
+      - cadena_correccion: para corregir SQL que falló en PostgreSQL.
+
+    Ambas cadenas se crean en __init__ para que los mocks de pytest puedan
+    interceptar _crear_cadena() y _crear_cadena_correccion() antes de que
+    la instancia se construya completamente.
+
+    Ejemplo de uso::
+
+        generador = LLMGenerator()
+
+        sql = generador.generar_sql(
+            pregunta="¿Cuántas organizaciones hay activas?",
+            contexto_tablas=ddl_filtrado,
+        )
+
+        sql_fix = generador.corregir_sql(
+            sql_erroneo=sql,
+            error_db='column "activo" does not exist',
+            contexto_tablas=ddl_filtrado,
+        )
     """
 
-def test_generar_sql_limpia_etiquetas_markdown(mocker, contexto_detallado):
-    """Prueba CRÍTICA: Verifica que el generador quite los backticks (```sql)."""
-    
-    # 1. Mockeamos la cadena para que devuelva el clásico formato sucio del LLM
-    mock_chain = MagicMock()
-    mock_chain.invoke.return_value = "```sql\nSELECT * FROM organizaciones;\n```"
-    mocker.patch('services.llm_generator.LLMGenerator._crear_cadena', return_value=mock_chain)
+    def __init__(self, model_name: str | None = None, temperature: float = 0.0) -> None:
+        """
+        Args:
+            model_name: Nombre del modelo Groq. Por defecto lee la variable
+                de entorno LLM_MODEL o usa llama-3.3-70b-versatile.
+            temperature: Temperatura del LLM. 0.0 para SQL determinista.
+        """
+        self.model_name: str = (
+            model_name
+            or os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
+        )
+        self.temperature: float = temperature
 
-    # 2. Ejecutamos nuestra clase fantasma
-    generador = LLMGenerator()
-    pregunta = "¿Cuáles son las organizaciones?"
-    sql_resultado = generador.generar_sql(pregunta, contexto_detallado)
+        # Ambos llamados en __init__ para que mocker.patch los intercepte.
+        self.cadena: Any = self._crear_cadena()
+        self.cadena_correccion: Any = self._crear_cadena_correccion()
 
-    # 3. Afirmamos que el SQL está completamente limpio
-    assert "```sql" not in sql_resultado
-    assert "```" not in sql_resultado
-    assert sql_resultado.strip() == "SELECT * FROM organizaciones;"
+        logger.debug(
+            "LLMGenerator listo | modelo=%s temperature=%.1f",
+            self.model_name,
+            self.temperature,
+        )
 
+    # ─────────────────────────────────────────────────────────────────────────
+    # Construcción de cadenas LCEL
+    # ─────────────────────────────────────────────────────────────────────────
 
-def test_generar_sql_camino_feliz(mocker, contexto_detallado):
-    """Verifica que el generador devuelva un string válido si el LLM se porta bien."""
-    
-    mock_chain = MagicMock()
-    # Acá simulamos que el LLM ya devolvió el texto limpio
-    mock_chain.invoke.return_value = "SELECT nombre FROM organizaciones;"
-    mocker.patch('services.llm_generator.LLMGenerator._crear_cadena', return_value=mock_chain)
+    def _crear_cadena(self) -> Any:
+        """
+        Cadena LCEL para generación de SQL:
+            ChatPromptTemplate({contexto_tablas, pregunta})
+            → ChatGroq
+            → StrOutputParser  →  string limpio del AIMessage
 
-    generador = LLMGenerator()
-    sql_resultado = generador.generar_sql("Dime los nombres", contexto_detallado)
+        invoke() retorna un string (posiblemente con fences markdown).
+        generar_sql() aplica _limpiar_sql() antes de retornar.
+        """
+        from backend.prompts import get_prompt_generacion
 
-    assert sql_resultado == "SELECT nombre FROM organizaciones;"
+        return get_prompt_generacion() | self._construir_model() | StrOutputParser()
 
+    def _crear_cadena_correccion(self) -> Any:
+        """
+        Cadena LCEL para corrección de SQL:
+            ChatPromptTemplate({sql_erroneo, error_db, contexto_tablas})
+            → ChatGroq
+            → StrOutputParser
 
-def test_generar_sql_sin_contexto_lanza_error(mocker):
-    """Comportamiento defensivo: No gastar tokens si no hay tablas seleccionadas."""
-    
-    mock_chain = MagicMock()
-    mocker.patch('services.llm_generator.LLMGenerator._crear_cadena', return_value=mock_chain)
+        Cadena independiente con un prompt especializado en diagnóstico
+        de errores de PostgreSQL.
+        """
+        from backend.prompts import get_prompt_correccion
+        
+        return get_prompt_correccion() | self._construir_model() | StrOutputParser()
 
-    generador = LLMGenerator()
-    pregunta = "¿Cuántos proyectos hay?"
-    contexto_vacio = ""
+    def _construir_model(self) -> ChatGroq:
+        """
+        Instancia ChatGroq con la configuración del generador.
+        Método separado para facilitar override en subclases o tests.
+        """
+        return ChatGroq(
+            model=self.model_name,
+            temperature=self.temperature,
+            api_key=os.getenv("GROQ_API_KEY"),
+        )
 
-    # Afirmamos que el código debe frenar antes de llamar a LangChain
-    with pytest.raises(ValueError) as excinfo:
-        generador.generar_sql(pregunta, contexto_vacio)
-    
-    assert "El contexto del esquema no puede estar vacío" in str(excinfo.value)
-    # Verificamos que LangChain NUNCA haya sido llamado (ahorro de tokens)
-    mock_chain.invoke.assert_not_called()
+    # ─────────────────────────────────────────────────────────────────────────
+    # API pública
+    # ─────────────────────────────────────────────────────────────────────────
 
-def test_corregir_sql_exito(mocker, contexto_detallado):
-    """
-    Prueba el bucle de reflexión: El LLM recibe un SQL roto y el error de la DB, 
-    y debe devolver el SQL arreglado.
-    """
-    # 1. Mockeamos una SEGUNDA cadena exclusiva para corrección
-    mock_correction_chain = MagicMock()
-    # El LLM se da cuenta de que la columna era id_org y no id_organizacion
-    mock_correction_chain.invoke.return_value = "SELECT id_org FROM organizaciones;"
-    mocker.patch('services.llm_generator.LLMGenerator._crear_cadena_correccion', return_value=mock_correction_chain)
+    def generar_sql(self, pregunta: str, contexto_tablas: str) -> str:
+        """
+        Genera una query SQL a partir de una pregunta y el contexto de tablas.
 
-    generador = LLMGenerator()
-    sql_malo = "SELECT id_organizacion FROM organizaciones;"
-    error_postgres = 'column "id_organizacion" does not exist'
+        Args:
+            pregunta: Pregunta en lenguaje natural del usuario final.
+            contexto_tablas: DDLs y descripciones de las tablas relevantes,
+                ya filtradas por SLMRouter. No debe estar vacío.
 
-    # 2. Ejecutamos el método de corrección (que aún no existe)
-    sql_arreglado = generador.corregir_sql(sql_malo, error_postgres, contexto_detallado)
+        Returns:
+            Query SQL lista para ejecutar en PostgreSQL, sin fences markdown.
 
-    # 3. Afirmaciones
-    assert sql_arreglado == "SELECT id_org FROM organizaciones;"
-    
-    # Validamos que la cadena haya sido llamada con los parámetros correctos
-    argumentos_llamada = mock_correction_chain.invoke.call_args[0][0]
-    assert argumentos_llamada["sql_erroneo"] == sql_malo
-    assert argumentos_llamada["error_db"] == error_postgres
-    assert argumentos_llamada["contexto_tablas"] == contexto_detallado
+        Raises:
+            ValueError: Si contexto_tablas está vacío. Se frena antes de
+                invocar la cadena para no desperdiciar tokens de API.
+        """
+        if not contexto_tablas or not contexto_tablas.strip():
+            raise ValueError(
+                "El contexto del esquema no puede estar vacío. "
+                "Verificar que SLMRouter seleccionó tablas válidas antes de generar SQL."
+            )
 
+        if not pregunta or not pregunta.strip():
+            raise ValueError("La pregunta no puede estar vacía.")
 
-def test_corregir_sql_limpia_etiquetas_markdown(mocker, contexto_detallado):
-    """Verifica que el corrector también limpie los backticks del SQL."""
-    
-    mock_correction_chain = MagicMock()
-    mock_correction_chain.invoke.return_value = "```sql\nSELECT * FROM organizaciones;\n```"
-    mocker.patch('services.llm_generator.LLMGenerator._crear_cadena_correccion', return_value=mock_correction_chain)
+        logger.info("LLMGenerator.generar_sql | pregunta=%r", pregunta[:100])
 
-    generador = LLMGenerator()
-    sql_arreglado = generador.corregir_sql("SELECT * FROM orgs;", "relation orgs does not exist", contexto_detallado)
+        resultado: str = self.cadena.invoke({
+            "pregunta":        pregunta,
+            "contexto_tablas": contexto_tablas,
+        })
 
-    # Afirmamos que el SQL corregido sale limpio para ir directo a la BD
-    assert "```sql" not in sql_arreglado
-    assert sql_arreglado.strip() == "SELECT * FROM organizaciones;"
+        sql_limpio = _limpiar_sql(resultado)
+        logger.info("LLMGenerator.generar_sql | sql=%r", sql_limpio[:200])
+
+        return sql_limpio
+
+    def corregir_sql(
+        self,
+        sql_erroneo: str,
+        error_db: str,
+        contexto_tablas: str,
+    ) -> str:
+        """
+        Corrige un SQL que falló al ejecutarse en PostgreSQL.
+
+        Implementa el bucle de reflexión (self-healing) del pipeline:
+        cuando DBRepository lanza un error de ejecución, el controller
+        puede llamar a este método para obtener una query corregida
+        antes de reintentar.
+
+        Args:
+            sql_erroneo: La query SQL que falló.
+            error_db: Mensaje de error exacto retornado por PostgreSQL.
+            contexto_tablas: DDLs de las tablas involucradas.
+
+        Returns:
+            Query SQL corregida, sin fences markdown.
+
+        Raises:
+            ValueError: Si contexto_tablas está vacío.
+        """
+        if not contexto_tablas or not contexto_tablas.strip():
+            raise ValueError(
+                "El contexto del esquema no puede estar vacío. "
+                "No es posible corregir SQL sin el esquema de referencia."
+            )
+
+        logger.info(
+            "LLMGenerator.corregir_sql | error=%r | sql=%r",
+            error_db[:100],
+            sql_erroneo[:100],
+        )
+
+        # Las keys del dict deben coincidir exactamente con las variables
+        # del template _HUMAN_CORRECCION: {sql_erroneo}, {error_db}, {contexto_tablas}
+        resultado: str = self.cadena_correccion.invoke({
+            "sql_erroneo":    sql_erroneo,
+            "error_db":       error_db,
+            "contexto_tablas": contexto_tablas,
+        })
+
+        sql_limpio = _limpiar_sql(resultado)
+        logger.info("LLMGenerator.corregir_sql | sql_corregido=%r", sql_limpio[:200])
+
+        return sql_limpio

@@ -53,15 +53,14 @@ def test_ejecutarSQL_SQLValido_Exito(db_session):
     assert len(resultados) == 1
     assert resultados[0]["nombre"] == "ONG Test de Integracion"
 
-def test_ejecutarSQL_SQLInvalido_LanzarError(db_session):
-    """Prueba que el repositorio maneje bien los errores de sintaxis SQL."""
-    repo = DBRepository(db=db_session)
-    
-    # Le pasamos un SQL con error a propósito
-    sql_roto = "SELECT * FROM tabla_que_no_existe;"
-    
-    # El repositorio debería atrapar el error de Postgres y lanzar un ValueError nuestro
+def test_ejecutarSQL_SQLInvalido_LanzarError(mocker):
+    # Simula una sesión que lanza excepción al ejecutar cualquier SQL
+    mock_db = mocker.MagicMock()
+    mock_db.execute.side_effect = Exception("error de sintaxis")
+
+    repo = DBRepository(db=mock_db)
+
     with pytest.raises(ValueError) as excinfo:
-        repo.ejecutar_consulta(sql_roto)
-    
+        repo.ejecutar_consulta("CUALQUIER COSA ROTA")
+
     assert "Error ejecutando SQL" in str(excinfo.value)

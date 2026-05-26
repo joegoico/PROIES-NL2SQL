@@ -32,51 +32,6 @@ from langchain_groq import ChatGroq
 logger = logging.getLogger(__name__)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Prompts — cada variable de template va entre llaves simples.
-# Las llaves dobles {{ }} son escapes literales para el f-string del sistema.
-# ─────────────────────────────────────────────────────────────────────────────
-
-_SYSTEM_PROMPT = """\
-Eres un motor de enrutamiento de base de datos de alta precisión para el \
-sector gastronómico y de gestión social.
-
-Tu única función es analizar una pregunta en lenguaje natural e identificar \
-qué índices de tablas del catálogo son necesarios para construir la consulta SQL.
-
-REGLAS ABSOLUTAS:
-1. Identificá todas las entidades, métricas y relaciones en la pregunta.
-2. Si la pregunta implica un JOIN (ej: "organizaciones con mayor presupuesto"), \
-seleccioná TODAS las tablas involucradas.
-3. Seleccioná SOLO los índices necesarios. No agregues tablas "por las dudas".
-4. Si ninguna tabla es relevante, retorná lista vacía.
-5. Respondé EXCLUSIVAMENTE con un objeto JSON válido, sin markdown, \
-sin explicaciones, sin texto adicional.
-
-FORMATO DE RESPUESTA:
-{{"indices_elegidos": ["T1", "T45"]}}
-
-EJEMPLOS:
-  Pregunta: "¿Cuántos proyectos sociales están vigentes?"
-  → {{"indices_elegidos": ["T2"]}}
-
-  Pregunta: "¿Qué organizaciones tienen mayor presupuesto asignado?"
-  → {{"indices_elegidos": ["T1", "T45"]}}
-
-  Pregunta: "¿Cómo preparo un asado?"
-  → {{"indices_elegidos": []}}\
-"""
-
-_HUMAN_PROMPT = """\
-CATÁLOGO DE TABLAS DISPONIBLES:
-{catalogo}
-
-PREGUNTA DEL USUARIO:
-{pregunta}
-
-Respondé EXCLUSIVAMENTE con el JSON.\
-"""
-
-# ─────────────────────────────────────────────────────────────────────────────
 # Helpers de parseo — funciones puras, testeables de forma independiente
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -98,7 +53,7 @@ def _limpiar_markdown(texto: str) -> str:
 
 def _parsear_indices(texto: str) -> list[str]:
     """
-    Parsea la respuesta de texto del LLM y extrae la lista de índices.
+    Parsea la respuesta de texto del SLM y extrae la lista de índices.
 
     Estrategia defensiva en tres niveles:
       1. Limpiar markdown (```json ... ```)
@@ -195,10 +150,8 @@ class SLMRouter:
         En tests, _crear_cadena es mockeada completa, por lo que este
         código no se ejecuta durante pytest.
         """
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", _SYSTEM_PROMPT),
-            ("human",  _HUMAN_PROMPT),
-        ])
+        from backend.prompts import get_prompt_router
+        prompt = get_prompt_router()
 
         model = ChatGroq(
             model=self.model_name,
