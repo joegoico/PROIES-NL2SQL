@@ -101,26 +101,38 @@ def _extraer_comment_on_table(ddl: str) -> str:
     return match.group(1).strip() if match else ""
 
 
-def _extraer_columnas_comentadas(ddl: str) -> dict[str, str]:
+def _extraer_columnas_comentadas(
+    columnas_raw: dict[str, str],
+) -> dict[str, str]:
     """
-    Extrae todas las columnas que tienen comentarios inline (-- ...) en el DDL.
+    Normaliza las columnas descriptivas provenientes del esquema maestro.
 
-    Ejemplo DDL:
-        estado VARCHAR(20),  -- 'activo', 'cerrado', 'suspendido'
-        monto NUMERIC(15,2), -- Monto en pesos aprobado por el organismo
+    Args:
+        columnas_raw:
+            Dict del tipo:
+            {
+                "id_proyecto": "ID del proyecto",
+                "nombre": "Nombre del proyecto"
+            }
 
     Returns:
-        Dict {nombre_columna: comentario}, ignorando columnas técnicas.
+        Dict {nombre_columna: descripcion}, excluyendo columnas técnicas.
     """
-    columnas: dict[str, str] = {}
-    for match in _RE_COLUMNA_CON_COMENTARIO.finditer(ddl):
-        nombre = match.group(1).lower()
-        comentario = match.group(2).strip()
+    if not columnas_raw:
+        return {}
 
-        if nombre in _COLUMNAS_A_IGNORAR:
+    columnas: dict[str, str] = {}
+
+    for nombre, comentario in columnas_raw.items():
+        nombre_normalizado = nombre.lower().strip()
+
+        if nombre_normalizado in _COLUMNAS_A_IGNORAR:
             continue
-        if comentario:
-            columnas[nombre] = comentario
+
+        comentario_limpio = str(comentario).strip()
+
+        if comentario_limpio:
+            columnas[nombre_normalizado] = comentario_limpio
 
     return columnas
 
@@ -185,17 +197,10 @@ def construir_entrada_catalogo(
     Returns:
         EntradaCatalogo poblada, o None si los datos son insuficientes.
     """
-    ddl = datos_tabla.get("ddl", "")
-    nombre_tabla = datos_tabla.get("nombre_tabla", indice)
+    nombre_tabla = datos_tabla.get("nombre_real", indice)
+    descripcion = datos_tabla.get("descripcion_tabla", "")
 
-    # La descripción viene del campo explícito o se extrae del DDL
-    descripcion = (
-        datos_tabla.get("comentario_tabla", "").strip()
-        or _extraer_comment_on_table(ddl)
-        or f"Tabla {nombre_tabla}"
-    )
-
-    columnas_comentadas = _extraer_columnas_comentadas(ddl)
+    columnas_comentadas = _extraer_columnas_comentadas(datos_tabla.get("columnas", {}))
     columnas_clave_seleccionadas = _seleccionar_columnas_clave(columnas_comentadas)
 
     return EntradaCatalogo(
