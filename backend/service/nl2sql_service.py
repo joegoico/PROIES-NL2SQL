@@ -22,8 +22,7 @@ Imports relativos:
 
 import logging
 from typing import Any
-from fastapi import Depends
-from backend.repositories.db_repository import DBRepository
+from backend.custom.schema_prefilter import SchemaPrefilter
 
 from backend.models.slm_router import SLMRouter
 from .catalog_builder import construir_catalogo_para_slm
@@ -51,6 +50,7 @@ class NL2SQLService:
                 Pasar un mock aquí es la forma canónica de testear este servicio.
         """
         self.router: SLMRouter = router or SLMRouter()
+        self.prefilter = SchemaPrefilter()
         logger.debug("NL2SQLService inicializado | router=%s", type(self.router).__name__)
 
     def procesar_pregunta(
@@ -105,21 +105,26 @@ class NL2SQLService:
                      len(catalogo), len(esquema_maestro))
 
         # ── Fase 2: Rutear con SLM ──────────────────────────────────────────
-        tablas_seleccionadas: list[str] = self.router.obtener_indices(
+        tablas_seleccionadas: list[str] = self.prefilter.obtener_indices(
             pregunta=pregunta,
-            catalogo=catalogo,
+            esquema_maestro=esquema_maestro,
         )
-        logger.info("Tablas seleccionadas por SLM: %s", tablas_seleccionadas)
+        logger.info("Tablas seleccionadas por prefilter: %s", tablas_seleccionadas)
 
         if not tablas_seleccionadas:
             raise ValueError(
-                "El SLM no pudo identificar tablas relevantes para la pregunta."
+                "El prefilter no pudo identificar tablas relevantes para la pregunta."
             )
 
         # ── Fase 3: Extraer DDLs desde memoria ──────────────────────────────
         ddls_relevantes: dict[str, str] = self._extraer_ddls(
             esquema_maestro=esquema_maestro,
             indices=tablas_seleccionadas,
+        )
+
+        logger.info(
+            "Catálogo reducido: %d tablas",
+            len(ddls_relevantes),
         )
 
         # ── Fase 4: Preparar respuesta (SQL pendiente de implementación) ────
