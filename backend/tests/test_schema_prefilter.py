@@ -85,14 +85,23 @@ def test_schema_prefilter_debe_ser_case_insensitive(esquema_mock):
     assert "T2" in resultados
 
 def test_schema_prefilter_ignora_acentos(esquema_mock):
-    # Arrange
     prefilter = SchemaPrefilter()
-    pregunta = "organizacion"
 
-    # Act
-    resultados = prefilter.obtener_indices(pregunta, esquema_mock)
+    pregunta = "auditoria"
 
-    # Assert
+    esquema = {
+        "T1": {
+            "nombre_real": "auditoría",
+            "descripcion_tabla": "",
+            "columnas": {},
+        }
+    }
+
+    resultados = prefilter.obtener_indices(
+        pregunta,
+        esquema,
+    )
+
     assert "T1" in resultados
 
 def test_schema_prefilter_maneja_esquema_vacio():
