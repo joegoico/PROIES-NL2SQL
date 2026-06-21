@@ -18,6 +18,7 @@ class SchemaPrefilter:
             CalcualrScoreDescripcionTabla(),
             CalcularScoreNombreColumna()
         ]
+        self.min_score=5
     
     def obtener_indices(
         self,
@@ -46,10 +47,16 @@ class SchemaPrefilter:
                 tabla=tabla,
             )
 
-            if score > 0:
+            print(
+                indice,
+                tabla.get("nombre_real"),
+                score,
+            )
+
+            if score >= self.min_score:
                 scores.append((indice, score))
 
-        scores.sort(key=lambda x: x[1], reverse=True)
+                scores.sort(key=lambda x: x[1], reverse=True)
 
         return [indice for indice, _ in scores[:top_k]]
 
