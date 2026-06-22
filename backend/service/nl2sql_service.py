@@ -102,7 +102,7 @@ class NL2SQLService:
         # ── Fase 1: Construir catálogo compacto ─────────────────────────────
         catalogo = construir_catalogo_para_slm(esquema_maestro)
         logger.debug("Catálogo construido: %d chars, %d tablas",
-                     len(catalogo), len(esquema_maestro))
+                   len(catalogo), len(esquema_maestro))
 
         # ── Fase 2: Rutear con SLM ──────────────────────────────────────────
         tablas_seleccionadas: list[str] = self.prefilter.obtener_indices(
@@ -117,22 +117,17 @@ class NL2SQLService:
             )
 
         # ── Fase 3: Extraer DDLs desde memoria ──────────────────────────────
-        ddls_relevantes: dict[str, str] = self._extraer_ddls(
-            esquema_maestro=esquema_maestro,
-            indices=tablas_seleccionadas,
-        )
+        tablas_relevantes = self._extraer_esquema_relevante(esquema_maestro,tablas_seleccionadas)
 
         logger.info(
             "Catálogo reducido: %d tablas",
-            len(ddls_relevantes),
+            len(tablas_relevantes),
         )
 
         # ── Fase 4: Preparar respuesta (SQL pendiente de implementación) ────
         return {
             "pregunta": pregunta,
-            "tablas_seleccionadas": tablas_seleccionadas,
-            "ddls_relevantes": ddls_relevantes,
-            "catalogo_usado": catalogo,
+            "tablas_seleccionadas": tablas_relevantes,
             "sql_generado": None,   # TODO: Fase 5 — LLM generador de SQL
             "resultado": None,      # TODO: Fase 6 — DBRepository.ejecutar_sql()
         }
@@ -186,6 +181,38 @@ class NL2SQLService:
             len(ddls), len(indices),
         )
         return ddls
+    
+    def _extraer_esquema_relevante(
+        self,
+        esquema_maestro: dict[str, Any],
+        indices: list[str],
+    ) -> dict[str, Any]:
+        """
+        Extrae del esquema maestro únicamente las tablas indicadas.
+
+        Args:
+            esquema_maestro: Catálogo completo de tablas.
+            indices: Índices seleccionados por el prefilter.
+
+        Returns:
+            Diccionario con las tablas relevantes.
+        """
+        esquema_relevante: dict[str, Any] = {}
+
+        for indice in indices:
+            tabla = esquema_maestro.get(indice)
+
+            if tabla is None:
+                logger.warning(
+                    "NL2SQLService: índice '%s' no encontrado en esquema_maestro.",
+                    indice,
+                )
+                continue
+
+            esquema_relevante[indice] = tabla
+            logger.info("esquemas relevantes: %s", tabla)
+
+        return esquema_relevante
     
 def get_nl2sql_service(slm = SLMRouter()) -> NL2SQLService:
     """

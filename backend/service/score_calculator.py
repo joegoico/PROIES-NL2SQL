@@ -108,10 +108,8 @@ class CalcularScoreDescripcionColumna(ScoreCalculator):
                     * PESO_DESCRIPCION_COLUMNA
                 )
 
-                print("SCORE PARCIAL:", score_parcial)
 
                 score += score_parcial
 
-            print("SCORE TOTAL:", score)
 
             return score
