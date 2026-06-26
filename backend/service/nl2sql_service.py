@@ -102,7 +102,7 @@ class NL2SQLService:
         # ── Fase 1: Construir catálogo compacto ─────────────────────────────
         catalogo = construir_catalogo_para_slm(esquema_maestro)
         logger.debug("Catálogo construido: %d chars, %d tablas",
-                     len(catalogo), len(esquema_maestro))
+                   len(catalogo), len(esquema_maestro))
 
         # ── Fase 2: Rutear con SLM ──────────────────────────────────────────
         tablas_seleccionadas: list[str] = self.prefilter.obtener_indices(

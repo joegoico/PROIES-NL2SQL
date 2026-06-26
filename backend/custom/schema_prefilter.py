@@ -46,11 +46,6 @@ class SchemaPrefilter:
                 tabla=tabla,
             )
 
-            print(
-                indice,
-                tabla.get("nombre_real"),
-                score,
-            )
 
             if score > 0:
                 scores.append((indice, score))
