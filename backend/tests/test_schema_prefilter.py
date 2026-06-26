@@ -1,5 +1,6 @@
 import pytest
 from backend.custom.schema_prefilter import SchemaPrefilter
+from backend.service.score_calculator import normalizar_texto
 
 @pytest.fixture
 def esquema_mock():
@@ -38,12 +39,26 @@ def test_schema_prefilter_encuentra_tablas_relevantes(esquema_mock):
     assert "T2" in resultados
 
 def test_schema_prefilter_ignora_tablas_irrelevantes(esquema_mock):
-    #Arrange
+    # Arrange
     prefilter = SchemaPrefilter()
     pregunta = "¿Cuántas donaciones hay?"
-    #Act
-    resultados = prefilter.obtener_indices(pregunta, esquema_mock)
-    #Assert
+
+    # Act
+    resultados = prefilter.obtener_indices(
+        pregunta,
+        esquema_mock,
+    )
+
+    print("RESULTADOS:", resultados)
+
+    for indice, tabla in esquema_mock.items():
+        score = prefilter._calcular_score_tabla(
+            tokens_pregunta=normalizar_texto(pregunta),
+            tabla=tabla,
+        )
+        print(indice, score)
+
+    # Assert
     assert "T1" not in resultados
     assert "T3" not in resultados
     assert len(resultados) == 1

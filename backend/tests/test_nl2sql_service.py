@@ -34,14 +34,17 @@ def esquema_falso():
 # --- 2. LOS TESTS (TDD) ---
 
 def test_procesar_pregunta_camino_feliz(mocker):
-    # 1. Mock del router
+    # Arrange
     mock_router = mocker.MagicMock()
-    mock_router.obtener_indices.return_value = ["T_1", "T_3"]  # índices que debe devolver
+    mock_router.obtener_indices.return_value = ["T_1", "T_3"]
 
-    # 2. Instanciar el servicio con el router mockeado (NO repo=)
+    mocker.patch(
+        "backend.service.nl2sql_service.SchemaPrefilter.obtener_indices",
+        return_value=["T_3"]
+    )
+
     servicio = NL2SQLService(router=mock_router)
 
-    # 3. Esquema maestro de prueba
     esquema = {
         "T_1": {
             "nombre_real": "organizaciones",
@@ -69,33 +72,43 @@ def test_procesar_pregunta_camino_feliz(mocker):
         },
     }
 
-    print("antes de procesar_pregunta")  # --- IGNORE ---
-    # 4. Ejecutar
-    resultado = servicio.procesar_pregunta("¿Cuántas donaciones hay?", esquema)
-
-    print(resultado["tablas_seleccionadas"])
-
-    # 5. Verificar
-    assert resultado["tablas_seleccionadas"] == ["T_3"]
-    assert "T_3" in resultado["ddls_relevantes"]
-    assert resultado["sql_generado"] is None  # todavía no implementado
-    mocker.patch(
-        "backend.service.nl2sql_service.SchemaPrefilter.obtener_indices",
-        return_value=["T_1", "T_3"]
+    # Act
+    resultado = servicio.procesar_pregunta(
+        "¿Cuántas donaciones hay?",
+        esquema,
     )
 
-def test_procesar_pregunta_slm_no_encuentra_tablas(mocker, mock_repo, esquema_falso):
-    mock_router = mocker.MagicMock(spec=SLMRouter)
-    # Forzamos que devuelva lista vacía
-    mock_router.obtener_indices.return_value = []
-    
-    servicio = NL2SQLService(router=mock_router)
-    # ... resto del test
+    # Assert
+    assert resultado["pregunta"] == "¿Cuántas donaciones hay?"
+    assert resultado["tablas_seleccionadas"] == ["T_1", "T_3"]
+    assert resultado["sql_generado"] is None
+    assert resultado["resultado"] is None
 
-    # Afirmamos que el código DEBE lanzar un ValueError
+    mock_router.obtener_indices.assert_called_once()
+
+def test_procesar_pregunta_prefilter_no_encuentra_tablas(
+    mocker,
+    esquema_falso,
+):
+    # Arrange
+    mock_router = mocker.MagicMock(spec=SLMRouter)
+
+    mocker.patch(
+        "backend.service.nl2sql_service.SchemaPrefilter.obtener_indices",
+        return_value=[],
+    )
+
+    servicio = NL2SQLService(router=mock_router)
+
+    # Act + Assert
     with pytest.raises(ValueError) as excinfo:
-        # ¡EL ARREGLO ESTÁ ACÁ TAMBIÉN!
-        servicio.procesar_pregunta("Hablame del clima en Tandil", esquema_falso)
-    
-    # Verificamos que el mensaje de error sea correcto
-    assert "no pudo identificar" in str(excinfo.value).lower() or "tablas" in str(excinfo.value).lower()
+        servicio.procesar_pregunta(
+            "Hablame del clima en Tandil",
+            esquema_falso,
+        )
+
+    assert str(excinfo.value) == (
+        "El prefilter no pudo identificar tablas relevantes para la pregunta."
+    )
+
+    mock_router.obtener_indices.assert_not_called()

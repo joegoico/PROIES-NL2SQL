@@ -115,23 +115,27 @@ class NL2SQLService:
             raise ValueError(
                 "El prefilter no pudo identificar tablas relevantes para la pregunta."
             )
-
-        # ── Fase 3: Extraer DDLs desde memoria ──────────────────────────────
-        ddls_relevantes: dict[str, str] = self._extraer_ddls(
-            esquema_maestro=esquema_maestro,
-            indices=tablas_seleccionadas,
+        # ── Fase 4: Llamar al SLM para que filtre las tablas finales ──────────────────────────────
+        tablas_filtradas_slm = self.router.obtener_indices(
+            pregunta=pregunta,
+            catalogo=tablas_seleccionadas,
         )
+        # ── Fase 3: Extraer DDLs desde memoria ──────────────────────────────
+        #ddls_relevantes: dict[str, str] = self._extraer_ddls(
+        #    esquema_maestro=esquema_maestro,
+         #   indices=tablas_seleccionadas,
+        #)
 
         logger.info(
             "Catálogo reducido: %d tablas",
-            len(ddls_relevantes),
+            #len(ddls_relevantes),
         )
 
         # ── Fase 4: Preparar respuesta (SQL pendiente de implementación) ────
         return {
             "pregunta": pregunta,
-            "tablas_seleccionadas": tablas_seleccionadas,
-            "ddls_relevantes": ddls_relevantes,
+            "tablas_seleccionadas": tablas_filtradas_slm,
+            #"ddls_relevantes": ddls_relevantes,
             "catalogo_usado": catalogo,
             "sql_generado": None,   # TODO: Fase 5 — LLM generador de SQL
             "resultado": None,      # TODO: Fase 6 — DBRepository.ejecutar_sql()
@@ -186,11 +190,17 @@ class NL2SQLService:
             len(ddls), len(indices),
         )
         return ddls
-    
-def get_nl2sql_service(slm = SLMRouter()) -> NL2SQLService:
+
+def get_nl2sql_service(
+    slm=None,
+) -> NL2SQLService:
     """
     Esta función es la que verá FastAPI. 
     FastAPI solo inspeccionará 'repo' (que es válido) y no sabrá 
     jamás que adentro de la clase existe un 'SLMRouter | None'.
     """
-    return NL2SQLService(router=slm)
+
+    if slm is None:
+        slm = SLMRouter()
+
+    return NL2SQLService(router=slm) 

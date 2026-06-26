@@ -208,7 +208,7 @@ class SLMRouter:
         """
         if not pregunta or not pregunta.strip():
             raise ValueError("'pregunta' no puede estar vacía.")
-        if not catalogo or not catalogo.strip():
+        if not catalogo :
             raise ValueError("'catalogo' no puede estar vacío.")
 
         logger.info("SLMRouter → pregunta: %r", pregunta[:100])
