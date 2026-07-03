@@ -118,6 +118,48 @@ def test_schema_prefilter_ignora_acentos(esquema_mock):
     )
 
     assert "T1" in resultados
+def test_prefilter_reconoce_error_tipografico():
+    ...
+    #Assert
+    prefilter = SchemaPrefilter()
+    pregunta = "organizacin"
+    esquema = {
+        "T1": {
+            "nombre_real": "organización",
+            "descripcion_tabla": "",
+            "columnas": {},
+        }
+    }
+
+    #Act
+    resultados = prefilter.obtener_indices(pregunta, esquema)
+
+    assert "T1" in resultados
+
+def test_prefilter_reconoce_plural():
+    ...
+    prefilter = SchemaPrefilter()
+    pregunta = "organizaciones"
+    esquema = {
+        "T1": {
+            "nombre_real": "organización",
+            "descripcion_tabla": "",
+            "columnas": {},
+        }
+    }
+
+    resultados = prefilter.obtener_indices(pregunta, esquema)
+
+    assert "T1" in resultados
+
+def test_prefilter_no_confunde_palabras_distintas(esquema_mock):
+    ...
+    prefilter = SchemaPrefilter()
+    pregunta = "presupuesto"
+    resultados = prefilter.obtener_indices(pregunta, esquema_mock)
+
+    assert "T1" in resultados
+    assert "T3" not in resultados
 
 def test_schema_prefilter_maneja_esquema_vacio():
     # Arrange

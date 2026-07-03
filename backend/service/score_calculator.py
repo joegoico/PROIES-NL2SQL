@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 import re
 import unicodedata
+from rapidfuzz import fuzz
 
 from langchain_classic.chains import Any
 
 
-
+UMBRAL_SIMILITUD = 85
 PESO_NOMBRE_TABLA = 5
 PESO_DESCRIPCION_TABLA = 4
 PESO_NOMBRE_COLUMNA = 3
@@ -49,6 +50,36 @@ def normalizar_texto(texto: str) -> set[str]:
         if token not in _STOPWORDS
     }
 
+def son_similares(token1: str, token2: str) -> bool:
+    """
+    Devuelve True si dos tokens son suficientemente parecidos.
+
+    Ejemplos:
+        organizacion <-> organización
+        organizacion <-> organizacin
+        auditoria <-> auditorías
+    """
+    return fuzz.ratio(token1, token2)
+
+def contar_matches(
+    tokens_pregunta: set[str],
+    tokens_tabla: set[str],
+) -> int:
+    """
+    Cuenta cuántos tokens de la pregunta matchean con los de la tabla,
+    permitiendo errores tipográficos.
+    """
+
+    matches = 0
+
+    for token_pregunta in tokens_pregunta:
+        for token_tabla in tokens_tabla:
+
+            if son_similares(token_pregunta, token_tabla)>= UMBRAL_SIMILITUD:
+                matches += 1
+                break
+
+    return matches
 class ScoreCalculator(ABC):
     @abstractmethod
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
@@ -59,14 +90,23 @@ class CalcularScoreNombreTabla(ScoreCalculator):
         # Nombre tabla
         nombre = tabla.get("nombre_real", "")
         tokens_nombre = normalizar_texto(nombre)
-        return len(tokens_pregunta & tokens_nombre) * PESO_NOMBRE_TABLA
+        matches = contar_matches(
+            tokens_pregunta,
+            tokens_nombre,
+        )
+
+        return matches * PESO_NOMBRE_TABLA
 
 class CalcualrScoreDescripcionTabla(ScoreCalculator):
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
         # Descripción tabla
         descripcion = tabla.get("descripcion_tabla", "")
         tokens_descripcion = normalizar_texto(descripcion)
-        return len(tokens_pregunta & tokens_descripcion) * PESO_DESCRIPCION_TABLA
+        matches = contar_matches(
+            tokens_pregunta,
+            tokens_descripcion,
+        )
+        return matches * PESO_DESCRIPCION_TABLA
 
 class CalcularScoreNombreColumna(ScoreCalculator):
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
@@ -75,7 +115,11 @@ class CalcularScoreNombreColumna(ScoreCalculator):
         for col in columnas.keys():
 
             tokens_col = normalizar_texto(col)
-            score += len(tokens_pregunta & tokens_col) * PESO_NOMBRE_COLUMNA
+            score += (
+                contar_matches(tokens_pregunta, tokens_col)
+                * PESO_NOMBRE_COLUMNA
+            )
+
         
         return score
 class CalcularScoreDescripcionColumna(ScoreCalculator):
@@ -103,13 +147,10 @@ class CalcularScoreDescripcionColumna(ScoreCalculator):
 
                 print("INTERSECCION:", interseccion)
 
-                score_parcial = (
-                    len(interseccion)
+                score += (
+                    contar_matches(tokens_pregunta, tokens_comentario)
                     * PESO_DESCRIPCION_COLUMNA
                 )
-
-
-                score += score_parcial
 
 
             return score
