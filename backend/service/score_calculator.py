@@ -78,7 +78,9 @@ def contar_matches(
             if son_similares(token_pregunta, token_tabla)>= UMBRAL_SIMILITUD:
                 matches += 1
                 break
-
+    print(f"Tokens pregunta: {tokens_pregunta}")
+    print(f"Tokens tabla: {tokens_tabla}")
+    print(f"Matches: {matches}")
     return matches
 class ScoreCalculator(ABC):
     @abstractmethod

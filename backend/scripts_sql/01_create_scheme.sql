@@ -8,61 +8,61 @@ CREATE TABLE actores_eval_x_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE actores_planif_x_organizacion (
+CREATE TABLE actores_planif_por_organizacion (
     id_actor integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursosfinancieros (
+CREATE TABLE recursos_financieros (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    administracionpresupuesto text,
-    porcrecursosautogenerados integer DEFAULT 0,
-    porcaportesestatales integer DEFAULT 0,
-    porcotrosaportes integer DEFAULT 0
+    administracion_presupuesto text,
+    porcentaje_recursos_autogenerados integer DEFAULT 0,
+    porcentaje_aportes_estatales integer DEFAULT 0,
+    porcentaje_otros_aportes integer DEFAULT 0
 );
 
 CREATE TABLE alcance_de_difusion (
     id_alcance integer NOT NULL,
-    nombrealcance text
+    nombre_alcance text
 );
 
 CREATE TABLE organizacion_interna (
     id_organizacion integer DEFAULT 0 NOT NULL,
     objetivos text,
     barrios text,
-    zonaaccionar text,
-    tipopoblacion text,
-    poblacionsegunedad text,
-    poblacionsegunsexo text,
+    zona_accionar text,
+    tipo_poblacion text,
+    poblacion_segun_edad text,
+    poblacion_segun_sexo text,
     organigrama text,
     id_formaorganizacion integer DEFAULT 99,
-    documentosescritos text,
-    registrotarea text,
+    documentos_escritos text,
+    registro_tarea text,
     planificacion text,
-    espescenplanif text,
-    concordanciadeact text,
-    cumplimcronograma text,
+    espescen_planif text,
+    concordancia_de_act text,
+    cumplimiento_cronograma text,
     evaluacion text,
-    momentoevaluacion text,
+    momento_evaluacion text,
     espesceneval text,
-    influenciadelosresult text,
-    implementacapacitacion text,
+    influencia_de_los_resultados text,
+    implementa_capacitacion text,
     publicaciones text,
-    demandassociales text,
-    quieneslasefectuan text,
-    comolasefectuan text,
-    comorespondelainst text,
-    capacderespdelaorg text,
-    capacformularpropuestas text,
-    comodefinentareas text,
-    princtemascapacit text,
-    propuestasarmadas text,
-    paginaweb text,
-    princtemascapacit2 text,
-    princtemascapacit3 text
+    demandas_sociales text,
+    quienes_las_efectuan text,
+    como_las_efectuan text,
+    como_responde_la_institucion text,
+    capacidad_de_respuesta_de_la_organizacion text,
+    capacidad_formular_propuestas text,
+    como_definen_tareas text,
+    principales_temas_capacitacion text,
+    propuestas_armadas text,
+    pagina_web text,
+    principales_temas_capacitacion2 text,
+    principales_temas_capacitacion3 text
 );
 
-CREATE TABLE alcanceaccionar_x_organizacion (
+CREATE TABLE alcanceaccionar_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_alcanceaccionar integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
@@ -70,10 +70,10 @@ CREATE TABLE alcanceaccionar_x_organizacion (
 
 CREATE TABLE area_tematica (
     id_area integer NOT NULL,
-    nombrearea text
+    nombr_earea text
 );
 
-CREATE TABLE area_tematica_x_organizacion (
+CREATE TABLE area_tematica_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_areatematica integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
@@ -81,37 +81,37 @@ CREATE TABLE area_tematica_x_organizacion (
 
 CREATE TABLE autodiagnostico (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    opinionrolorganizaciones text,
-    opinionroldeberiancumplir text
+    opinion_rol_organizaciones text,
+    opinion_rol_deberian_cumplir text
 );
 
-CREATE TABLE autodiagnosticodificultades (
+CREATE TABLE autodiagnostico_dificultades (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_dificultad integer DEFAULT 0 NOT NULL,
     prioridad text
 );
 
-CREATE TABLE autodiagnosticoroldeberiancumplir (
+CREATE TABLE autodiagnostico_rol_deberian_cumplir (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_rolorganizacion integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE autodiagnosticorolorganizaciones (
+CREATE TABLE autodiagnostico_rol_organizaciones (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_rolorganizacion integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE capacitaciontema (
+CREATE TABLE capacitacion_tema (
     id_capacitaciontema integer NOT NULL,
-    capacitaciontema text
+    capacitacion_tema text
 );
 
-CREATE TABLE capacitaciontema_x_organizacion (
+CREATE TABLE capacitacion_tema_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_capacitaciontema integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE codigo_x_forma_registro_x_organizacion (
+CREATE TABLE codigo_por_forma_registro_por_organizacion (
     id_organizacion integer DEFAULT 0,
     id_codigocontenido integer DEFAULT 0,
     id_formaregistro integer DEFAULT 0,
@@ -120,7 +120,7 @@ CREATE TABLE codigo_x_forma_registro_x_organizacion (
 
 CREATE TABLE codigos_contenido_registro (
     id_codigo integer NOT NULL,
-    nombrecodigo text
+    nombre_codigo text
 );
 
 CREATE TABLE como_efectuan_demandas (
@@ -128,31 +128,31 @@ CREATE TABLE como_efectuan_demandas (
     nombrecomo text
 );
 
-CREATE TABLE como_efectuan_demandas_x_organizacion (
+CREATE TABLE como_efectuan_demandas_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_comoefectuandem integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE condicionescontratacion (
+CREATE TABLE condiciones_contratacion (
     idcondicionescontrat integer NOT NULL,
-    condicionescontrat text
+    condiciones_contratacion text
 );
  
 CREATE TABLE demandas_sociales (
     id_demanda integer NOT NULL,
-    tipodemanda text
+    tipo_demanda text
 );
 
-CREATE TABLE demandas_x_organizacion (
+CREATE TABLE demandas_por_organizacion (
     id_demandasocial integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    denominacionlegal text,
-    domiciliolegal text,
-    domicilioreal text,
+    denominacion_legal text,
+    domicilio_legal text,
+    domicilio_real text,
     telefonos text,
     fax text,
     e_mail text,
@@ -162,7 +162,7 @@ CREATE TABLE organizacion (
     id_casamatrizexterna integer DEFAULT 0
 );
 
-CREATE TABLE dependenciaestado (
+CREATE TABLE dependencia_estado (
     id_dependenciaestado integer DEFAULT 0 NOT NULL,
     nombre text,
     nivel text
@@ -173,13 +173,13 @@ CREATE TABLE dificultades (
     dificultad text
 );
 
-CREATE TABLE entidadesaportantes (
+CREATE TABLE entidades_aportantes (
     id_entidadaportante integer DEFAULT 0 NOT NULL,
     nombre text
 );
 
-CREATE TABLE entidadessectorprivado (
-    id_entidadsectorprivado integer NOT NULL,
+CREATE TABLE entidades_sector_privado (
+    id_entidad_sector_privado integer NOT NULL,
     nombre text
 );
 
@@ -191,39 +191,39 @@ CREATE TABLE entrevista (
     nombre_entrevistado text,
     cargo_entrevistado text,
     antiguedad_entrevistado text,
-    fechaentrevista timestamp without time zone,
-    hsentrevista text,
-    cargadapor text
+    fecha_entrevista timestamp without time zone,
+    hs_entrevista text,
+    cargada_por text
 );
 
 CREATE TABLE entrevistador (
     id_entrevistador integer NOT NULL,
-    nombreapellidoentrevistador text
+    nombre_apellido_entrevistador text
 );
 
 CREATE TABLE equipamiento (
     id_equipamiento integer NOT NULL,
-    nombreequipamiento text
+    nombre_equipamiento text
 );
 
 CREATE TABLE situacion_juridica (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    personeriajuridica text,
-    nombrepersoneria text,
-    usotransitoriocual text,
-    entramitecual text,
-    figuralegal text,
-    formaasoccivil text,
+    personeria_juridica text,
+    nombre_personeria text,
+    uso_transitorio_cual text,
+    en_tramite_cual text,
+    figura_legal text,
+    forma_asoc_civil text,
     nropersoneria text,
-    fechaobtencion timestamp without time zone,
-    fechainiciotramite timestamp without time zone,
+    fecha_obtencion timestamp without time zone,
+    fecha_inicio_tramite timestamp without time zone,
     nroregistroculto integer DEFAULT 0,
-    fechaobtregistroculto timestamp without time zone
+    fecha_obtregistroculto timestamp without time zone
 );
 
 CREATE TABLE forma_de_difusion (
     id_formadifusion integer NOT NULL,
-    tipodifusion text
+    tipo_difusion text
 );
 
 CREATE TABLE forma_de_organizacion (
@@ -231,7 +231,7 @@ CREATE TABLE forma_de_organizacion (
     nombre text
 );
 
-CREATE TABLE forma_difusion_x_alcance_x_organizacion (
+CREATE TABLE forma_difusion_por_alcance_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_formadifusion integer DEFAULT 0 NOT NULL,
     id_alcance integer DEFAULT 0 NOT NULL
@@ -242,12 +242,12 @@ CREATE TABLE formas_de_registro (
     nombre text
 );
 
-CREATE TABLE formatenenciapropiedad (
+CREATE TABLE forma_tenencia_propiedad (
     id_formatenenciapropiedad integer DEFAULT 0 NOT NULL,
-    formatenenciapropiedad text
+    forma_tenencia_propiedad text
 );
 
-CREATE TABLE frecuenciacapacitacion (
+CREATE TABLE frecuencia_capacitacion (
     idmomento integer NOT NULL,
     tipo text
 );
@@ -259,9 +259,9 @@ CREATE TABLE historia (
     id_religion integer DEFAULT 5,
     fundadores text,
     resumenfundadores text,
-    objetivosfundacionales text,
-    reseniaaccion text,
-    resumenresenia text
+    objetivos_fundacionales text,
+    resenia_accion text,
+    resumen_resenia text
 );
 
 CREATE TABLE identidad (
@@ -274,7 +274,7 @@ CREATE TABLE identidad_x_organizacion (
     id_identidadorg integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE modalidad_capac_x_organizacion (
+CREATE TABLE modalidad_capacitacion_por_organizacion (
     id_modalidad integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_frecuencia integer DEFAULT 0,
@@ -284,135 +284,135 @@ CREATE TABLE modalidad_capac_x_organizacion (
 
 CREATE TABLE modalidad_de_capacitacion (
     id_modalidad integer NOT NULL,
-    nombremodalidad text
+    nombre_modalidad text
 );
 
 CREATE TABLE modo_accionar (
     id_modoaccionar integer NOT NULL,
-    nombremodo text
+    nombre_modo text
 );
 
-CREATE TABLE modo_accionar_x_organizacion (
+CREATE TABLE modo_accionar_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_modoaccionar integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
 );
 
-CREATE TABLE momento_evaluacion_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
-    idmomento integer DEFAULT 0 NOT NULL
+CREATE TABLE momento_evaluacion_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
+    id_momento integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE momento_planificacion_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
-    idmomento integer DEFAULT 0 NOT NULL
+CREATE TABLE momento_planificacion_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
+    id_momento integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE momplanificacionyevaluacion (
-    idmomento integer NOT NULL,
+CREATE TABLE momento_planificacion_evaluacion (
+    id_momento integer NOT NULL,
     tipo text
 );
 
-CREATE TABLE vinculacionmotivos (
+CREATE TABLE vinculacion_motivos (
     id_motivovinculacion integer DEFAULT 0 NOT NULL,
     descripcion text
 );
 
-CREATE TABLE vinculacionorgsociales (
-    id_organizacionrelevada integer DEFAULT 0 NOT NULL,
-    id_organizacionvinculada integer DEFAULT 0 NOT NULL,
-    id_motivovinculacion integer DEFAULT 0 NOT NULL,
-    mismatematica boolean NOT NULL,
-    acuerdosformales text
+CREATE TABLE vinculacion_organismos_sociales (
+    id_organizacion_relevada integer DEFAULT 0 NOT NULL,
+    id_organizacion_vinculada integer DEFAULT 0 NOT NULL,
+    id_motivo_vinculacion integer DEFAULT 0 NOT NULL,
+    misma_tematica boolean NOT NULL,
+    acuerdos_formales text
 );
 
-CREATE TABLE resumenobjorganizacioninterna_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
-    nombreresumenobjetivos text NOT NULL
+CREATE TABLE resumen_objetivo_organizacion_interna_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
+    nombre_resumen_objetivos text NOT NULL
 );
 
-CREATE TABLE opinionpoliticasocial (
-    id_opinionpoliticasocial integer DEFAULT 0 NOT NULL,
+CREATE TABLE opinion_politica_social (
+    id_opinion_politica_social integer DEFAULT 0 NOT NULL,
     opinion text
 );
 
 CREATE TABLE organismo (
     id_organismo integer NOT NULL,
-    nombreorganismo text
+    nombre_organismo text
 );
 
 CREATE TABLE organismo_en_el_que_esta_registrado (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_organismo integer DEFAULT 0 NOT NULL,
-    fecharegistro timestamp without time zone,
-    fechaultimapresmemybal timestamp without time zone,
-    anioultimasupervision integer DEFAULT 0
+    fecha_registro timestamp without time zone,
+    fecha_ultima_presentacion_mem_y_balance timestamp without time zone,
+    anio_ultima_supervision integer DEFAULT 0
 );
 
-CREATE TABLE organismosinternacionales (
-    id_organismointernacional integer DEFAULT 0 NOT NULL,
-    nombreorganismointernacional text
+CREATE TABLE organismos_internacionales (
+    id_organismo_internacional integer DEFAULT 0 NOT NULL,
+    nombre_organismo_internacional text
 );
 
-CREATE TABLE organizacionrelacionada (
-    id_organizacionrelacionada integer NOT NULL,
+CREATE TABLE organizacion_relacionada (
+    id_organizacion_relacionada integer NOT NULL,
     nombre text,
     id_organizacion integer DEFAULT 0,
     tipo text,
     id_tipo integer DEFAULT 0
 );
 
-CREATE TABLE organizaciontipo (
-    id_tipoorganizacion integer DEFAULT 0 NOT NULL,
+CREATE TABLE organizacion_tipo (
+    id_tipo_organizacion integer DEFAULT 0 NOT NULL,
     descripcion text,
-    depcasamatrizlocal boolean NOT NULL,
-    depcasamatrizext boolean NOT NULL,
-    organizacionesacargo boolean NOT NULL
+    dependencia_casa_matriz_local boolean NOT NULL,
+    dependencia_casa_matriz_externa boolean NOT NULL,
+    organizaciones_a_cargo boolean NOT NULL
 );
 
-CREATE TABLE orgcasamatrizexterna (
-    id_casamatrizexterna integer DEFAULT 0 NOT NULL,
+CREATE TABLE organizacion_casa_matriz_externa (
+    id_casa_matriz_externa integer DEFAULT 0 NOT NULL,
     nombre text,
     nivel text
 );
 
 CREATE TABLE vinculacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    vincinstanciasestatales text,
-    acuerdosconvenios text,
-    redesforos boolean NOT NULL,
-    funcionariospoliticos text,
-    proyectospartidospoliticos boolean NOT NULL,
-    implprogramassoc text,
-    cualprogramasoc text,
-    evalprogrsoc text,
-    cualesredesforos text
+    vinculacion_instancias_estatales text,
+    acuerdos_convenios text,
+    redes_foros boolean NOT NULL,
+    funcionarios_politicos text,
+    proyectos_partidos_politicos boolean NOT NULL,
+    implementacion_programas_sociales text,
+    cual_programa_social text,
+    evaluacion_programa_social text,
+    cuales_redes_foros text
 );
 
-CREATE TABLE perfiledad (
+CREATE TABLE perfil_edad (
     idperfiledad integer NOT NULL,
-    perfiledad text
+    perfil_edad text
 );
 
-CREATE TABLE perfiledad_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
-    idperfiledad integer DEFAULT 0 NOT NULL,
+CREATE TABLE perfil_edad_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
+    id_perfiledad integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
 );
 
-CREATE TABLE problemasociedad_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
-    idproblemasociedad integer DEFAULT 0 NOT NULL,
+CREATE TABLE problema_sociedad_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
+    id_problema_sociedad integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
 );
 
-CREATE TABLE problemassociedad (
-    idproblemassociedad integer NOT NULL,
-    problemassociedad text
+CREATE TABLE problemas_sociedad (
+    id_problema_sociedad integer NOT NULL,
+    problema_sociedad text
 );
 
-CREATE TABLE proyecto_x_organizacionrelacionada (
-    id_organizacionrelacionada integer DEFAULT 0 NOT NULL,
+CREATE TABLE proyecto_por_organizacion_relacionada (
+    id_organizacion_relacionada integer DEFAULT 0 NOT NULL,
     id_proyecto integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL
 );
@@ -421,143 +421,143 @@ CREATE TABLE proyectos (
     id_proyecto integer NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL,
     descripcion text,
-    codigo1_modoaccionar integer DEFAULT 0,
-    codigo2_areatematica integer DEFAULT 0,
-    numpoblacionatendida text,
-    fechainicio timestamp without time zone,
-    fechafin timestamp without time zone,
-    motivofinalizacion text,
+    codigo1_modo_accionar integer DEFAULT 0,
+    codigo2_area_tematica integer DEFAULT 0,
+    numero_poblacion_atendida text,
+    fecha_inicio timestamp without time zone,
+    fecha_fin timestamp without time zone,
+    motivo_finalizacion text,
     estado text
 );
 
 CREATE TABLE quienes_efectuan_demandas (
     id_quienes integer NOT NULL,
-    nombrequienes text
+    nombre_quienes text
 );
 
-CREATE TABLE quienesefecdem_x_organizacion (
+CREATE TABLE quienes_efectuan_demandas_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_quienes integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursofinancieronorecextcausas (
+CREATE TABLE recurso_financiero_no_recibido_ext_causas (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_causanorecext integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursosfinacierosestadotipos (
-    id_recursofinancieroestado integer DEFAULT 0 NOT NULL,
+CREATE TABLE recursos_finacieros_estado_tipos (
+    id_recurso_financiero_estado integer DEFAULT 0 NOT NULL,
     descripcion text
 );
 
-CREATE TABLE recursosfinacierospresup (
+CREATE TABLE recursos_finacieros_presupuesto (
     id_organizacion integer DEFAULT 0 NOT NULL,
     anio integer DEFAULT 0,
     propia numeric(19,2) DEFAULT 0,
-    estadonacional numeric(19,2) DEFAULT 0,
-    estadoprovincial numeric(19,2) DEFAULT 0,
-    estadomunicipal numeric(19,2) DEFAULT 0,
-    organismosinternacionales numeric(19,2) DEFAULT 0,
-    sectorprivado numeric(19,2) DEFAULT 0,
+    estado_nacional numeric(19,2) DEFAULT 0,
+    estado_provincial numeric(19,2) DEFAULT 0,
+    estado_municipal numeric(19,2) DEFAULT 0,
+    organismos_internacionales numeric(19,2) DEFAULT 0,
+    sector_privado numeric(19,2) DEFAULT 0,
     bancos numeric(19,2) DEFAULT 0,
-    otrasinstituciones numeric(19,2) DEFAULT 0
+    otras_instituciones numeric(19,2) DEFAULT 0
 );
 
-CREATE TABLE recursosfinancierosautogfines (
+CREATE TABLE recursos_finacieros_autogenerados_fines (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_formageneracionrecurso integer DEFAULT 0 NOT NULL
+    id_forma_generacion_recurso integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursosfinancierosautogformas (
-    id_formageneracionrecurso integer NOT NULL,
+CREATE TABLE recursos_finacieros_autogenerados_formas (
+    id_forma_generacion_recurso integer NOT NULL,
     descripcion text
 );
 
-CREATE TABLE recursosfinancieroscausanorecext (
+CREATE TABLE recursos_finacieros_causas_no_recibidos_externos (
     id_causanorecursoext integer DEFAULT 0 NOT NULL,
     descripcion text
 );
 
-CREATE TABLE recursosfinancierosestadofines (
+CREATE TABLE recursos_finacieros_estado_fines (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_recursofinenacieroestado integer DEFAULT 0 NOT NULL,
-    id_finrecursofinanciero integer DEFAULT 0 NOT NULL,
-    id_dependenciaestado integer DEFAULT 0
+    id_recurso_financiero_estado integer DEFAULT 0 NOT NULL,
+    id_fin_recurso_financiero integer DEFAULT 0 NOT NULL,
+    id_dependencia_estado integer DEFAULT 0
 );
 
-CREATE TABLE recursosfinancierosfines (
-    id_finrecursof integer NOT NULL,
+CREATE TABLE recursos_finacieros_fines (
+    id_fin_recurso_financiero integer NOT NULL,
     descripcion text,
-    id_finrecursofinanciero integer DEFAULT 0
+    id_fin_recurso_financiero integer DEFAULT 0
 );
 
-CREATE TABLE recursosfinancierosorgintfines (
+CREATE TABLE recursos_finacieros_organismos_internacionales_fines (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_organismointernacional integer DEFAULT 0 NOT NULL,
-    id_finrecursofinanciero integer DEFAULT 0 NOT NULL
+    id_organismo_internacional integer DEFAULT 0 NOT NULL,
+    id_fin_recurso_financiero integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursosfinancierosotrosfines (
+CREATE TABLE recursos_finacieros_otros_fines (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_entidadaportante integer DEFAULT 0 NOT NULL,
-    id_finrecursofinanciero integer DEFAULT 0 NOT NULL
+    id_entidad_aportante integer DEFAULT 0 NOT NULL,
+    id_fin_recurso_financiero integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursosfinancierosprivadofines (
+CREATE TABLE recursos_finacieros_privados_fines (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_entidadsectorprivado integer DEFAULT 0 NOT NULL,
-    id_finrecursofinanciero integer DEFAULT 0 NOT NULL
+    id_entidad_sector_privado integer DEFAULT 0 NOT NULL,
+    id_fin_recurso_financiero integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recursoshumanos (
+CREATE TABLE recursos_humanos (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    rentamenor numeric(19,2) DEFAULT 0,
-    rentamayor numeric(19,2) DEFAULT 0,
-    rentapromedio numeric(19,2) DEFAULT 0,
-    jornadamediasemrentado integer DEFAULT 0,
-    jornadamediasemvoluntariado integer DEFAULT 0,
-    cantpersonalcontratado integer DEFAULT 0,
-    cantautonomo integer DEFAULT 0,
-    cantreldependencia integer DEFAULT 0,
-    cantpasantias integer DEFAULT 0,
-    cantbecas integer DEFAULT 0,
-    cantotros integer DEFAULT 0,
-    captacionvoluntarios text,
-    estrategiascaptacion text
+    renta_menor numeric(19,2) DEFAULT 0,
+    renta_mayor numeric(19,2) DEFAULT 0,
+    renta_promedio numeric(19,2) DEFAULT 0,
+    jornada_media_semana_rentado integer DEFAULT 0,
+    jornada_media_semana_voluntariado integer DEFAULT 0,
+    cantidad_personal_contratado integer DEFAULT 0,
+    cantidad_autonomo integer DEFAULT 0,
+    cantidad_relacion_dependencia integer DEFAULT 0,
+    cantidad_pasantias integer DEFAULT 0,
+    cantidad_becas integer DEFAULT 0,
+    cantidad_otros integer DEFAULT 0,
+    captacion_voluntarios text,
+    estrategias_captacion text
 );
 
-CREATE TABLE recursoshumanosdetalle (
+CREATE TABLE recursos_humanos_detalle (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_recursohumano integer NOT NULL,
+    id_recurso_humano integer NOT NULL,
     cantidad integer DEFAULT 0,
     funciones text,
-    niveleducativo text,
+    nivel_educativo text,
     profesion text,
     rentado text,
     id_origenrenta integer DEFAULT 0,
     monto text,
-    idcondicionescontrat integer DEFAULT 0,
-    horasxsemana integer DEFAULT 0,
-    contribucionespecie text,
+    id_condiciones_contratacion integer DEFAULT 0,
+    horas_por_semana integer DEFAULT 0,
+    contribucion_especie text,
     sexo text,
     edad integer DEFAULT 0
 );
 
-CREATE TABLE recursoshumanosorigenrenta (
+CREATE TABLE recursos_humanos_origen_renta (
     id_origenrenta integer DEFAULT 0 NOT NULL,
     descripcion text
 );
 
-CREATE TABLE recursosmateriales (
+CREATE TABLE recursos_materiales (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_formatenenciapropiedad integer DEFAULT 0,
-    usoexclusivopropiedad boolean NOT NULL,
-    cantlibros integer DEFAULT 0,
-    canthemeroteca integer DEFAULT 0,
-    cantvideoteca integer DEFAULT 0
+    id_formato_nencia_propiedad integer DEFAULT 0,
+    uso_exclusivo_propiedad boolean NOT NULL,
+    cant_libros integer DEFAULT 0,
+    cantidad_hemeroteca integer DEFAULT 0,
+    cantidad_videoteca integer DEFAULT 0
 );
 
-CREATE TABLE recursosmaterialesequipamiento (
+CREATE TABLE recursos_materiales_equipamiento (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_equipamiento integer DEFAULT 0 NOT NULL
 );
@@ -569,56 +569,56 @@ CREATE TABLE religion (
 
 CREATE TABLE resumen_objetivos_fundacionales_x_organizacion (
     idorganizacion integer DEFAULT 0 NOT NULL,
-    nombreresumenobjetivos text NOT NULL
+    nombre_resumen_objetivos text NOT NULL
 );
 
-CREATE TABLE rolorganizaciones (
+CREATE TABLE rol_organizaciones (
     id_rolorganizacion integer DEFAULT 0 NOT NULL,
-    rolorganizacion text
+    rol_organizacion text
 );
 
 CREATE TABLE supervisor (
     id_supervisor integer NOT NULL,
-    apellidonombre text
+    apellido_nombre text
 );
 
-CREATE TABLE tipoorganizacionrelacionada (
-    id_tipoorganizacionrelacionada integer NOT NULL,
+CREATE TABLE tipo_organizacion_relacionada (
+    id_tipo_organizacion_relacionada integer NOT NULL,
     nombre text
 );
 
-CREATE TABLE vinculacionestadodetalle (
+CREATE TABLE vinculacion_estado_detalle (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_dependenciaestado integer DEFAULT 0 NOT NULL,
-    id_motivovinculacion integer DEFAULT 0 NOT NULL,
+    id_dependencia_estado integer DEFAULT 0 NOT NULL,
+    id_motivo_vinculacion integer DEFAULT 0 NOT NULL,
     motivos text
 );
 
-CREATE TABLE vinculacionotrasorg (
+CREATE TABLE vinculacion_otras_organizaciones (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_otraorganizacion integer DEFAULT 0 NOT NULL,
-    id_motivovinculacion integer DEFAULT 0 NOT NULL,
-    mismatematica boolean NOT NULL,
-    acuerdosformales text
+    id_otra_organizacion integer DEFAULT 0 NOT NULL,
+    id_motivo_vinculacion integer DEFAULT 0 NOT NULL,
+    misma_matematica boolean NOT NULL,
+    acuerdos_formales text
 );
 
-CREATE TABLE visionrealidadopinionpoliticasocial (
+CREATE TABLE vision_realidad_opinion_politica_social (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_opinionpoliticasocial integer DEFAULT 0 NOT NULL
+    id_opinion_politica_social integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE visionproblemascausas (
-    id_problemacausa integer NOT NULL,
+CREATE TABLE vision_problemas_causas (
+    id_problema_causa integer NOT NULL,
     problema text,
     causa text,
     id_organizacion integer DEFAULT 0
 );
 
-CREATE TABLE visonrealidad (
+CREATE TABLE vision_realidad (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    opinionpoliticasociallocal text,
-    opinioninfyadolesc text,
-    opiniontrabinfantil text
+    opinion_politica_social_local text,
+    opinion_infancia_juventud text,
+    opinion_trabajo_infantil text
 );
 
 ALTER TABLE  actores_eval_x_organizacion
