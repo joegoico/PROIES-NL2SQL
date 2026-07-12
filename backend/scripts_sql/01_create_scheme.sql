@@ -8,7 +8,7 @@ CREATE TABLE actores_eval_x_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE actores_planif_por_organizacion (
+CREATE TABLE actores_planificacion_por_organizacion (
     id_actor integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL
 );
@@ -62,9 +62,9 @@ CREATE TABLE organizacion_interna (
     principales_temas_capacitacion3 text
 );
 
-CREATE TABLE alcanceaccionar_por_organizacion (
+CREATE TABLE alcance_accionar_por_organizacion (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_alcanceaccionar integer DEFAULT 0 NOT NULL,
+    id_alcance_accionar integer DEFAULT 0 NOT NULL,
     prioridad integer DEFAULT 0
 );
 
@@ -163,7 +163,7 @@ CREATE TABLE organizacion (
 );
 
 CREATE TABLE dependencia_estado (
-    id_dependenciaestado integer DEFAULT 0 NOT NULL,
+    id_dependencia_estado integer DEFAULT 0 NOT NULL,
     nombre text,
     nivel text
 );
@@ -174,7 +174,7 @@ CREATE TABLE dificultades (
 );
 
 CREATE TABLE entidades_aportantes (
-    id_entidadaportante integer DEFAULT 0 NOT NULL,
+    id_entidad_aportante integer DEFAULT 0 NOT NULL,
     nombre text
 );
 
@@ -248,7 +248,7 @@ CREATE TABLE forma_tenencia_propiedad (
 );
 
 CREATE TABLE frecuencia_capacitacion (
-    idmomento integer NOT NULL,
+    id_momento integer NOT NULL,
     tipo text
 );
 
@@ -314,7 +314,7 @@ CREATE TABLE momento_planificacion_evaluacion (
 );
 
 CREATE TABLE vinculacion_motivos (
-    id_motivovinculacion integer DEFAULT 0 NOT NULL,
+    id_motivo_vinculacion integer DEFAULT 0 NOT NULL,
     descripcion text
 );
 
@@ -390,7 +390,7 @@ CREATE TABLE vinculacion (
 );
 
 CREATE TABLE perfil_edad (
-    idperfiledad integer NOT NULL,
+    id_perfil_edad integer NOT NULL,
     perfil_edad text
 );
 
@@ -440,7 +440,7 @@ CREATE TABLE quienes_efectuan_demandas_por_organizacion (
     id_quienes integer DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE recurso_financiero_no_recibido_ext_causas (
+CREATE TABLE recurso_financiero_no_recibido_externo_causas (
     id_organizacion integer DEFAULT 0 NOT NULL,
     id_causanorecext integer DEFAULT 0 NOT NULL
 );
@@ -567,8 +567,8 @@ CREATE TABLE religion (
     nombrereligion text
 );
 
-CREATE TABLE resumen_objetivos_fundacionales_x_organizacion (
-    idorganizacion integer DEFAULT 0 NOT NULL,
+CREATE TABLE resumen_objetivos_fundacionales_por_organizacion (
+    id_organizacion integer DEFAULT 0 NOT NULL,
     nombre_resumen_objetivos text NOT NULL
 );
 
@@ -624,8 +624,8 @@ CREATE TABLE vision_realidad (
 ALTER TABLE  actores_eval_x_organizacion
     ADD CONSTRAINT pk_actores_eval_x_organizacion PRIMARY KEY (id_actor, id_organizacion);
 
-ALTER TABLE  actores_planif_x_organizacion
-    ADD CONSTRAINT pk_actores_planif_x_organizacion PRIMARY KEY (id_actor, id_organizacion);
+ALTER TABLE  actores_planificacion_por_organizacion
+    ADD CONSTRAINT pk_actores_planificacion_por_organizacion PRIMARY KEY (id_actor, id_organizacion);
 
 ALTER TABLE  actores
     ADD CONSTRAINT pk_actores PRIMARY KEY (id_actor);
@@ -633,32 +633,32 @@ ALTER TABLE  actores
 ALTER TABLE  alcance_de_difusion
     ADD CONSTRAINT pk_alcance_de_difusion PRIMARY KEY (id_alcance);
 
-ALTER TABLE  alcanceaccionar_x_organizacion
-    ADD CONSTRAINT pk_alcanceaccionar_x_organizacion PRIMARY KEY (id_organizacion, id_alcanceaccionar);
+ALTER TABLE  alcance_accionar_por_organizacion
+    ADD CONSTRAINT pk_alcance_accionar_por_organizacion PRIMARY KEY (id_organizacion, id_alcance_accionar);
 
 ALTER TABLE  area_tematica
     ADD CONSTRAINT pk_area_tematica PRIMARY KEY (id_area);
 
-ALTER TABLE  area_tematica_x_organizacion
-    ADD CONSTRAINT pk_area_tematica_x_organizacion PRIMARY KEY (id_organizacion, id_areatematica);
+ALTER TABLE  area_tematica_por_organizacion
+    ADD CONSTRAINT pk_area_tematica_por_organizacion PRIMARY KEY (id_organizacion, id_areatematica);
 
 ALTER TABLE  autodiagnostico
     ADD CONSTRAINT pk_autodiagnostico PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  autodiagnosticodificultades
-    ADD CONSTRAINT pk_autodiagnosticodificultades PRIMARY KEY (id_organizacion, id_dificultad);
+ALTER TABLE  autodiagnostico_dificultades
+    ADD CONSTRAINT pk_autodiagnostico_dificultades PRIMARY KEY (id_organizacion, id_dificultad);
 
-ALTER TABLE  autodiagnosticoroldeberiancumplir
-    ADD CONSTRAINT pk_autodiagnosticoroldeberiancumplir PRIMARY KEY (id_organizacion, id_rolorganizacion);
+ALTER TABLE  autodiagnostico_rol_deberian_cumplir
+    ADD CONSTRAINT pk_autodiagnostico_rol_deberian_cumplir PRIMARY KEY (id_organizacion, id_rolorganizacion);
 
-ALTER TABLE  autodiagnosticorolorganizaciones
-    ADD CONSTRAINT pk_autodiagnosticorolorganizaciones PRIMARY KEY (id_organizacion, id_rolorganizacion);
+ALTER TABLE  autodiagnostico_rol_organizaciones
+    ADD CONSTRAINT pk_autodiagnostico_rol_organizaciones PRIMARY KEY (id_organizacion, id_rolorganizacion);
 
-ALTER TABLE  capacitaciontema
-    ADD CONSTRAINT pk_capacitaciontema PRIMARY KEY (id_capacitaciontema);
+ALTER TABLE  capacitacion_tema
+    ADD CONSTRAINT pk_capacitacion_tema PRIMARY KEY (id_capacitaciontema);
 
-ALTER TABLE  capacitaciontema_x_organizacion
-    ADD CONSTRAINT pk_capacitaciontema_x_organizacion PRIMARY KEY (id_organizacion, id_capacitaciontema);
+ALTER TABLE  capacitacion_tema_por_organizacion
+    ADD CONSTRAINT pk_capacitacion_tema_por_organizacion PRIMARY KEY (id_organizacion, id_capacitaciontema);
 
 ALTER TABLE  codigos_contenido_registro
     ADD CONSTRAINT pk_codigos_contenido_registro PRIMARY KEY (id_codigo);
@@ -666,29 +666,29 @@ ALTER TABLE  codigos_contenido_registro
 ALTER TABLE  como_efectuan_demandas
     ADD CONSTRAINT pk_como_efectuan_demandas PRIMARY KEY (id_comoefectuandem);
 
-ALTER TABLE  como_efectuan_demandas_x_organizacion
-    ADD CONSTRAINT pk_como_efectuan_demandas_x_organizacion PRIMARY KEY (id_organizacion, id_comoefectuandem);
+ALTER TABLE  como_efectuan_demandas_por_organizacion
+    ADD CONSTRAINT pk_como_efectuan_demandas_por_organizacion PRIMARY KEY (id_organizacion, id_comoefectuandem);
 
-ALTER TABLE  condicionescontratacion
-    ADD CONSTRAINT pk_condicionescontratacion PRIMARY KEY (idcondicionescontrat);
+ALTER TABLE  condiciones_contratacion
+    ADD CONSTRAINT pk_condiciones_contratacion PRIMARY KEY (idcondicionescontrat);
 
 ALTER TABLE  demandas_sociales
     ADD CONSTRAINT pk_demandas_sociales PRIMARY KEY (id_demanda);
 
-ALTER TABLE  demandas_x_organizacion
-    ADD CONSTRAINT pk_demandas_x_organizacion PRIMARY KEY (id_demandasocial, id_organizacion);
+ALTER TABLE  demandas_por_organizacion
+    ADD CONSTRAINT pk_demandas_por_organizacion PRIMARY KEY (id_demandasocial, id_organizacion);
 
-ALTER TABLE  dependenciaestado
-    ADD CONSTRAINT pk_dependenciaestado PRIMARY KEY (id_dependenciaestado);
+ALTER TABLE  dependencia_estado
+    ADD CONSTRAINT pk_dependenciaestado PRIMARY KEY (id_dependencia_estado);
 
 ALTER TABLE  dificultades
     ADD CONSTRAINT pk_dificultades PRIMARY KEY (id_dificultad);
 
-ALTER TABLE  entidadesaportantes
-    ADD CONSTRAINT pk_entidadesaportantes PRIMARY KEY (id_entidadaportante);
+ALTER TABLE  entidades_aportantes
+    ADD CONSTRAINT pk_entidadesaportantes PRIMARY KEY (id_entidad_aportante);
 
-ALTER TABLE  entidadessectorprivado
-    ADD CONSTRAINT pk_entidadessectorprivado PRIMARY KEY (id_entidadsectorprivado);
+ALTER TABLE  entidades_sector_privado
+    ADD CONSTRAINT pk_entidadessectorprivado PRIMARY KEY (id_entidad_sector_privado);
 
 ALTER TABLE  entrevista
     ADD CONSTRAINT pk_entrevista PRIMARY KEY (id_organizacion);
@@ -702,17 +702,17 @@ ALTER TABLE  forma_de_difusion
 ALTER TABLE  forma_de_organizacion
     ADD CONSTRAINT pk_forma_de_organizacion PRIMARY KEY (id_formaorganizacion);
 
-ALTER TABLE  forma_difusion_x_alcance_x_organizacion
-    ADD CONSTRAINT pk_forma_difusion_x_alcance_x_organizacion PRIMARY KEY (id_organizacion, id_formadifusion, id_alcance);
+ALTER TABLE  forma_difusion_por_alcance_por_organizacion
+    ADD CONSTRAINT pk_forma_difusion_por_alcance_por_organizacion PRIMARY KEY (id_organizacion, id_formadifusion, id_alcance);
 
 ALTER TABLE  formas_de_registro
     ADD CONSTRAINT pk_formas_de_registro PRIMARY KEY (id_formaregistro);
 
-ALTER TABLE  formatenenciapropiedad
+ALTER TABLE  forma_tenencia_propiedad
     ADD CONSTRAINT pk_formatenenciapropiedad PRIMARY KEY (id_formatenenciapropiedad);
 
-ALTER TABLE  frecuenciacapacitacion
-    ADD CONSTRAINT pk_frecuenciacapacitacion PRIMARY KEY (idmomento);
+ALTER TABLE  frecuencia_capacitacion
+    ADD CONSTRAINT pk_frecuenciacapacitacion PRIMARY KEY (id_momento);
 
 ALTER TABLE  historia
     ADD CONSTRAINT pk_historia PRIMARY KEY (id_organizacion);
@@ -721,10 +721,10 @@ ALTER TABLE  identidad
     ADD CONSTRAINT pk_identidad PRIMARY KEY (id_identidadorg);
 
 ALTER TABLE  identidad_x_organizacion
-    ADD CONSTRAINT pk_identidad_x_organizacion PRIMARY KEY (id_organizacion, id_identidadorg);
+    ADD CONSTRAINT pk_identidad_por_organizacion PRIMARY KEY (id_organizacion, id_identidadorg);
 
-ALTER TABLE  modalidad_capac_x_organizacion
-    ADD CONSTRAINT pk_modalidad_capac_x_organizacion PRIMARY KEY (id_modalidad, id_organizacion);
+ALTER TABLE  modalidad_capacitacion_por_organizacion
+    ADD CONSTRAINT pk_modalidad_capacitacion_por_organizacion PRIMARY KEY (id_modalidad, id_organizacion);
 
 ALTER TABLE  modalidad_de_capacitacion
     ADD CONSTRAINT pk_modalidad_de_capacitacion PRIMARY KEY (id_modalidad);
@@ -733,20 +733,20 @@ ALTER TABLE  modo_accionar
     ADD CONSTRAINT pk_modo_accionar PRIMARY KEY (id_modoaccionar);
 
 
-ALTER TABLE  modo_accionar_x_organizacion
-    ADD CONSTRAINT pk_modo_accionar_x_organizacion PRIMARY KEY (id_organizacion, id_modoaccionar);
+ALTER TABLE  modo_accionar_por_organizacion
+    ADD CONSTRAINT pk_modo_accionar_por_organizacion PRIMARY KEY (id_organizacion, id_modoaccionar);
 
-ALTER TABLE  momento_evaluacion_x_organizacion
-    ADD CONSTRAINT pk_momento_evaluacion_x_organizacion PRIMARY KEY (idorganizacion, idmomento);
+ALTER TABLE  momento_evaluacion_por_organizacion
+    ADD CONSTRAINT pk_momento_evaluacion_por_organizacion PRIMARY KEY (id_organizacion, id_momento);
 
-ALTER TABLE  momento_planificacion_x_organizacion
-    ADD CONSTRAINT pk_momento_planificacion_x_organizacion PRIMARY KEY (idorganizacion, idmomento);
+ALTER TABLE  momento_planificacion_por_organizacion
+    ADD CONSTRAINT pk_momento_planificacion_por_organizacion PRIMARY KEY (id_organizacion, id_momento);
 
-ALTER TABLE  momplanificacionyevaluacion
-    ADD CONSTRAINT pk_momplanificacionyevaluacion PRIMARY KEY (idmomento);
+ALTER TABLE  momento_planificacion_evaluacion
+    ADD CONSTRAINT pk_momento_planificacion_y_evaluacion PRIMARY KEY (id_momento);
 
-ALTER TABLE  opinionpoliticasocial
-    ADD CONSTRAINT pk_opinionpoliticasocial PRIMARY KEY (id_opinionpoliticasocial);
+ALTER TABLE  opinion_politica_social
+    ADD CONSTRAINT pk_opinion_politica_social PRIMARY KEY (id_opinion_politica_social);
 
 ALTER TABLE  organismo_en_el_que_esta_registrado
     ADD CONSTRAINT pk_organismo_en_el_que_esta_registrado PRIMARY KEY (id_organizacion, id_organismo);
@@ -754,35 +754,35 @@ ALTER TABLE  organismo_en_el_que_esta_registrado
 ALTER TABLE  organismo
     ADD CONSTRAINT pk_organismo PRIMARY KEY (id_organismo);
 
-ALTER TABLE  organismosinternacionales
-    ADD CONSTRAINT pk_organismosinternacionales PRIMARY KEY (id_organismointernacional);
+ALTER TABLE  organismos_internacionales
+    ADD CONSTRAINT pk_organismosinternacionales PRIMARY KEY (id_organismo_internacional);
 
 ALTER TABLE  organizacion
     ADD CONSTRAINT pk_organizacion PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  organizacionrelacionada
-    ADD CONSTRAINT pk_organizacionrelacionada PRIMARY KEY (id_organizacionrelacionada);
+ALTER TABLE  organizacion_relacionada
+    ADD CONSTRAINT pk_organizacion_relacionada PRIMARY KEY (id_organizacion_relacionada);
 
-ALTER TABLE  organizaciontipo
-    ADD CONSTRAINT pk_organizaciontipo PRIMARY KEY (id_tipoorganizacion);
+ALTER TABLE  organizacion_tipo
+    ADD CONSTRAINT pk_organizacion_tipo PRIMARY KEY (id_tipo_organizacion);
 
-ALTER TABLE  orgcasamatrizexterna
-    ADD CONSTRAINT pk_orgcasamatrizexterna PRIMARY KEY (id_casamatrizexterna);
+ALTER TABLE  organizacion_casa_matriz_externa
+    ADD CONSTRAINT pk_organizacion_casa_matriz_externa PRIMARY KEY (id_casa_matriz_externa);
 
-ALTER TABLE  perfiledad
-    ADD CONSTRAINT pk_perfiledad PRIMARY KEY (idperfiledad);
+ALTER TABLE  perfil_edad
+    ADD CONSTRAINT pk_perfiledad PRIMARY KEY (id_perfil_edad);
 
-ALTER TABLE  perfiledad_x_organizacion
-    ADD CONSTRAINT pk_perfiledad_x_organizacion PRIMARY KEY (idorganizacion, idperfiledad);
+ALTER TABLE  perfil_edad_por_organizacion
+    ADD CONSTRAINT pk_perfiledad_por_organizacion PRIMARY KEY (id_organizacion, id_perfiledad);
 
-ALTER TABLE  problemasociedad_x_organizacion
-    ADD CONSTRAINT pk_problemasociedad_x_organizacion PRIMARY KEY (idorganizacion, idproblemasociedad);
+ALTER TABLE  problema_sociedad_por_organizacion
+    ADD CONSTRAINT pk_problema_sociedad_por_organizacion PRIMARY KEY (id_organizacion, id_problema_sociedad);
 
-ALTER TABLE  problemassociedad
-    ADD CONSTRAINT pk_problemassociedad PRIMARY KEY (idproblemassociedad);
+ALTER TABLE  problemas_sociedad
+    ADD CONSTRAINT pk_problemas_sociedad PRIMARY KEY (id_problema_sociedad);
 
-ALTER TABLE  proyecto_x_organizacionrelacionada
-    ADD CONSTRAINT pk_proyecto_x_organizacionrelacionada PRIMARY KEY (id_organizacionrelacionada, id_proyecto, id_organizacion);
+ALTER TABLE  proyecto_por_organizacion_relacionada
+    ADD CONSTRAINT pk_proyecto_por_organizacion_relacionada PRIMARY KEY (id_organizacion_relacionada, id_proyecto, id_organizacion);
 
 ALTER TABLE  proyectos
     ADD CONSTRAINT pk_proyectos PRIMARY KEY (id_proyecto, id_organizacion);
@@ -790,71 +790,71 @@ ALTER TABLE  proyectos
 ALTER TABLE  quienes_efectuan_demandas
     ADD CONSTRAINT pk_quienes_efectuan_demandas PRIMARY KEY (id_quienes);
 
-ALTER TABLE  quienesefecdem_x_organizacion
-    ADD CONSTRAINT pk_quienesefecdem_x_organizacion PRIMARY KEY (id_organizacion, id_quienes);
+ALTER TABLE  quienes_efectuan_demandas_por_organizacion
+    ADD CONSTRAINT pk_quienes_efectuan_demandas_por_organizacion PRIMARY KEY (id_organizacion, id_quienes);
 
-ALTER TABLE  recursofinancieronorecextcausas
-    ADD CONSTRAINT pk_recursofinancieronorecextcausas PRIMARY KEY (id_organizacion, id_causanorecext);
+ALTER TABLE  recurso_financiero_no_recibido_externo_causas
+    ADD CONSTRAINT pk_recurso_financiero_no_recibido_externo_causas PRIMARY KEY (id_organizacion, id_causanorecext);
 
-ALTER TABLE  recursosfinacierosestadotipos
-    ADD CONSTRAINT pk_recursosfinacierosestadotipos PRIMARY KEY (id_recursofinancieroestado);
+ALTER TABLE  recursos_finacieros_estado_tipos
+    ADD CONSTRAINT pk_recursos_finacieros_estado_tipos PRIMARY KEY (id_recurso_financiero_estado);
 
-ALTER TABLE  recursosfinacierospresup
-    ADD CONSTRAINT pk_recursosfinacierospresup PRIMARY KEY (id_organizacion);
+ALTER TABLE  recursos_finacieros_presupuesto
+    ADD CONSTRAINT pk_recursos_finacieros_presupuesto PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  recursosfinancieros
-    ADD CONSTRAINT pk_recursosfinancieros PRIMARY KEY (id_organizacion);
+ALTER TABLE  recursos_financieros
+    ADD CONSTRAINT pk_recursos_financieros PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  recursosfinancierosautogfines
-    ADD CONSTRAINT pk_recursosfinancierosautogfines PRIMARY KEY (id_organizacion, id_formageneracionrecurso);
+ALTER TABLE  recursos_finacieros_autogenerados_fines
+    ADD CONSTRAINT pk_recursos_financieros_autogenerados_fines PRIMARY KEY (id_organizacion, id_forma_generacion_recurso);
 
-ALTER TABLE  recursosfinancierosautogformas
-    ADD CONSTRAINT pk_recursosfinancierosautogformas PRIMARY KEY (id_formageneracionrecurso);
+ALTER TABLE  recursos_finacieros_autogenerados_formas
+    ADD CONSTRAINT pk_recursos_financieros_autogenerados_formas PRIMARY KEY (id_forma_generacion_recurso);
 
-ALTER TABLE  recursosfinancieroscausanorecext
-    ADD CONSTRAINT pk_recursosfinancieroscausanorecext PRIMARY KEY (id_causanorecursoext);
+ALTER TABLE  recursos_finacieros_causas_no_recibidos_externos
+    ADD CONSTRAINT pk_recursos_financieros_causas_no_recibidas_externas PRIMARY KEY (id_causanorecursoext);
 
-ALTER TABLE  recursosfinancierosestadofines
-    ADD CONSTRAINT pk_recursosfinancierosestadofines PRIMARY KEY (id_organizacion, id_recursofinenacieroestado, id_finrecursofinanciero);
+ALTER TABLE  recursos_finacieros_estado_fines
+    ADD CONSTRAINT pk_recursos_financieros_estado_fines PRIMARY KEY (id_organizacion, id_recurso_financiero_estado, id_fin_recurso_financiero);
 
-ALTER TABLE  recursosfinancierosfines
-    ADD CONSTRAINT pk_recursosfinancierosfines PRIMARY KEY (id_finrecursof);
+ALTER TABLE  recursos_finacieros_fines
+    ADD CONSTRAINT pk_recursos_financieros_fines PRIMARY KEY (id_fin_recurso_financiero);
 
-ALTER TABLE  recursosfinancierosorgintfines
-    ADD CONSTRAINT pk_recursosfinancierosorgintfines PRIMARY KEY (id_organizacion, id_organismointernacional, id_finrecursofinanciero);
+ALTER TABLE  recursos_finacieros_organismos_internacionales_fines
+    ADD CONSTRAINT pk_recursos_financieros_organismos_internacionales_fines PRIMARY KEY (id_organizacion, id_organismo_internacional, id_fin_recurso_financiero);
 
-ALTER TABLE  recursosfinancierosotrosfines
-    ADD CONSTRAINT pk_recursosfinancierosotrosfines PRIMARY KEY (id_organizacion, id_entidadaportante, id_finrecursofinanciero);
+ALTER TABLE  recursos_finacieros_otros_fines
+    ADD CONSTRAINT pk_recursos_financieros_otros_fines PRIMARY KEY (id_organizacion, id_entidad_aportante, id_fin_recurso_financiero);
 
-ALTER TABLE  recursosfinancierosprivadofines
-    ADD CONSTRAINT pk_recursosfinancierosprivadofines PRIMARY KEY (id_organizacion, id_entidadsectorprivado, id_finrecursofinanciero);
+ALTER TABLE  recursos_finacieros_privados_fines
+    ADD CONSTRAINT pk_recursos_financieros_privados_fines PRIMARY KEY (id_organizacion, id_entidad_sector_privado, id_fin_recurso_financiero);
 
-ALTER TABLE  recursoshumanos
-    ADD CONSTRAINT pk_recursoshumanos PRIMARY KEY (id_organizacion);
+ALTER TABLE  recursos_humanos
+    ADD CONSTRAINT pk_recursos_humanos PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  recursoshumanosdetalle
-    ADD CONSTRAINT pk_recursoshumanosdetalle PRIMARY KEY (id_organizacion, id_recursohumano);
+ALTER TABLE  recursos_humanos_detalle
+    ADD CONSTRAINT pk_recursos_humanos_detalle PRIMARY KEY (id_organizacion, id_recurso_humano);
 
-ALTER TABLE  recursoshumanosorigenrenta
-    ADD CONSTRAINT pk_recursoshumanosorigenrenta PRIMARY KEY (id_origenrenta);
+ALTER TABLE  recursos_humanos_origen_renta
+    ADD CONSTRAINT pk_recursos_humanos_origen_renta PRIMARY KEY (id_origenrenta);
 
-ALTER TABLE  recursosmateriales
-    ADD CONSTRAINT pk_recursosmateriales PRIMARY KEY (id_organizacion);
+ALTER TABLE  recursos_materiales
+    ADD CONSTRAINT pk_recursos_materiales PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  recursosmaterialesequipamiento
-    ADD CONSTRAINT pk_recursosmaterialesequipamiento PRIMARY KEY (id_organizacion, id_equipamiento);
+ALTER TABLE  recursos_materiales_equipamiento
+    ADD CONSTRAINT pk_recursos_materiales_equipamiento PRIMARY KEY (id_organizacion, id_equipamiento);
 
 ALTER TABLE  religion
     ADD CONSTRAINT pk_religion PRIMARY KEY (id_religion);
 
-ALTER TABLE  resumen_objetivos_fundacionales_x_organizacion
-    ADD CONSTRAINT pk_resumen_objetivos_fundacionales_x_organizacion PRIMARY KEY (idorganizacion, nombreresumenobjetivos);
+ALTER TABLE  resumen_objetivos_fundacionales_por_organizacion
+    ADD CONSTRAINT pk_resumen_objetivos_fundacionales_por_organizacion PRIMARY KEY (id_organizacion, nombre_resumen_objetivos);
 
-ALTER TABLE  resumenobjorganizacioninterna_x_organizacion
-    ADD CONSTRAINT pk_resumenobjorganizacioninterna_x_organizacion PRIMARY KEY (idorganizacion, nombreresumenobjetivos);
+ALTER TABLE  resumen_objetivo_organizacion_interna_por_organizacion
+    ADD CONSTRAINT pk_resumen_objetivos_organizacion_interna_por_organizacion PRIMARY KEY (id_organizacion, nombre_resumen_objetivos);
 
-ALTER TABLE  rolorganizaciones
-    ADD CONSTRAINT pk_rolorganizaciones PRIMARY KEY (id_rolorganizacion);
+ALTER TABLE  rol_organizaciones
+    ADD CONSTRAINT pk_rol_organizaciones PRIMARY KEY (id_rolorganizacion);
 
 ALTER TABLE  situacion_juridica
     ADD CONSTRAINT pk_situacion_juridica PRIMARY KEY (id_organizacion);
@@ -862,32 +862,32 @@ ALTER TABLE  situacion_juridica
 ALTER TABLE  supervisor
     ADD CONSTRAINT pk_supervisor PRIMARY KEY (id_supervisor);
 
-ALTER TABLE  tipoorganizacionrelacionada
-    ADD CONSTRAINT pk_tipoorganizacionrelacionada PRIMARY KEY (id_tipoorganizacionrelacionada);
+ALTER TABLE  tipo_organizacion_relacionada
+    ADD CONSTRAINT pk_tipo_organizacion_relacionada PRIMARY KEY (id_tipo_organizacion_relacionada);
 
 ALTER TABLE  vinculacion
     ADD CONSTRAINT pk_vinculacion PRIMARY KEY (id_organizacion);
 
-ALTER TABLE  vinculacionestadodetalle
-    ADD CONSTRAINT pk_vinculacionestadodetalle PRIMARY KEY (id_organizacion, id_dependenciaestado, id_motivovinculacion);
+ALTER TABLE  vinculacion_estado_detalle
+    ADD CONSTRAINT pk_vinculacion_estado_detalle PRIMARY KEY (id_organizacion, id_dependencia_estado, id_motivo_vinculacion);
 
-ALTER TABLE  vinculacionmotivos
-    ADD CONSTRAINT pk_vinculacionmotivos PRIMARY KEY (id_motivovinculacion);
+ALTER TABLE  vinculacion_motivos
+    ADD CONSTRAINT pk_vinculacion_motivos PRIMARY KEY (id_motivo_vinculacion);
 
-ALTER TABLE  vinculacionorgsociales
-    ADD CONSTRAINT pk_vinculacionorgsociales PRIMARY KEY (id_organizacionrelevada, id_organizacionvinculada, id_motivovinculacion);
+ALTER TABLE  vinculacion_organismos_sociales
+    ADD CONSTRAINT pk_vinculacion_organismos_sociales PRIMARY KEY (id_organizacion_relevada, id_organizacion_vinculada, id_motivo_vinculacion);
 
-ALTER TABLE  vinculacionotrasorg
-    ADD CONSTRAINT pk_vinculacionotrasorg PRIMARY KEY (id_organizacion, id_otraorganizacion, id_motivovinculacion);
+ALTER TABLE  vinculacion_otras_organizaciones
+    ADD CONSTRAINT pk_vinculacion_otras_organizaciones PRIMARY KEY (id_organizacion, id_otra_organizacion, id_motivo_vinculacion);
 
-ALTER TABLE  visionproblemascausas
-    ADD CONSTRAINT pk_visionproblemascausas PRIMARY KEY (id_problemacausa);
+ALTER TABLE  vision_problemas_causas
+    ADD CONSTRAINT pk_vision_problemas_causas PRIMARY KEY (id_problema_causa);
 
-ALTER TABLE  visionrealidadopinionpoliticasocial
-    ADD CONSTRAINT pk_visionrealidadopinionpoliticasocial PRIMARY KEY (id_organizacion, id_opinionpoliticasocial);
+ALTER TABLE  vision_realidad_opinion_politica_social
+    ADD CONSTRAINT pk_vision_realidad_opinion_politica_social PRIMARY KEY (id_organizacion, id_opinion_politica_social);
 
-ALTER TABLE  visonrealidad
-    ADD CONSTRAINT pk_visonrealidad PRIMARY KEY (id_organizacion);
+ALTER TABLE  vision_realidad
+    ADD CONSTRAINT pk_vision_realidad PRIMARY KEY (id_organizacion);
 	
 alter table entrevistador
     add constraint pk_entrevistador
@@ -904,18 +904,18 @@ ADD CONSTRAINT fk_actores_eval_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 
-ALTER TABLE actores_planif_x_organizacion
+ALTER TABLE actores_planificacion_por_organizacion
 ADD CONSTRAINT fk_actores_planif_x_organizacion_actores
       FOREIGN KEY(id_actor)
 	  REFERENCES actores (id_actor);
 
-ALTER TABLE actores_planif_x_organizacion
+ALTER TABLE actores_planificacion_por_organizacion
 ADD CONSTRAINT fk_actores_planif_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 
-ALTER TABLE recursosfinancieros
-ADD CONSTRAINT fk_recursosfinancieros_organizacion
+ALTER TABLE recursos_financieros
+ADD CONSTRAINT fk_recursos_financieros_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 
@@ -929,17 +929,17 @@ ADD CONSTRAINT fk_organizacion_interna_forma_de_organizacion
       FOREIGN KEY(id_formaorganizacion)
 	  REFERENCES forma_de_organizacion (id_formaorganizacion);
 
-ALTER TABLE alcanceaccionar_x_organizacion
+ALTER TABLE alcance_accionar_por_organizacion
 ADD CONSTRAINT fk_alcanceaccionar_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 	
-ALTER TABLE area_tematica_x_organizacion
+ALTER TABLE area_tematica_por_organizacion
 ADD CONSTRAINT fk_area_tematica_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 	
-ALTER TABLE area_tematica_x_organizacion
+ALTER TABLE area_tematica_por_organizacion
 ADD CONSTRAINT fk_area_tematica_x_organizacion_area_tematica
       FOREIGN KEY(id_areatematica)
 	  REFERENCES area_tematica (id_area);
@@ -949,77 +949,77 @@ ADD CONSTRAINT fk_autodiagnostico_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 
-ALTER TABLE autodiagnosticodificultades
+ALTER TABLE autodiagnostico_dificultades
 ADD CONSTRAINT fk_autodiagnosticodificultades_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 
-ALTER TABLE autodiagnosticodificultades
+ALTER TABLE autodiagnostico_dificultades
 ADD CONSTRAINT fk_autodiagnosticodificultades_dificultades
       FOREIGN KEY(id_dificultad)
 	  REFERENCES dificultades (id_dificultad);
 
-ALTER TABLE autodiagnosticoroldeberiancumplir
+ALTER TABLE autodiagnostico_rol_deberian_cumplir
 ADD CONSTRAINT fk_autodiagnosticoroldeberiancumplir_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE autodiagnosticoroldeberiancumplir
+ALTER TABLE autodiagnostico_rol_deberian_cumplir
 ADD CONSTRAINT fk_autodiagnosticoroldeberiancumplir_rolorganizaciones
       FOREIGN KEY(id_rolorganizacion)
-	  REFERENCES rolorganizaciones (id_rolorganizacion);
+	  REFERENCES rol_organizaciones (id_rolorganizacion);
 	  
-ALTER TABLE autodiagnosticorolorganizaciones
+ALTER TABLE autodiagnostico_rol_organizaciones
 ADD CONSTRAINT fk_autodiagnosticorolorganizaciones_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE autodiagnosticorolorganizaciones
+ALTER TABLE autodiagnostico_rol_organizaciones
 ADD CONSTRAINT fk_autodiagnosticorolorganizaciones_rolorganizaciones
       FOREIGN KEY(id_rolorganizacion)
-	  REFERENCES rolorganizaciones (id_rolorganizacion);
+	  REFERENCES rol_organizaciones (id_rolorganizacion);
 
-ALTER TABLE capacitaciontema_x_organizacion
+ALTER TABLE capacitacion_tema_por_organizacion
 ADD CONSTRAINT fk_capacitaciontema_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 	  
-ALTER TABLE capacitaciontema_x_organizacion
+ALTER TABLE capacitacion_tema_por_organizacion
 ADD CONSTRAINT fk_capacitaciontema_x_organizacion
       FOREIGN KEY(id_capacitaciontema)
-	  REFERENCES capacitaciontema(id_capacitaciontema);
+	  REFERENCES capacitacion_tema(id_capacitaciontema);
 
-ALTER TABLE codigo_x_forma_registro_x_organizacion
+ALTER TABLE codigo_por_forma_registro_por_organizacion
 ADD CONSTRAINT fk_codigo_x_forma_registro_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE codigo_x_forma_registro_x_organizacion
+ALTER TABLE codigo_por_forma_registro_por_organizacion
 ADD CONSTRAINT fk_codigo_x_forma_registro_organizacion_cod_contenido_registro
       FOREIGN KEY(id_codigocontenido)
 	  REFERENCES codigos_contenido_registro(id_codigo);
 
-ALTER TABLE codigo_x_forma_registro_x_organizacion
+ALTER TABLE codigo_por_forma_registro_por_organizacion
 ADD CONSTRAINT fk_codigo_x_forma_registro_x_organizacion_formas_de_registro
       FOREIGN KEY(id_formaregistro)
 	  REFERENCES formas_de_registro(id_formaregistro);
 
-ALTER TABLE como_efectuan_demandas_x_organizacion
+ALTER TABLE como_efectuan_demandas_por_organizacion
 ADD CONSTRAINT fk_como_efectuan_demandas_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE como_efectuan_demandas_x_organizacion
+ALTER TABLE como_efectuan_demandas_por_organizacion
 ADD CONSTRAINT fk_como_efectuan_demandas_x_organizacion_como_efectuan_demandas
       FOREIGN KEY(id_comoefectuandem)
 	  REFERENCES como_efectuan_demandas(id_comoefectuandem);
 
-ALTER TABLE demandas_x_organizacion
+ALTER TABLE demandas_por_organizacion
 ADD CONSTRAINT fk_demandas_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE demandas_x_organizacion
+ALTER TABLE demandas_por_organizacion
 ADD CONSTRAINT fk_demandas_x_organizacion_demandas_sociales
       FOREIGN KEY(id_demandasocial)
 	  REFERENCES demandas_sociales(id_demanda);
@@ -1027,7 +1027,7 @@ ADD CONSTRAINT fk_demandas_x_organizacion_demandas_sociales
 ALTER TABLE organizacion
 ADD CONSTRAINT fk_organizacion_
       FOREIGN KEY(id_tipoorganizacion)
-	  REFERENCES organizaciontipo(id_tipoorganizacion);
+	  REFERENCES organizacion_tipo(id_tipo_organizacion);
 	  
 -- FALTA EN ORGANIZACION LAS REFERENCIAS A 
 -- que no puedo intuir a donde apuntan
@@ -1054,17 +1054,17 @@ ADD CONSTRAINT fk_situacion_juridica_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE forma_difusion_x_alcance_x_organizacion
+ALTER TABLE forma_difusion_por_alcance_por_organizacion
 ADD CONSTRAINT fk_forma_difusion_alcance_org_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE forma_difusion_x_alcance_x_organizacion
+ALTER TABLE forma_difusion_por_alcance_por_organizacion
 ADD CONSTRAINT fk_forma_difusion_alcance_org_forma_de_difusion
       FOREIGN KEY(id_formadifusion)
 	  REFERENCES forma_de_difusion(id_formadifusion);
 
-ALTER TABLE forma_difusion_x_alcance_x_organizacion
+ALTER TABLE forma_difusion_por_alcance_por_organizacion
 ADD CONSTRAINT fk_forma_difusion_alcance_org_alcance_de_difusion
       FOREIGN KEY(id_alcance)
 	  REFERENCES alcance_de_difusion(id_alcance);
@@ -1089,64 +1089,64 @@ ADD CONSTRAINT fk_identidad_x_organizacion_identidad
       FOREIGN KEY(id_identidadorg)
 	  REFERENCES identidad(id_identidadorg);
 
-ALTER TABLE modalidad_capac_x_organizacion
+ALTER TABLE modalidad_capacitacion_por_organizacion
 ADD CONSTRAINT fk_modalidad_capac_x_organizacion_modalidad_de_capacitacion
       FOREIGN KEY(id_modalidad)
 	  REFERENCES modalidad_de_capacitacion(id_modalidad);
 
-ALTER TABLE modalidad_capac_x_organizacion
+ALTER TABLE modalidad_capacitacion_por_organizacion
 ADD CONSTRAINT fk_modalidad_capac_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE modo_accionar_x_organizacion
+ALTER TABLE modo_accionar_por_organizacion
 ADD CONSTRAINT fk_modo_accionar_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE modo_accionar_x_organizacion
+ALTER TABLE modo_accionar_por_organizacion
 ADD CONSTRAINT fk_modo_accionar_x_organizacion_modo_accionar
       FOREIGN KEY(id_modoaccionar)
 	  REFERENCES modo_accionar(id_modoaccionar);
 
-ALTER TABLE momento_evaluacion_x_organizacion
+ALTER TABLE momento_evaluacion_por_organizacion
 ADD CONSTRAINT fk_momento_evaluacion_x_organizacion_organizacion
-      FOREIGN KEY(idorganizacion)
+      FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE momento_evaluacion_x_organizacion
+ALTER TABLE momento_evaluacion_por_organizacion
 ADD CONSTRAINT fk_momento_eval_momplanificacionyevaluacion
-      FOREIGN KEY(idmomento)
-	  REFERENCES momplanificacionyevaluacion(idmomento);
+      FOREIGN KEY(id_momento)
+	  REFERENCES momento_planificacion_evaluacion(id_momento);
 
-ALTER TABLE momento_planificacion_x_organizacion
+ALTER TABLE momento_planificacion_por_organizacion
 ADD CONSTRAINT fk_momento_planificacion_x_organizacion_organizacion
-      FOREIGN KEY(idorganizacion)
+      FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE momento_planificacion_x_organizacion
+ALTER TABLE momento_planificacion_por_organizacion
 ADD CONSTRAINT fk_momento_plan_momplanificacionyevaluacion
-      FOREIGN KEY(idmomento)
-	  REFERENCES momplanificacionyevaluacion(idmomento);
+      FOREIGN KEY(id_momento)
+	  REFERENCES momento_planificacion_evaluacion(id_momento);
 
-ALTER TABLE vinculacionorgsociales
+ALTER TABLE vinculacion_organismos_sociales
 ADD CONSTRAINT fk_vinculacionorgsociales_organizacion_r
-      FOREIGN KEY(id_organizacionrelevada)
+      FOREIGN KEY(id_organizacion_relevada)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE vinculacionorgsociales
+ALTER TABLE vinculacion_organismos_sociales
 ADD CONSTRAINT fk_vinculacionorgsociales_organizacion_v
-      FOREIGN KEY(id_organizacionvinculada)
+      FOREIGN KEY(id_organizacion_vinculada)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE vinculacionorgsociales
+ALTER TABLE vinculacion_organismos_sociales
 ADD CONSTRAINT fk_vinculacionorgsociales_vinculacionmotivos
-      FOREIGN KEY(id_motivovinculacion)
-	  REFERENCES vinculacionmotivos(id_motivovinculacion);
+      FOREIGN KEY(id_motivo_vinculacion)
+	  REFERENCES vinculacion_motivos(id_motivo_vinculacion);
 	  
-ALTER TABLE resumenobjorganizacioninterna_x_organizacion
+ALTER TABLE resumen_objetivo_organizacion_interna_por_organizacion
 ADD CONSTRAINT fk_resumenobjorganizacioninterna_organizacion
-      FOREIGN KEY(idorganizacion)
+      FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
 ALTER TABLE organismo_en_el_que_esta_registrado
@@ -1159,199 +1159,199 @@ ADD CONSTRAINT fk_organismo_registrado_organismo
       FOREIGN KEY(id_organismo)
 	  REFERENCES organismo(id_organismo);
 
-ALTER TABLE organizacionrelacionada
+ALTER TABLE organizacion_relacionada
 ADD CONSTRAINT fk_organizacionrelacionada_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE organizacionrelacionada
+ALTER TABLE organizacion_relacionada
 ADD CONSTRAINT fk_organizacionrelacionada_tipo_org_relac
       FOREIGN KEY(id_tipo)
-	  REFERENCES tipoorganizacionrelacionada(id_tipoorganizacionrelacionada);
+	  REFERENCES tipo_organizacion_relacionada(id_tipo_organizacion_relacionada);
 
 ALTER TABLE vinculacion
 ADD CONSTRAINT fk_vinculacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE perfiledad_x_organizacion
+ALTER TABLE perfil_edad_por_organizacion
 ADD CONSTRAINT fk_perfiledad_x_organizacion_organizacion
-      FOREIGN KEY(idorganizacion)
+      FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE perfiledad_x_organizacion
+ALTER TABLE perfil_edad_por_organizacion
 ADD CONSTRAINT fk_perfiledad_x_organizacion_perfiledad
-      FOREIGN KEY(idperfiledad)
-	  REFERENCES perfiledad(idperfiledad);
+      FOREIGN KEY(id_perfiledad)
+	  REFERENCES perfil_edad(id_perfil_edad);
 	  
-ALTER TABLE problemasociedad_x_organizacion
+ALTER TABLE problema_sociedad_por_organizacion
 ADD CONSTRAINT fk_problemasociedad_org_organizacion
-      FOREIGN KEY(idorganizacion)
+      FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE problemasociedad_x_organizacion
+ALTER TABLE problema_sociedad_por_organizacion
 ADD CONSTRAINT fk_problemasociedad_org_problemassociedad
-      FOREIGN KEY(idproblemasociedad)
-	  REFERENCES problemassociedad(idproblemassociedad);
+      FOREIGN KEY(id_problema_sociedad)
+	  REFERENCES problemas_sociedad(id_problema_sociedad);
 	  
-ALTER TABLE proyecto_x_organizacionrelacionada
+ALTER TABLE proyecto_por_organizacion_relacionada
 ADD CONSTRAINT fk_proyecto_org_relac_proyectos
       FOREIGN KEY(id_proyecto, id_organizacion)
 	  REFERENCES proyectos(id_proyecto,id_organizacion);
 	  
-ALTER TABLE proyecto_x_organizacionrelacionada
+ALTER TABLE proyecto_por_organizacion_relacionada
 ADD CONSTRAINT fk_proyecto_org_relac_organizacionrelacionada
-      FOREIGN KEY(id_organizacionrelacionada)
-	  REFERENCES organizacionrelacionada(id_organizacionrelacionada);
+      FOREIGN KEY(id_organizacion_relacionada)
+	  REFERENCES organizacion_relacionada(id_organizacion_relacionada);
 	  
 ALTER TABLE proyectos
 ADD CONSTRAINT fk_proyectos_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE quienesefecdem_x_organizacion
+ALTER TABLE quienes_efectuan_demandas_por_organizacion
 ADD CONSTRAINT fk_quienesefecdem_org_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE quienesefecdem_x_organizacion
+ALTER TABLE quienes_efectuan_demandas_por_organizacion
 ADD CONSTRAINT fk_quienesefecdem_org_quienes_ef_dem
       FOREIGN KEY(id_quienes)
 	  REFERENCES quienes_efectuan_demandas(id_quienes);
 
 --- testeado
 	  
-ALTER TABLE recursofinancieronorecextcausas
+ALTER TABLE recurso_financiero_no_recibido_externo_causas
 ADD CONSTRAINT fk_recursofinancieronorecextcausas_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE recursosfinacierospresup
+ALTER TABLE recursos_finacieros_presupuesto
 ADD CONSTRAINT fk_recursosfinacierospresup_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosfinancierosautogfines
+ALTER TABLE recursos_finacieros_autogenerados_fines
 ADD CONSTRAINT fk_recursosfinancierosautogfines_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE recursosfinancierosautogfines
+ALTER TABLE recursos_finacieros_autogenerados_fines
 ADD CONSTRAINT fk_recursosfinancierosautogfines_formas
-      FOREIGN KEY(id_formageneracionrecurso)
-	  REFERENCES recursosfinancierosautogformas(id_formageneracionrecurso);
+      FOREIGN KEY(id_forma_generacion_recurso)
+	  REFERENCES recursos_finacieros_autogenerados_formas(id_forma_generacion_recurso);
 
-ALTER TABLE recursosfinancierosestadofines
+ALTER TABLE recursos_finacieros_estado_fines
 ADD CONSTRAINT fk_recursosfinancierosestadofines_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE recursosfinancierosorgintfines
+ALTER TABLE recursos_finacieros_organismos_internacionales_fines
 ADD CONSTRAINT fk_recursosfinancierosorgintfines_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosfinancierosorgintfines
+ALTER TABLE recursos_finacieros_organismos_internacionales_fines
 ADD CONSTRAINT fk_recursosfinancierosorgintfines_org_int
-      FOREIGN KEY(id_organismointernacional)
-	  REFERENCES organismosinternacionales(id_organismointernacional);
+      FOREIGN KEY(id_organismo_internacional)
+	  REFERENCES organismos_internacionales(id_organismo_internacional);
 	  
-ALTER TABLE recursosfinancierosotrosfines
+ALTER TABLE recursos_finacieros_otros_fines
 ADD CONSTRAINT fk_recursosfinancierosotrosfines_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosfinancierosotrosfines
+ALTER TABLE recursos_finacieros_otros_fines
 ADD CONSTRAINT fk_recursosfinancierosotrosfines_ent_apor
-      FOREIGN KEY(id_entidadaportante)
-	  REFERENCES entidadesaportantes(id_entidadaportante);
+      FOREIGN KEY(id_entidad_aportante)
+	  REFERENCES entidades_aportantes(id_entidad_aportante);
 	  
-ALTER TABLE recursosfinancierosprivadofines
+ALTER TABLE recursos_finacieros_privados_fines
 ADD CONSTRAINT fk_recursosfinancierosprivadofines_org
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosfinancierosprivadofines
+ALTER TABLE recursos_finacieros_privados_fines
 ADD CONSTRAINT fk_recursosfinancierosprivadofines_ent_priv
-      FOREIGN KEY(id_entidadsectorprivado)
-	  REFERENCES entidadessectorprivado(id_entidadsectorprivado);
+      FOREIGN KEY(id_entidad_sector_privado)
+	  REFERENCES entidades_sector_privado(id_entidad_sector_privado);
 	  
-ALTER TABLE recursoshumanos
+ALTER TABLE recursos_humanos
 ADD CONSTRAINT fk_recursoshumanos_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursoshumanosdetalle
+ALTER TABLE recursos_humanos_detalle
 ADD CONSTRAINT fk_recursoshumanosdetalle_org
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  
-ALTER TABLE recursosmateriales
+ALTER TABLE recursos_materiales
 ADD CONSTRAINT fk_recursosmateriales_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosmateriales
+ALTER TABLE recursos_materiales
 ADD CONSTRAINT fk_recursosmateriales_forma_prop
-      FOREIGN KEY(id_formatenenciapropiedad)
-	  REFERENCES formatenenciapropiedad(id_formatenenciapropiedad);
+      FOREIGN KEY(id_formato_nencia_propiedad)
+	  REFERENCES forma_tenencia_propiedad(id_formatenenciapropiedad);
 	  
-ALTER TABLE recursosmaterialesequipamiento
+ALTER TABLE recursos_materiales_equipamiento
 ADD CONSTRAINT fk_recursosmaterialesequipamiento_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE recursosmaterialesequipamiento
+ALTER TABLE recursos_materiales_equipamiento
 ADD CONSTRAINT fk_recursosmaterialesequipamiento_equipamiento
       FOREIGN KEY(id_equipamiento)
 	  REFERENCES equipamiento(id_equipamiento);
 	  	  
-ALTER TABLE vinculacionestadodetalle
+ALTER TABLE vinculacion_estado_detalle
 ADD CONSTRAINT fk_vinculacionestadodetalle_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE vinculacionestadodetalle
+ALTER TABLE vinculacion_estado_detalle
 ADD CONSTRAINT fk_vinculacionestadodetalle_dependencia
-      FOREIGN KEY(id_dependenciaestado)
-	  REFERENCES dependenciaestado(id_dependenciaestado);
+      FOREIGN KEY(id_dependencia_estado)
+	  REFERENCES dependencia_estado(id_dependencia_estado);
 	  	  
-ALTER TABLE vinculacionestadodetalle
+ALTER TABLE vinculacion_estado_detalle
 ADD CONSTRAINT fk_vinculacionestadodetalle_vinc_motivo
-      FOREIGN KEY(id_motivovinculacion)
-	  REFERENCES vinculacionmotivos(id_motivovinculacion);
+      FOREIGN KEY(id_motivo_vinculacion)
+	  REFERENCES vinculacion_motivos(id_motivo_vinculacion);
 
-ALTER TABLE vinculacionotrasorg
+ALTER TABLE vinculacion_otras_organizaciones
 ADD CONSTRAINT fk_vinculacionotrasorg_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 
-ALTER TABLE vinculacionotrasorg
+ALTER TABLE vinculacion_otras_organizaciones
 ADD CONSTRAINT fk_vinculacionotrasorg_dependencia
-      FOREIGN KEY(id_otraorganizacion)
+      FOREIGN KEY(id_otra_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  	  
-ALTER TABLE vinculacionotrasorg
+ALTER TABLE vinculacion_otras_organizaciones
 ADD CONSTRAINT fk_vinculacionotrasorg_vinc_motivo
-      FOREIGN KEY(id_motivovinculacion)
-	  REFERENCES vinculacionmotivos(id_motivovinculacion);
+      FOREIGN KEY(id_motivo_vinculacion)
+	  REFERENCES vinculacion_motivos(id_motivo_vinculacion);
 
-ALTER TABLE visionrealidadopinionpoliticasocial
+ALTER TABLE vision_realidad_opinion_politica_social
 ADD CONSTRAINT fk_visionrealidadopinionpoliticasocial_org
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  	  
-ALTER TABLE visionrealidadopinionpoliticasocial
+ALTER TABLE vision_realidad_opinion_politica_social
 ADD CONSTRAINT fk_visionrealidadopinionpoliticasocial_opinion
-      FOREIGN KEY(id_opinionpoliticasocial)
-	  REFERENCES opinionpoliticasocial(id_opinionpoliticasocial);
+      FOREIGN KEY(id_opinion_politica_social)
+	  REFERENCES opinion_politica_social(id_opinion_politica_social);
 
-ALTER TABLE visionproblemascausas
+ALTER TABLE vision_problemas_causas
 ADD CONSTRAINT fk_visionproblemascausas_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
 	  	  
-ALTER TABLE visonrealidad
+ALTER TABLE vision_realidad
 ADD CONSTRAINT fk_visonrealidad_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion(id_organizacion);
