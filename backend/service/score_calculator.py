@@ -7,10 +7,11 @@ from langchain_classic.chains import Any
 
 
 UMBRAL_SIMILITUD = 85
-PESO_NOMBRE_TABLA = 5
-PESO_DESCRIPCION_TABLA = 4
-PESO_NOMBRE_COLUMNA = 3
-PESO_DESCRIPCION_COLUMNA = 2
+_BONUS_MATCH_EXACTO = 2
+PESO_NOMBRE_TABLA = 10
+PESO_DESCRIPCION_TABLA = 5
+PESO_NOMBRE_COLUMNA = 2
+PESO_DESCRIPCION_COLUMNA = 1
 _STOPWORDS = {
     "de",
     "la",
@@ -78,9 +79,6 @@ def contar_matches(
             if son_similares(token_pregunta, token_tabla)>= UMBRAL_SIMILITUD:
                 matches += 1
                 break
-    print(f"Tokens pregunta: {tokens_pregunta}")
-    print(f"Tokens tabla: {tokens_tabla}")
-    print(f"Matches: {matches}")
     return matches
 class ScoreCalculator(ABC):
     @abstractmethod
@@ -89,15 +87,17 @@ class ScoreCalculator(ABC):
 
 class CalcularScoreNombreTabla(ScoreCalculator):
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
-        # Nombre tabla
-        nombre = tabla.get("nombre_real", "")
-        tokens_nombre = normalizar_texto(nombre)
-        matches = contar_matches(
-            tokens_pregunta,
-            tokens_nombre,
-        )
+        nombre = tabla["nombre_real"]
 
-        return matches * PESO_NOMBRE_TABLA
+        tokens_nombre = normalizar_texto(nombre)
+
+        interseccion = tokens_pregunta & tokens_nombre
+
+        score = len(interseccion) * PESO_NOMBRE_TABLA
+
+        if tokens_nombre == interseccion:
+            score += BONUS_MATCH_EXACTO
+        return score
 
 class CalcualrScoreDescripcionTabla(ScoreCalculator):
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
@@ -147,7 +147,6 @@ class CalcularScoreDescripcionColumna(ScoreCalculator):
 
                 interseccion = tokens_pregunta & tokens_comentario
 
-                print("INTERSECCION:", interseccion)
 
                 score += (
                     contar_matches(tokens_pregunta, tokens_comentario)

@@ -29,11 +29,11 @@
             "renta_menor": "La menor renta de la organizacion",
             "renta_mayor": "La mayor renta de la organizacion",
             "renta_promedio": "La renta promedio de la organizacion",
-            "jornada_media_semanal_rentado": "La jornada media semanal de los empleados rentados de la organización",
-            "jornada_media_semanal_voluntariado": "La jornada media semanal de los empleados voluntarios de la organización",
+            "jornada_media_semana_rentado": "La jornada media semanal de los empleados rentados de la organización",
+            "jornada_media_semana_voluntariado": "La jornada media semanal de los empleados voluntarios de la organización",
             "cantidad_personal_contratado": "La cantidad de personal contratado por la organización",
             "cantidad_autonomo": "La cantidad de personal autónomo que trabaja para la organización",
-            "cantidad_relaciones_dependencia": "La cantidad de relaciones de dependencia que tiene la organización",
+            "cantidad_relacion_dependencia": "La cantidad de relaciones de dependencia que tiene la organización",
             "cantidad_pasantias": "La cantidad de pasantías que ofrece la organización",
             "cantidad_becas": "La cantidad de becas que ofrece la organización",
             "cantidad_otros": "La cantidad de otros tipos de recursos humanos que tiene la organización",
@@ -51,20 +51,20 @@
             "uso_transitorio_cual": "Detalle si el uso es transitorio",
             "en_tramite_cual": "Detalle si personería está en trámite",
             "figura_legal": "Figura legal (Asociación, Fundación, etc)",
-            "forma_asociacion_civil": "Modalidad específica de asociación civil",
-            "numero_personeria": "Número de personería jurídica",
+            "forma_asoc_civil": "Modalidad específica de asociación civil",
+            "nropersoneria": "Número de personería jurídica",
             "fecha_obtencion": "Fecha en que se otorgó personería",
             "fecha_inicio_tramite": "Fecha inicio trámite personería",
-            "numero_registroculto": "Número de registro nacional de cultos",
-            "fecha_obtencion_registroculto": "Fecha obtención registro de cultos"
+            "nroregistroculto": "Número de registro nacional de cultos",
+            "fecha_obtregistroculto": "Fecha obtención registro de cultos"
         }
     },
     "T5": {
-        "nombre_real": "formatenenciapropiedad",
+        "nombre_real": "forma_tenencia_propiedad",
         "descripcion_tabla": "Catálogo de tipos de tenencia de la propiedad (Propietario, alquiler, etc.)",
         "columnas": {
             "id_formatenenciapropiedad": "ID tipo tenencia (PK)",
-            "formatenenciapropiedad": "Descripción del tipo de tenencia (ej. Propio, Alquilado)"
+            "forma_tenencia_propiedad": "Descripción del tipo de tenencia (ej. Propio, Alquilado)"
         }
     },
     "T6": {
@@ -72,9 +72,9 @@
         "descripcion_tabla": "Inventario de recursos (libros,hemeroteca, videos) y situación del inmueble por organización",
         "columnas": {
             "id_organizacion": "ID organización (FK)",
-            "id_formatenenciapropiedad": "ID tipo tenencia (FK a formatenenciapropiedad)",
+            "id_forma_tenenciapropiedad": "ID tipo tenencia (FK a forma_tenencia_propiedad)",
             "uso_exclusivo_propiedad": "¿El inmueble es de uso exclusivo? (Boolean)",
-            "cantidad_libros": "Cantidad de libros en biblioteca",
+            "cant_libros": "Cantidad de libros en biblioteca",
             "cantidad_hemeroteca": "Cantidad de ejemplares en hemeroteca",
             "cantidad_videoteca": "Cantidad de videos en videoteca"
         }
@@ -83,7 +83,7 @@
         "nombre_real": "entidades_aportantes",
         "descripcion_tabla": "Catálogo de instituciones o entes que aportan fondos o recursos",
         "columnas": {
-            "id_entidadaportante": "ID entidad aportante (PK)",
+            "id_entidad_aportante": "ID entidad aportante (PK)",
             "nombre": "Nombre de la institución aportante"
         }
     },
@@ -91,7 +91,7 @@
         "nombre_real": "entidades_sector_privado",
         "descripcion_tabla": "Listado de empresas y organizaciones del sector privado relacionadas",
         "columnas": {
-            "id_entidadsectorprivado": "ID entidad privada (PK)",
+            "id_entidad_sector_privado": "ID entidad privada (PK)",
             "nombre": "Nombre de la empresa o entidad privada"
         }
     },
@@ -100,7 +100,7 @@
         "descripcion_tabla": "Catálogo de tipos de necesidades o reclamos (ej. salud, educación)",
         "columnas": {
             "id_demanda": "ID demanda social (PK)",
-            "tipodemanda": "Descripción de la necesidad (ej. Apoyo escolar, Comedor)"
+            "tipo_demanda": "Descripción de la necesidad (ej. Apoyo escolar, Comedor)"
         }
     },
     "T10": {
@@ -123,45 +123,42 @@
         }
     },
     "T12": {
-        "nombre_real": "recursos_financieros_no_recibidos_causas",
+        "nombre_real": "recurso_financiero_no_recibido_externo_causas",
         "descripcion_tabla": "Motivos o causas por los que la organización no recibe fondos externos",
         "columnas": {
             "id_causanorecext": "ID motivo no recepción (FK a causas externas)"
         }
     },
     "T13": {
-        "nombre_real": "recursos_financieros_otros_fines",
+        "nombre_real": "recursos_finacieros_otros_fines",
         "descripcion_tabla": "Uso de fondos de aportantes externos y sus fines específicos",
         "columnas": {
-            "id_entidada_portante": "ID aportante (FK a entidades_aportantes)",
+            "id_entidad_aportante": "ID aportante (FK a entidadesaportantes)",
             "id_fin_recurso_financiero": "ID destino/uso del dinero (FK)"
         }
     },
     "T14": {
-        "nombre_real": "recursos_financieros_sector_privado_fines",
+        "nombre_real": "recursos_finacieros_privados_fines",
         "descripcion_tabla": "Uso de fondos de empresas privadas y sus fines específicos",
         "columnas": {
-            "id_entidad_sector_privado": "ID empresa (FK a entidades_sector_privado)",
+            "id_entidad_sector_privado": "ID empresa (FK a entidadessectorprivado)",
             "id_fin_recurso_financiero": "ID destino/uso del dinero (FK)"
         }
     },
     "T15": {
-        "nombre_real": "organismosinternacionales",
+        "nombre_real": "organismos_internacionales",
         "descripcion_tabla": "Catálogo de entes internacionales (ONU, OEA, etc.)",
-        "columnas": {
-            "id_organismo_internacional": "ID ente internacional (PK)",
-            "nombre_organismo_internacional": "Nombre del organismo internacional (ej. ONU, UNESCO)"
-        }
+        "columnas": {}
     },
     "T16": {
-        "nombre_real": "recursos_financieros_organismos_internacionales_fines",
+        "nombre_real": "recursos_finacieros_organismos_internacionales_fines",
         "descripcion_tabla": "Uso de fondos de organismos internacionales y sus fines específicos",
         "columnas": {
             "id_organismo_internacional": "ID ente internacional (FK)"
         }
     },
     "T17": {
-        "nombre_real": "recursos_financieros_estado_fines",
+        "nombre_real": "recursos_finacieros_estado_fines",
         "descripcion_tabla": "Uso de fondos públicos (Estado) y sus fines específicos",
         "columnas": {
             "id_recurso_financiero_estado": "ID tipo de recurso estatal (FK)",
@@ -173,11 +170,11 @@
         "descripcion_tabla": "Catálogo de actores sociales, individuos o instituciones participantes",
         "columnas": {
             "id_actor": "ID del actor (PK)",
-            "nombre_actor": "Nombre o descripción del actor participante"
+            "nombreactor": "Nombre o descripción del actor participante"
         }
     },
     "T19": {
-        "nombre_real": "actores_eval_por_organizacion",
+        "nombre_real": "actores_evaluacion_x_organizacion",
         "descripcion_tabla": "Relación de actores que participan en la evaluación de la organización",
         "columnas": {
             "id_actor": "ID actor (FK a actores)",
@@ -185,7 +182,7 @@
         }
     },
     "T20": {
-        "nombre_real": "actores_planif_por_organizacion",
+        "nombre_real": "actores_planificacion_por_organizacion",
         "descripcion_tabla": "Relación de actores que participan en la planificación de la organización",
         "columnas": {
             "id_actor": "ID actor (FK a actores)",
@@ -211,8 +208,8 @@
             "organigrama": "Cómo se toman las decisiones y quién tiene el mando",
             "documentos_escritos": "¿Tienen manuales o estatutos? (SI/NO)",
             "planificacion": "¿Existe planeamiento? (SI/NO/A VECES)",
-            "esp_escen_planif": "Frecuencia o método de planificación (Sistemáticos/Eventuales)",
-            "esp_escen_eval": "Frecuencia o método de evaluación (Sistemáticos/Eventuales)",
+            "espescen_planif": "Frecuencia o método de planificación (Sistemáticos/Eventuales)",
+            "espesceneval": "Frecuencia o método de evaluación (Sistemáticos/Eventuales)",
             "publicaciones": "Revistas (Voces, Trípticos), programas de radio o afiches",
             "demandas_sociales": "Necesidades, reclamos o pedidos que recibe de la comunidad",
             "como_responde_la_institucion": "Acciones ante pedidos (derivaciones, trámites, proyectos, asesoría legal)",
@@ -224,26 +221,26 @@
         "nombre_real": "area_tematica",
         "descripcion_tabla": "Catálogo de rubros o sectores de trabajo (Salud, Vivienda, Educación, etc.)",
         "columnas": {
-            "nombre_area": "Nombre del sector o tema de intervención"
+            "nombr_earea": "Nombre del sector o tema de intervención"
         }
     },
     "T24": {
         "nombre_real": "area_tematica_por_organizacion",
         "descripcion_tabla": "Áreas temáticas atendidas por cada organización con orden de importancia",
         "columnas": {
-            "id_area_tematica": "ID del área (FK a area_tematica)",
+            "id_areatematica": "ID del área (FK a area_tematica)",
             "prioridad": "Orden de importancia (1: área principal, 2+: secundarias)"
         }
     },
     "T25": {
-        "nombre_real": "alcanceaccionar_por_organizacion",
+        "nombre_real": "alcance_accionar_por_organizacion",
         "descripcion_tabla": "Niveles de alcance geográfico o social de la organización y su prioridad",
         "columnas": {
             "prioridad": "Importancia del alcance (1: alcance primario)"
         }
     },
     "T26": {
-        "nombre_real": "auto_diagnostico",
+        "nombre_real": "autodiagnostico",
         "descripcion_tabla": "Opiniones de la organización sobre el rol de las ONGs y su relación con el Estado",
         "columnas": {
             "opinion_rol_organizaciones": "Visión actual: qué rol cumplen hoy las ONGs (ej. reemplazo del Estado)",
@@ -251,7 +248,7 @@
         }
     },
     "T27": {
-        "nombre_real": "auto_diagnostico_dificultades",
+        "nombre_real": "autodiagnostico_dificultades",
         "descripcion_tabla": "Problemas o obstáculos que la organización identifica en su gestión diaria",
         "columnas": {
             "id_dificultad": "ID de la dificultad (FK al catálogo de dificultades)",
@@ -259,17 +256,17 @@
         }
     },
     "T28": {
-        "nombre_real": "auto_diagnostico_rol_deberian_cumplir",
+        "nombre_real": "autodiagnostico_rol_deberian_cumplir",
         "descripcion_tabla": "Relación de roles que la organización considera que DEBERÍA cumplir en la sociedad",
         "columnas": {
-            "id_rol_organizacion": "ID del rol ideal (FK al catálogo de roles)"
+            "id_rolorganizacion": "ID del rol ideal (FK al catálogo de roles)"
         }
     },
     "T29": {
-        "nombre_real": "auto_diagnostico_rol_organizaciones",
+        "nombre_real": "autodiagnostico_rol_organizaciones",
         "descripcion_tabla": "Relación de roles que la organización considera que CUMPLE actualmente",
         "columnas": {
-            "id_rol_organizacion": "ID del rol actual (FK al catálogo de roles)"
+            "id_rolorganizacion": "ID del rol actual (FK al catálogo de roles)"
         }
     },
     "T30": {
@@ -282,10 +279,7 @@
     "T31": {
         "nombre_real": "capacitacion_tema_por_organizacion",
         "descripcion_tabla": "Temas de capacitación específicos que brinda o recibe cada organización",
-        "columnas": {
-            "id_organizacion": "ID organización (FK)",
-            "id_capacitacion_tema": "ID tema de capacitación (FK a capacitacion_tema)"
-        }
+        "columnas": {}
     },
     "T32": {
         "nombre_real": "codigos_contenido_registro",
@@ -298,8 +292,8 @@
         "nombre_real": "codigo_por_forma_registro_por_organizacion",
         "descripcion_tabla": "Vincula qué información registra la organización y el método/forma de registro usado",
         "columnas": {
-            "id_codigo_contenido": "ID del contenido (FK a codigos_contenido_registro)",
-            "id_forma_registro": "ID de la forma/soporte de registro (FK)",
+            "id_codigocontenido": "ID del contenido (FK a codigos_contenido_registro)",
+            "id_formaregistro": "ID de la forma/soporte de registro (FK)",
             "prioridad": "Orden de importancia del método de registro"
         }
     },
@@ -307,14 +301,14 @@
         "nombre_real": "como_efectuan_demandas",
         "descripcion_tabla": "Catálogo de modalidades en que la comunidad realiza pedidos (Individual, Colectivo, etc.)",
         "columnas": {
-            "nombre_como": "Descripción de la modalidad de la demanda"
+            "nombrecomo": "Descripción de la modalidad de la demanda"
         }
     },
     "T35": {
         "nombre_real": "como_efectuan_demandas_por_organizacion",
         "descripcion_tabla": "Relación entre organizaciones y las vías por las que reciben pedidos de la comunidad",
         "columnas": {
-            "id_como_efectuan_demandas": "ID modalidad de demanda (FK como_efectuan_demandas)"
+            "id_comoefectuandem": "ID modalidad de demanda (FK como_efectuan_demandas)"
         }
     },
     "T36": {
@@ -349,16 +343,13 @@
             "cargo_entrevistado": "Puesto o función del entrevistado (ej. Director, Secretario)",
             "antiguedad_entrevistado": "Tiempo que lleva el entrevistado en la institución",
             "fecha_entrevista": "Fecha exacta del encuentro",
-            "hora_entrevista": "Duración de la entrevista (ej. 1:30 hs)"
+            "hs_entrevista": "Duración de la entrevista (ej. 1:30 hs)"
         }
     },
     "T40": {
         "nombre_real": "entrevistador",
         "descripcion_tabla": "Catálogo de personas encargadas de realizar las entrevistas",
-        "columnas": {
-            "id_entrevistador": "ID del entrevistador (PK)",
-            "nombre_apellido_entrevistador": "Nombre completo del entrevistador"
-        }
+        "columnas": {}
     },
     "T41": {
         "nombre_real": "equipamiento",
@@ -377,20 +368,17 @@
     "T43": {
         "nombre_real": "formas_de_registro",
         "descripcion_tabla": "Catálogo de soportes usados para documentar tareas (Actas, Informes, Videos)",
-        "columnas": {
-            "id_forma_registro": "ID forma de registro (PK)",
-            "nombre": "Nombre del soporte o método de registro (ej. Actas, Informes, Videos)"
-        }
+        "columnas": {}
     },
     "T44": {
         "nombre_real": "historia",
         "descripcion_tabla": "Crónica histórica: fecha de fundación, fundadores, objetivos iniciales y contexto político",
         "columnas": {
-            "anio_origen": "Año de creación o fundación de la institución",
+            "anioorigen": "Año de creación o fundación de la institución",
             "origen": "Naturaleza del origen (ej. Laico, Religioso)",
             "id_religion": "ID de la religión vinculada (FK)",
             "fundadores": "Nombres de las personas que crearon la organización",
-            "resumen_fundadores": "Perfil o motivación de los fundadores (ej. afectados por problemas comunes)",
+            "resumenfundadores": "Perfil o motivación de los fundadores (ej. afectados por problemas comunes)",
             "objetivos_fundacionales": "Metas originales al momento de la creación",
             "resenia_accion": "Reseña histórica de actividades y significado del nombre (ej. Chapaleofú)",
             "resumen_resenia": "Contexto histórico o político del origen (ej. Pos-peronismo, desempleo)"
@@ -400,16 +388,13 @@
         "nombre_real": "identidad",
         "descripcion_tabla": "Catálogo de tipos de entidad por su identidad (Biblioteca, Cooperativa, Centro Comunitario)",
         "columnas": {
-            "nombre_identidad": "Nombre del tipo de identidad institucional"
+            "nombreidentidad": "Nombre del tipo de identidad institucional"
         }
     },
     "T46": {
-        "nombre_real": "identidad_por_organizacion",
+        "nombre_real": "identidad_x_organizacion",
         "descripcion_tabla": "Vincula a la organización con su identidad o tipo de entidad social",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_identidad_organizacion": "ID tipo de identidad (PK,FK a identidad)"
-        }
+        "columnas": {}
     },
     "T47": {
         "nombre_real": "frecuencia_capacitacion",
@@ -421,13 +406,10 @@
     "T48": {
         "nombre_real": "modalidad_de_capacitacion",
         "descripcion_tabla": "Catálogo de formatos de enseñanza (Charlas, Cursos, Talleres)",
-        "columnas": {
-            "id_modalidad": "ID modalidad de capacitación (PK)",
-            "nombre_modalidad": "Nombre del formato de enseñanza (ej. Taller, Curso, Seminario)"
-        }
+        "columnas": {}
     },
     "T49": {
-        "nombre_real": "modalidad_capac_por_organizacion",
+        "nombre_real": "modalidad_capacitacion_por_organizacion",
         "descripcion_tabla": "Detalle de formación: frecuencia, modalidad y si es trabajo rentado o voluntario",
         "columnas": {
             "id_frecuencia": "ID frecuencia (FK a frecuencia_capacitacion)",
@@ -450,7 +432,7 @@
         }
     },
     "T52": {
-        "nombre_real": "momento_planificacion_y_evaluacion",
+        "nombre_real": "momento_planificacion_evaluacion",
         "descripcion_tabla": "Catálogo de frecuencias temporales (Anual, Semestral, Trimestral)",
         "columnas": {
             "tipo": "Descripción del ciclo temporal"
@@ -459,18 +441,12 @@
     "T53": {
         "nombre_real": "momento_evaluacion_por_organizacion",
         "descripcion_tabla": "Vincula organizaciones con sus periodos o frecuencias de evaluación",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_momento":" ID frecuencia de evaluación (PK,FK a momento_planificacion_y_evaluacion)"
-        }
+        "columnas": {}
     },
     "T54": {
         "nombre_real": "momento_planificacion_por_organizacion",
         "descripcion_tabla": "Vincula organizaciones con sus periodos o frecuencias de planificación",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_momento":" ID frecuencia de planificación (PK,FK a momento_planificacion_y_evaluacion)"
-        }
+        "columnas": {}
     },
     "T55": {
         "nombre_real": "vinculacion_motivos",
@@ -479,8 +455,8 @@
             "descripcion": "Descripción del motivo de la vinculación"
         }
     },
-    "T58": {
-        "nombre_real": "vinculacion_orgsociales",
+    "T56": {
+        "nombre_real": "vinculacion_organismos_sociales",
         "descripcion_tabla": "Red de alianzas: vincula organizaciones relevadas con otras entidades y sus acuerdos",
         "columnas": {
             "id_organizacion_relevada": "ID de la organización del censo (FK)",
@@ -489,45 +465,37 @@
             "acuerdos_formales": "Detalle de convenios o acuerdos escritos (ej. SI, FORMALES)"
         }
     },
-    "T59": {
+    "T57": {
         "nombre_real": "resumen_objetivo_organizacion_interna_por_organizacion",
         "descripcion_tabla": "Etiquetas de resumen de objetivos (Promoción, Asistencia, Reclamo)",
         "columnas": {
             "nombre_resumen_objetivos": "Categoría del objetivo (ej. Reivindicación, Servicio)"
         }
     },
-    "T60": {
+    "T58": {
         "nombre_real": "organismo",
         "descripcion_tabla": "Catálogo de entes oficiales de registro (Personería Jurídica, Mutuales, etc.)",
         "columnas": {
             "nombre_organismo": "Nombre del ente (ej. Inspección General de Justicia)"
         }
     },
-    "T61": {
+    "T59": {
         "nombre_real": "organismo_en_el_que_esta_registrado",
         "descripcion_tabla": "Estado legal: fechas de registro, últimos balances presentados y supervisiones",
         "columnas": {
             "fecha_registro": "Fecha de inscripción inicial en el organismo",
-            "fecha_ultima_presentacion_memoria_balance": "Fecha de la última memoria y balance presentado",
+            "fecha_ultima_presentacion_mem_y_balance": "Fecha de la última memoria y balance presentado",
             "anio_ultima_supervision": "Año en que el organismo realizó la última auditoría/supervisión"
         }
     },
-    "T62": {
-        "nombre_real": "organismos_internacionales",
-        "descripcion_tabla": "Catálogo de entes extranjeros o globales (ONU, UNESCO, etc.)",
-        "columnas": {
-            "id_organismo_internacional": "ID del organismo internacional (PK)",
-            "nombre_organismo_internacional": "Nombre del organismo internacional"
-        }
-    },
-    "T63": {
+    "T60": {
         "nombre_real": "opinion_politica_social",
         "descripcion_tabla": "Catálogo de opiniones subjetivas sobre la política social actual",
         "columnas": {
             "opinion": "Calificación de la política (ej. Corrupta, Normal, Desconoce)"
         }
     },
-    "T64": {
+    "T61": {
         "nombre_real": "recursos_humanos_detalle",
         "descripcion_tabla": "Información detallada de cada integrante: cargo, educación, sueldo, carga horaria y demografía",
         "columnas": {
@@ -536,90 +504,72 @@
             "nivel_educativo": "Nivel de instrucción (Primario, Secundario, Universitario)",
             "profesion": "Título o profesión específica del integrante",
             "rentado": "Indica si percibe salario (SÍ/NO)",
-            "id_origenrenta": "ID origen de fondos para el sueldo (FK a recursoshumanosorigenrenta)",
+            "id_origenrenta": "ID origen de fondos para el sueldo (FK a recursos_humanos_origen_renta)",
             "monto": "Rango salarial o monto percibido",
             "horas_por_semana": "Carga horaria semanal dedicada a la organización",
             "sexo": "Género del integrante (M/F)",
             "edad": "Edad del integrante"
         }
     },
-    "T65": {
+    "T62": {
         "nombre_real": "recursos_humanos_origen_renta",
         "descripcion_tabla": "Catálogo de fuentes de financiamiento para salarios (Estado, Fondos Propios, Pasantías)",
         "columnas": {
             "descripcion": "Descripción de la fuente de pago (ej. Plan de Empleo, Propia ONG)"
         }
     },
-    "T66": {
+    "T63": {
         "nombre_real": "recursos_materiales_equipamiento",
         "descripcion_tabla": "Vincula a la organización con los recursos técnicos y herramientas que posee",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_equipamiento": "ID del recurso técnico (PK,FK a equipamiento)"
-        }
+        "columnas": {}
     },
-    "T67": {
+    "T64": {
         "nombre_real": "religion",
         "descripcion_tabla": "Catálogo de credos o religiones (ej. Catolicismo, Judaísmo, Laico)",
-        "columnas": {
-            "id_religion": "ID de la religión o credo (PK)",
-            "nombre_religion": "Nombre de la religión o credo"
-        }
+        "columnas": {}
     },
-    "T68": {
+    "T65": {
         "nombre_real": "resumen_objetivos_fundacionales_por_organizacion",
         "descripcion_tabla": "Etiquetas de objetivos iniciales al momento de fundación (ej. Reivindicación, Servicio)",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "nombre_resumen_objetivos": "Nombre de la categoría de objetivo fundacional (ej. Reivindicación, Servicio)"
-        }
+        "columnas": {}
     },
-    "T69": {
+    "T66": {
         "nombre_real": "rol_organizaciones",
         "descripcion_tabla": "Catálogo de percepciones sobre la función de las ONGs frente al Estado (Suplir, Denunciar, etc.)",
         "columnas": {
             "rol_organizacion": "Descripción del rol (ej. Interpelar al Estado, Contener población)"
         }
     },
-    "T70": {
+    "T67": {
         "nombre_real": "supervisor",
         "descripcion_tabla": "Catálogo de supervisores responsables de controlar la calidad del relevamiento",
-        "columnas": {
-            "id_supervisor": "ID del supervisor (PK)",
-            "apellido_nombre":" Nombre completo del supervisor"
-        }
+        "columnas": {}
     },
-    "T71": {
+    "T68": {
         "nombre_real": "tipo_organizacion_relacionada",
         "descripcion_tabla": "Catálogo de naturalezas de entes vinculados (Estatal, Gremio, Fundación)",
-        "columnas": {
-            "id_tipo_organizacion_relacionada": "ID del tipo de organización (PK)",
-            "nombre":"Nombre del tipo de organización vinculada (ej. Estatal, Gremio, Fundación)"
-        }
+        "columnas": {}
     },
-    "T72": {
+    "T69": {
         "nombre_real": "vinculacion_estado_detalle",
         "descripcion_tabla": "Detalle de gestiones específicas ante el Estado (subsidios, trámites, proyectos)",
         "columnas": {
             "motivos": "Texto libre con el detalle del trámite (ej. pases de transporte, certificados discapacidad)"
         }
     },
-    "T73": {
+    "T70": {
         "nombre_real": "vinculacion_otras_organizaciones",
         "descripcion_tabla": "Relación con otras ONGs o entidades privadas y existencia de acuerdos formales",
         "columnas": {
-            "mismatematica": "Booleano: ¿Comparten el mismo rubro de trabajo?"
+            "misma_matematica": "Booleano: ¿Comparten el mismo rubro de trabajo?"
         }
     },
-    "T74": {
+    "T71": {
         "nombre_real": "vision_realidad_opinion_politica_social",
         "descripcion_tabla": "Relación entre la organización y su postura sobre la política social actual",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_opinion_politica_social": "ID opinión sobre política social (PK,FK a opinion_politica_social)"
-        }
+        "columnas": {}
     },
-    "T75": {
+    "T72": {
         "nombre_real": "vision_problemas_causas",
         "descripcion_tabla": "Diagnóstico cualitativo: identificación de problemas sociales (Inseguridad, Salud) y sus causas",
         "columnas": {
@@ -627,16 +577,16 @@
             "causa": "Explicación subjetiva de por qué ocurre ese problema"
         }
     },
-    "T76": {
+    "T73": {
         "nombre_real": "vision_realidad",
         "descripcion_tabla": "Opiniones subjetivas sobre política social local, situación de la infancia y trabajo infantil",
         "columnas": {
             "opinion_politica_social_local": "Visión sobre la gestión política social en el municipio (ej. Tandil, IMT)",
-            "opinion_infancia_adolescentes": "Opinión sobre la realidad de niños y adolescentes (ej. rebeldía, contención)",
+            "opinion_infancia_juventud": "Opinión sobre la realidad de niños y adolescentes (ej. rebeldía, contención)",
             "opinion_trabajo_infantil": "Postura y percepción sobre el trabajo infantil a nivel local"
         }
     },
-    "T77": {
+    "T74": {
         "nombre_real": "recursos_finacieros_presupuesto",
         "descripcion_tabla": "Montos monetarios del presupuesto anual desglosados por origen de fondos",
         "columnas": {
@@ -649,67 +599,44 @@
             "organismos_internacionales": "Monto recibido de entes internacionales (numeric)"
         }
     },
-    "T78": {
-        "nombre_real": "recursos_financieros_autogestionados_formas",
+    "T75": {
+        "nombre_real": "recursos_finacieros_autogenerados_formas",
         "descripcion_tabla": "Catálogo de métodos de recaudación propia (Rifas, Cuotas, Aranceles)",
-        "columnas": {
-            "id_metodo_recaudacion": "ID del método de recaudación (PK)",
-            "descripcion": "Descripción de las formas de generar recursos propios (ej. Rifas, Cuotas, Aranceles)"
-        }
+        "columnas": {}
+    },
+    "T76": {
+        "nombre_real": "recursos_finacieros_autogenerados_fines",
+        "descripcion_tabla": "Relación entre organizaciones y sus métodos de generación de recursos propios",
+        "columnas": {}
+    },
+    "T77": {
+        "nombre_real": "recursos_finacieros_causas_no_recibidos_externos",
+        "descripcion_tabla": "Catálogo de motivos por los que no se reciben fondos externos (Desconocimiento, Inaccesibilidad)",
+        "columnas": {}
+    },
+    "T78": {
+        "nombre_real": "recursos_finacieros_estado_tipos",
+        "descripcion_tabla": "Catálogo de tipos de recursos estatales (Becas, Subsidios)",
+        "columnas": {}
     },
     "T79": {
-        "nombre_real": "recursos_financieros_autogestionados_fines",
-        "descripcion_tabla": "Relación entre organizaciones y sus métodos de generación de recursos propios",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_recurso_financiero_estado": "ID del método de recaudación (PK,FK a recursos_financieros_autogestionados_formas)",
-            "id_fin_recurso_financiero": "ID del destino/uso del dinero (PK,FK a recursos_financieros_fines)",
-            "id_dependencia_estado": "ID de la dependencia estatal (PK,FK a dependencia_estado)"
-        }
+        "nombre_real": "recursos_finacieros_fines",
+        "descripcion_tabla": "Catálogo de destinos del dinero (Equipamiento, Construcción, Inmuebles)",
+        "columnas": {}
     },
     "T80": {
-        "nombre_real": "recursos_financieros_causas_no_recibidos_externos",
-        "descripcion_tabla": "Catálogo de motivos por los que no se reciben fondos externos (Desconocimiento, Inaccesibilidad)",
-        "columnas": {
-            "id_causanorecext": "ID motivo no recepción (PK)",
-            "descripcion": "Descripción del motivo por el cual no se reciben fondos externos"
-        }
-    },
-    "T81": {
-        "nombre_real": "recursos_financieros_estado_fines",
-        "descripcion_tabla": "Catálogo de tipos de recursos estatales (Becas, Subsidios)",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_recurso_financiero_estado": "ID tipo de recurso estatal (PK,FK a recursos_financieros_estado)",
-            "id_fin_recurso_financiero": "ID del destino/uso del dinero (PK,FK a recursos_financieros_fines)",
-            "id_dependencia_estado": "ID de la dependencia estatal (PK,FK a dependencia_estado)"
-        }
-    },
-    "T82": {
-        "nombre_real": "recursos_financieros_fines",
-        "descripcion_tabla": "Catálogo de destinos del dinero (Equipamiento, Construcción, Inmuebles)",
-        "columnas": {
-            "id_finrecf": "ID destino/uso del dinero (PK)",
-            "descripcion": "Descripción del destino o uso del dinero (ej. Equipamiento, Construcción, Inmuebles)",
-            "id_fin_recurso_financiero": "ID del destino/uso del dinero (FK)"
-        }
-    },
-    "T83": {
         "nombre_real": "quienes_efectuan_demandas",
         "descripcion_tabla": "Catálogo de quiénes solicitan ayuda (Destinatarios, Vecinos, Agentes)",
         "columnas": {
             "nombre_quienes": "Descripción del grupo que efectúa la demanda (ej. Familiares)"
         }
     },
-    "T84": {
+    "T81": {
         "nombre_real": "quienes_efectuan_demandas_por_organizacion",
         "descripcion_tabla": "Relación entre organizaciones y los perfiles de personas que les realizan pedidos",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_quienes": "ID del grupo que efectua la demanda (PK,FK a quienes_efectuan_demandas)"
-        }
+        "columnas": {}
     },
-    "T85": {
+    "T82": {
         "nombre_real": "proyectos",
         "descripcion_tabla": "Detalle de programas y áreas de trabajo: descripción, fechas, población y estado actual",
         "columnas": {
@@ -719,48 +646,36 @@
             "estado": "Situación del proyecto (ej. ACTIVO, FINALIZADO)"
         }
     },
-    "T86": {
+    "T83": {
         "nombre_real": "proyecto_por_organizacion_relacionada",
         "descripcion_tabla": "Vinculación de proyectos con otras instituciones colaboradoras",
-        "columnas": {
-            "id_organizacion_relacionada":" ID de la otra organización que participa en el proyecto (PK,FK)",
-            "id_proyecto":" ID del proyecto (PK,FK a proyectos)",
-            "id_organizacion":" ID de la organización principal (PK,FK)"
-        }
+        "columnas": {}
     },
-    "T87": {
-        "nombre_real": "perfiledad",
+    "T84": {
+        "nombre_real": "perfil_edad",
         "descripcion_tabla": "Catálogo de rangos de edad de la población (Niños, Adolescentes, Jóvenes)",
         "columnas": {
-            "perfiledad": "Nombre del grupo etario atendido"
+            "perfil_edad": "Nombre del grupo etario atendido"
         }
     },
-    "T88": {
+    "T85": {
         "nombre_real": "perfil_edad_por_organizacion",
         "descripcion_tabla": "Vincula organizaciones con las edades de las personas a las que ayudan y su prioridad",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_perfiledad": "ID del grupo etario (PK,FK a perfiledad)",
-            "prioridad": "Orden de importancia del grupo etario (1: principal)"
-        }
+        "columnas": {}
     },
-    "T89": {
+    "T86": {
         "nombre_real": "problemas_sociedad",
         "descripcion_tabla": "Catálogo de problemas que la organización busca resolver (Pobreza, Trabajo infantil, Violencia)",
         "columnas": {
-            "problemas_sociedad": "Descripción de la problemática (ej. Falta de trabajo)"
+            "problema_sociedad": "Descripción de la problemática (ej. Falta de trabajo)"
         }
     },
-    "T90": {
-        "nombre_real": "problemas_sociedad_por_organizacion",
+    "T87": {
+        "nombre_real": "problema_sociedad_por_organizacion",
         "descripcion_tabla": "Relación entre organizaciones y los problemas sociales que intentan mitigar y su prioridad",
-        "columnas": {
-            "id_organizacion": "ID organización (PK,FK)",
-            "id_problemas_sociedad": "ID del problema social (PK,FK a problemas_sociedad)",
-            "prioridad": "Orden de importancia del problema social (1: principal)"
-        }
+        "columnas": {}
     },
-    "T92": {
+    "T88": {
         "nombre_real": "vinculacion",
         "descripcion_tabla": "Detalle de conexiones con el Estado, partidos políticos, programas sociales y participación en redes o foros",
         "columnas": {
@@ -771,22 +686,22 @@
             "funcionarios_politicos": "Relación o contacto con funcionarios políticos",
             "proyectos_partidos_politicos": "¿Participa en proyectos de partidos políticos? (Boolean)",
             "implementacion_programas_sociales": "¿Ejecuta programas sociales públicos? (SI/NO)",
-            "nombre_programa_social": "Nombre del programa social (ej. Plan Trabajar)",
-            "evaluacion_programas_sociales": "Opinión o evaluación sobre el impacto de los programas sociales en la organización",
-            "nombres_redes_foros": "Nombres de las redes o foros donde participa (ej. FEHGRA, IMT, Asociaciones)"
+            "cual_programa_social": "Nombre del programa social (ej. Plan Trabajar)",
+            "evaluacion_programa_social": "Opinión o evaluación sobre el impacto de los programas sociales en la organización",
+            "cuales_redes_foros": "Nombres de las redes o foros donde participa (ej. FEHGRA, IMT, Asociaciones)"
         }
     },
-    "T93": {
+    "T89": {
         "nombre_real": "organizacion_tipo",
         "descripcion_tabla": "Clasificación de la organización según su dependencia jerárquica y si tiene otras sedes a cargo",
         "columnas": {
             "descripcion": "Nombre del tipo organizativo (ej. Tipo 1, Tipo 2)",
-            "departamento_casa_matrizlocal": "¿Depende de una sede central en la misma localidad? (Boolean)",
-            "departamento_casa_matrizexterna": "¿Depende de una sede central externa/nacional/extranjera? (Boolean)",
+            "dependencia_casa_matriz_local": "¿Depende de una sede central en la misma localidad? (Boolean)",
+            "dependencia_casa_matriz_externa": "¿Depende de una sede central externa/nacional/extranjera? (Boolean)",
             "organizaciones_a_cargo": "¿Esta organización tiene otras entidades bajo su mando? (Boolean)"
         }
     },
-    "T94": {
+    "T90": {
         "nombre_real": "organizacion_casa_matriz_externa",
         "descripcion_tabla": "Catálogo de sedes centrales, federaciones o ministerios nacionales de los que depende la organización",
         "columnas": {

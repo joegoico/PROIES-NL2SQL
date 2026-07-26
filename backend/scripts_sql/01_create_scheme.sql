@@ -3,7 +3,7 @@ CREATE TABLE actores (
     nombreactor text
 );
 
-CREATE TABLE actores_eval_x_organizacion (
+CREATE TABLE actores_evaluacion_x_organizacion (
     id_actor integer DEFAULT 0 NOT NULL,
     id_organizacion integer DEFAULT 0 NOT NULL
 );
@@ -550,7 +550,7 @@ CREATE TABLE recursos_humanos_origen_renta (
 
 CREATE TABLE recursos_materiales (
     id_organizacion integer DEFAULT 0 NOT NULL,
-    id_formato_nencia_propiedad integer DEFAULT 0,
+    id_forma_tenenciapropiedad integer DEFAULT 0,
     uso_exclusivo_propiedad boolean NOT NULL,
     cant_libros integer DEFAULT 0,
     cantidad_hemeroteca integer DEFAULT 0,
@@ -621,8 +621,8 @@ CREATE TABLE vision_realidad (
     opinion_trabajo_infantil text
 );
 
-ALTER TABLE  actores_eval_x_organizacion
-    ADD CONSTRAINT pk_actores_eval_x_organizacion PRIMARY KEY (id_actor, id_organizacion);
+ALTER TABLE  actores_evaluacion_x_organizacion
+    ADD CONSTRAINT pk_actores_evaluacion_x_organizacion PRIMARY KEY (id_actor, id_organizacion);
 
 ALTER TABLE  actores_planificacion_por_organizacion
     ADD CONSTRAINT pk_actores_planificacion_por_organizacion PRIMARY KEY (id_actor, id_organizacion);
@@ -894,13 +894,13 @@ alter table entrevistador
         primary key (id_entrevistador);
 
 --  Foreign Key
-ALTER TABLE actores_eval_x_organizacion
-ADD CONSTRAINT fk_actores_eval_x_organizacion_actores
+ALTER TABLE actores_evaluacion_x_organizacion
+ADD CONSTRAINT fk_actores_evaluacion_x_organizacion_actores
       FOREIGN KEY(id_actor)
 	  REFERENCES actores (id_actor);
 
-ALTER TABLE actores_eval_x_organizacion
-ADD CONSTRAINT fk_actores_eval_x_organizacion_organizacion
+ALTER TABLE actores_evaluacion_x_organizacion
+ADD CONSTRAINT fk_actores_evaluacion_x_organizacion_organizacion
       FOREIGN KEY(id_organizacion)
 	  REFERENCES organizacion (id_organizacion);
 

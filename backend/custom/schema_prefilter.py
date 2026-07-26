@@ -52,6 +52,13 @@ class SchemaPrefilter:
 
                 scores.sort(key=lambda x: x[1], reverse=True)
 
+                print("\n================ RANKING ================")
+                for indice, score in scores:
+                    print(
+                        f"{indice:>4} | {score:>3} | {esquema_maestro[indice]['nombre_real']}"
+                    )
+                print("=========================================\n")
+
         return [indice for indice, _ in scores[:top_k]]
 
     def _calcular_score_tabla(
@@ -63,10 +70,20 @@ class SchemaPrefilter:
         Calcula relevancia léxica de una tabla.
         """
 
-        score_total = sum(
-            calculator.calcular_score(tokens_pregunta,tabla)
-            for calculator in self.score_calculators
-        )
+        print(f"\nTabla: {tabla['nombre_real']}")
+
+        score_total = 0
+
+        for calculator in self.score_calculators:
+            score = calculator.calcular_score(tokens_pregunta, tabla)
+
+            print(
+                f"{calculator.__class__.__name__:35} -> {score}"
+            )
+
+            score_total += score
+
+        print(f"TOTAL{'':31} -> {score_total}")
 
         return score_total
 
