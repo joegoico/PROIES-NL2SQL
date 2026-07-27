@@ -7,7 +7,7 @@ from langchain_classic.chains import Any
 
 
 UMBRAL_SIMILITUD = 85
-_BONUS_MATCH_EXACTO = 2
+BONUS_MATCH_EXACTO_NOMBRE_TABLA = 10
 PESO_NOMBRE_TABLA = 10
 PESO_DESCRIPCION_TABLA = 5
 PESO_NOMBRE_COLUMNA = 2
@@ -86,17 +86,22 @@ class ScoreCalculator(ABC):
         pass
 
 class CalcularScoreNombreTabla(ScoreCalculator):
-    def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
-        nombre = tabla["nombre_real"]
+    def calcular_score(
+        self,
+        tokens_pregunta: set[str],
+        tabla: dict[str, Any],
+    ) -> int:
 
+        nombre = tabla.get("nombre_real", "")
         tokens_nombre = normalizar_texto(nombre)
 
-        interseccion = tokens_pregunta & tokens_nombre
+        tokens_coincidentes = tokens_pregunta & tokens_nombre
 
-        score = len(interseccion) * PESO_NOMBRE_TABLA
+        score = len(tokens_coincidentes) * PESO_NOMBRE_TABLA
 
-        if tokens_nombre == interseccion:
-            score += BONUS_MATCH_EXACTO
+        if tokens_nombre == tokens_coincidentes:
+            score += BONUS_MATCH_EXACTO_NOMBRE_TABLA
+
         return score
 
 class CalcualrScoreDescripcionTabla(ScoreCalculator):

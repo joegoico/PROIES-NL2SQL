@@ -7,6 +7,7 @@ from backend.service.score_calculator import (
     CalcularScoreNombreColumna,
     CalcularScoreDescripcionColumna,
     normalizar_texto,
+    BONUS_MATCH_EXACTO_NOMBRE_TABLA,
     PESO_NOMBRE_TABLA,
     PESO_DESCRIPCION_TABLA,
     PESO_NOMBRE_COLUMNA,
@@ -34,7 +35,7 @@ def test_calcular_score_nombre_tabla_match():
     score = calculator.calcular_score(tokens, tabla_mock())
 
     # Assert
-    assert score == PESO_NOMBRE_TABLA
+    assert score == PESO_NOMBRE_TABLA + BONUS_MATCH_EXACTO_NOMBRE_TABLA
 
 
 def test_calcular_score_nombre_tabla_sin_match():
@@ -130,3 +131,84 @@ def test_calculators_acumulan_multiples_matches():
         PESO_NOMBRE_COLUMNA +
         2*PESO_DESCRIPCION_COLUMNA
     )
+    def test_calcular_score_nombre_tabla_match_exacto():
+        # Arrange
+        calculator = CalcularScoreNombreTabla()
+
+        tokens_pregunta = {"organizacion"}
+
+        tabla = {
+            "nombre_real": "organizacion"
+        }
+
+        # Act
+        score = calculator.calcular_score(
+            tokens_pregunta,
+            tabla,
+        )
+
+        # Assert
+        assert score == PESO_NOMBRE_TABLA + BONUS_MATCH_EXACTO_NOMBRE_TABLA
+
+    def test_calcular_score_nombre_tabla_match_parcial_no_recibe_bonus():
+        # Arrange
+        calculator = CalcularScoreNombreTabla()
+
+        tokens_pregunta = {"organizacion"}
+
+        tabla = {
+            "nombre_real": "demandas_por_organizacion"
+        }
+
+        # Act
+        score = calculator.calcular_score(
+            tokens_pregunta,
+            tabla,
+        )
+
+        # Assert
+        assert score == PESO_NOMBRE_TABLA
+
+    def test_calcular_score_nombre_tabla_sin_match():
+        # Arrange
+        calculator = CalcularScoreNombreTabla()
+
+        tokens_pregunta = {"organizacion"}
+
+        tabla = {
+            "nombre_real": "proyectos"
+        }
+
+        # Act
+        score = calculator.calcular_score(
+            tokens_pregunta,
+            tabla,
+        )
+
+        # Assert
+        assert score == 0
+
+    def test_calcular_score_nombre_tabla_match_exacto_nombre_compuesto():
+        # Arrange
+        calculator = CalcularScoreNombreTabla()
+
+        tokens_pregunta = {
+            "demandas",
+            "organizacion",
+        }
+
+        tabla = {
+            "nombre_real": "demandas_por_organizacion"
+        }
+
+        # Act
+        score = calculator.calcular_score(
+            tokens_pregunta,
+            tabla,
+        )
+
+        # Assert
+        assert score == (
+            2 * PESO_NOMBRE_TABLA
+            + BONUS_MATCH_EXACTO_NOMBRE_TABLA
+        )
