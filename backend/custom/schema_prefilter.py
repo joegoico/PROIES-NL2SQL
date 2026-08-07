@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from backend.service.score_calculator import ScoreCalculator, CalcularScoreNombreTabla, CalcualrScoreDescripcionTabla, CalcularScoreNombreColumna,normalizar_texto
+from backend.service.score_calculator import ScoreCalculator, CalcularScoreNombreTabla, CalcualrScoreDescripcionTabla, CalcularScoreNombreColumna
 
+from backend.utils.text_utils import TextUtils
 class SchemaPrefilter:
     """
     Pre-filtra tablas relevantes antes de invocar el SLM router.
@@ -18,6 +19,7 @@ class SchemaPrefilter:
             CalcualrScoreDescripcionTabla(),
             CalcularScoreNombreColumna()
         ]
+        self.text_utils = TextUtils()
     
     def obtener_indices(
         self,
@@ -35,7 +37,7 @@ class SchemaPrefilter:
         if not esquema_maestro:
             raise ValueError("El esquema_maestro no puede estar vacío.")
 
-        tokens_pregunta = normalizar_texto(pregunta)
+        tokens_pregunta = self.text_utils.normalizar_texto(pregunta)
 
         scores: list[tuple[str, int]] = []
 

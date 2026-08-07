@@ -1,89 +1,28 @@
 from abc import ABC, abstractmethod
-import re
-import unicodedata
 from rapidfuzz import fuzz
 
 from langchain_classic.chains import Any
 
+from backend.utils.text_utils import TextUtils
 
 UMBRAL_SIMILITUD = 85
-BONUS_MATCH_EXACTO_NOMBRE_TABLA = 10
+FACTOR_PENALIZACION_TABLA_RELACION = 0.70
+BONUS_MATCH_EXACTO_NOMBRE_TABLA = 15
+BONUS_MATCH_EXACTO_DESCRIPCION_TABLA = 8
+BONUS_MATCH_EXACTO_NOMBRE_COLUMNA = 4
+BONUS_MATCH_EXACTO_DESCRIPCION_COLUMNA = 2
 PESO_NOMBRE_TABLA = 10
 PESO_DESCRIPCION_TABLA = 5
 PESO_NOMBRE_COLUMNA = 2
 PESO_DESCRIPCION_COLUMNA = 1
-_STOPWORDS = {
-    "de",
-    "la",
-    "las",
-    "el",
-    "los",
-    "y",
-    "o",
-    "que",
-    "hay",
-    "cuales",
-    "cuantas",
-    "cuantos",
-}
-
-def normalizar_texto(texto: str) -> set[str]:
-    """
-    Normaliza texto:
-    - lowercase
-    - elimina acentos
-    - elimina puntuación
-    - tokeniza
-    """
-
-    texto = texto.lower()
-
-    texto = unicodedata.normalize("NFD", texto)
-    texto = texto.encode("ascii", "ignore").decode("utf-8")
-
-    texto = re.sub(r"[^\w\s]", " ", texto)
-
-    tokens = texto.split()
-
-    return {
-        token
-        for token in tokens
-        if token not in _STOPWORDS
-    }
-
-def son_similares(token1: str, token2: str) -> bool:
-    """
-    Devuelve True si dos tokens son suficientemente parecidos.
-
-    Ejemplos:
-        organizacion <-> organización
-        organizacion <-> organizacin
-        auditoria <-> auditorías
-    """
-    return fuzz.ratio(token1, token2)
-
-def contar_matches(
-    tokens_pregunta: set[str],
-    tokens_tabla: set[str],
-) -> int:
-    """
-    Cuenta cuántos tokens de la pregunta matchean con los de la tabla,
-    permitiendo errores tipográficos.
-    """
-
-    matches = 0
-
-    for token_pregunta in tokens_pregunta:
-        for token_tabla in tokens_tabla:
-
-            if son_similares(token_pregunta, token_tabla)>= UMBRAL_SIMILITUD:
-                matches += 1
-                break
-    return matches
 class ScoreCalculator(ABC):
+    def __init__(self):
+        self.text_utils = TextUtils()
     @abstractmethod
     def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
         pass
+   
+
 
 class CalcularScoreNombreTabla(ScoreCalculator):
     def calcular_score(
@@ -91,72 +30,102 @@ class CalcularScoreNombreTabla(ScoreCalculator):
         tokens_pregunta: set[str],
         tabla: dict[str, Any],
     ) -> int:
-
+        print("\nTOKENS PREGUNTA:", tokens_pregunta)
         nombre = tabla.get("nombre_real", "")
-        tokens_nombre = normalizar_texto(nombre)
+        tokens_nombre = self.text_utils.normalizar_texto(nombre)
+        print("TOKENS NOMBRE TABLA:", tokens_nombre)
 
-        tokens_coincidentes = tokens_pregunta & tokens_nombre
+        matches = self.text_utils.contar_matches(tokens_pregunta, tokens_nombre)
+        score = matches * PESO_NOMBRE_TABLA
 
-        score = len(tokens_coincidentes) * PESO_NOMBRE_TABLA
-
-        if tokens_nombre == tokens_coincidentes:
+        # Bonus sólo si todos los tokens del nombre aparecen en la pregunta
+        # de forma exacta normalizada
+        if tokens_nombre and tokens_nombre.issubset(tokens_pregunta):
             score += BONUS_MATCH_EXACTO_NOMBRE_TABLA
-
+        if (self.text_utils._es_tabla_relacion(nombre) and score > 0):
+            score = int(score * FACTOR_PENALIZACION_TABLA_RELACION)
         return score
-
 class CalcualrScoreDescripcionTabla(ScoreCalculator):
-    def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
-        # Descripción tabla
+
+    def calcular_score(
+        self,
+        tokens_pregunta: set[str],
+        tabla: dict[str, Any],
+    ) -> int:
+
         descripcion = tabla.get("descripcion_tabla", "")
-        tokens_descripcion = normalizar_texto(descripcion)
-        matches = contar_matches(
+        tokens_descripcion = self.text_utils.normalizar_texto(descripcion)
+
+        matches = self.text_utils.contar_matches(
             tokens_pregunta,
             tokens_descripcion,
         )
-        return matches * PESO_DESCRIPCION_TABLA
+
+        score = matches * PESO_DESCRIPCION_TABLA
+
+        if (
+            tokens_descripcion
+            and matches == len(tokens_descripcion)
+        ):
+            score += BONUS_MATCH_EXACTO_DESCRIPCION_TABLA
+
+        return score
 
 class CalcularScoreNombreColumna(ScoreCalculator):
-    def calcular_score(self, tokens_pregunta: set[str], tabla: dict[str, Any]) -> int:
+
+    def calcular_score(
+        self,
+        tokens_pregunta: set[str],
+        tabla: dict[str, Any],
+    ) -> int:
+
         columnas = tabla.get("columnas", {})
         score = 0
-        for col in columnas.keys():
 
-            tokens_col = normalizar_texto(col)
-            score += (
-                contar_matches(tokens_pregunta, tokens_col)
-                * PESO_NOMBRE_COLUMNA
+        for nombre_columna in columnas.keys():
+
+            tokens_columna = self.text_utils.normalizar_texto(nombre_columna)
+
+            matches = self.text_utils.contar_matches(
+                tokens_pregunta,
+                tokens_columna,
             )
 
-        
+            score += matches * PESO_NOMBRE_COLUMNA
+
+            if (
+                tokens_columna
+                and matches == len(tokens_columna)
+            ):
+                score += BONUS_MATCH_EXACTO_NOMBRE_COLUMNA
+
         return score
 class CalcularScoreDescripcionColumna(ScoreCalculator):
-        def calcular_score(
-            self,
-            tokens_pregunta: set[str],
-            tabla: dict[str, Any],
-        ) -> int:
 
-            columnas = tabla.get("columnas", {})
-            score = 0
+    def calcular_score(
+        self,
+        tokens_pregunta: set[str],
+        tabla: dict[str, Any],
+    ) -> int:
 
-            print("\nTOKENS PREGUNTA:", tokens_pregunta)
+        columnas = tabla.get("columnas", {})
+        score = 0
 
-            for nombre_columna, comentario in columnas.items():
+        for comentario in columnas.values():
 
-                print("\nCOLUMNA:", nombre_columna)
-                print("COMENTARIO ORIGINAL:", comentario)
+            tokens_comentario = self.text_utils.normalizar_texto(comentario)
 
-                tokens_comentario = normalizar_texto(comentario)
+            matches = self.text_utils.contar_matches(
+                tokens_pregunta,
+                tokens_comentario,
+            )
 
-                print("TOKENS COMENTARIO:", tokens_comentario)
+            score += matches * PESO_DESCRIPCION_COLUMNA
 
-                interseccion = tokens_pregunta & tokens_comentario
+            if (
+                tokens_comentario
+                and matches == len(tokens_comentario)
+            ):
+                score += BONUS_MATCH_EXACTO_DESCRIPCION_COLUMNA
 
-
-                score += (
-                    contar_matches(tokens_pregunta, tokens_comentario)
-                    * PESO_DESCRIPCION_COLUMNA
-                )
-
-
-            return score
+        return score
