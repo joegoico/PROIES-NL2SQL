@@ -12,6 +12,7 @@ from backend.service.score_calculator import (
     BONUS_MATCH_EXACTO_DESCRIPCION_TABLA,
     BONUS_MATCH_EXACTO_NOMBRE_COLUMNA,
     BONUS_MATCH_EXACTO_DESCRIPCION_COLUMNA,
+    FACTOR_PENALIZACION_TABLA_RELACION,
     PESO_NOMBRE_TABLA,
     PESO_DESCRIPCION_TABLA,
     PESO_NOMBRE_COLUMNA,
@@ -165,7 +166,7 @@ def test_calcular_score_nombre_tabla_match_parcial_no_recibe_bonus(text_utils):
     )
 
     # Assert
-    assert score == PESO_NOMBRE_TABLA
+    assert score == PESO_NOMBRE_TABLA*FACTOR_PENALIZACION_TABLA_RELACION
 
 def test_calcular_score_nombre_tabla_sin_match(text_utils):
     # Arrange
@@ -190,8 +191,31 @@ def test_calcular_score_nombre_tabla_match_exacto_nombre_compuesto(text_utils):
     # Arrange
     calculator = CalcularScoreNombreTabla()
 
-    tokens_pregunta = text_utils.normalizar_texto("demandas organizacion")
+    tokens_pregunta = text_utils.normalizar_texto("recursos financieros")
     print("TOKENS PREGUNTA:", tokens_pregunta)
+
+    tabla = {
+        "nombre_real": "recursos_financieros"
+    }
+
+    # Act
+    score_compuesto = calculator.calcular_score(
+        tokens_pregunta,
+        tabla,
+    )
+
+    # Assert
+    assert score_compuesto == (
+        (2 * PESO_NOMBRE_TABLA
+        + BONUS_MATCH_EXACTO_NOMBRE_TABLA)
+    )
+def test_match_exacto_tabla_relacional_aplica_penalizacion(text_utils):
+    # Arrange
+    calculator = CalcularScoreNombreTabla()
+
+    tokens_pregunta = text_utils.normalizar_texto(
+        "demandas organizacion"
+    )
 
     tabla = {
         "nombre_real": "demandas_por_organizacion"
@@ -203,11 +227,17 @@ def test_calcular_score_nombre_tabla_match_exacto_nombre_compuesto(text_utils):
         tabla,
     )
 
-    # Assert
-    assert score == (
+    score_antes_penalizacion = (
         2 * PESO_NOMBRE_TABLA
         + BONUS_MATCH_EXACTO_NOMBRE_TABLA
     )
+
+    # Assert
+    assert score == pytest.approx(
+        score_antes_penalizacion
+        * FACTOR_PENALIZACION_TABLA_RELACION
+    )
+    
 def test_tabla_por_es_tabla_relacion(text_utils):
     # Arrange
 

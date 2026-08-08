@@ -43,7 +43,7 @@ class CalcularScoreNombreTabla(ScoreCalculator):
         if tokens_nombre and tokens_nombre.issubset(tokens_pregunta):
             score += BONUS_MATCH_EXACTO_NOMBRE_TABLA
         if (self.text_utils._es_tabla_relacion(nombre) and score > 0):
-            score = int(score * FACTOR_PENALIZACION_TABLA_RELACION)
+            score = (score * FACTOR_PENALIZACION_TABLA_RELACION)
         return score
 class CalcualrScoreDescripcionTabla(ScoreCalculator):
 

@@ -53,17 +53,19 @@ class TextUtils:
         return any(
             patron in nombre
             for patron in self.RELATION_PATTERNS
-        )
+            )
     def _normalizar_token(self, token: str) -> str:
         token = token.strip().lower()
 
-        # Quitar tildes
         token = unicodedata.normalize("NFD", token)
         token = token.encode("ascii", "ignore").decode("utf-8")
 
-        # Normalización muy simple de plural/singular
-        if len(token) > 4 and token.endswith("es"):
-            token = token[:-2]
+        if len(token) > 6 and token.endswith("ciones"):
+            token = token[:-6] + "cion"
+
+        elif len(token) > 5 and token.endswith("dades"):
+            token = token[:-5] + "dad"
+
         elif len(token) > 3 and token.endswith("s"):
             token = token[:-1]
 
