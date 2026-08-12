@@ -54,22 +54,6 @@ class TextUtils:
             patron in nombre
             for patron in self.RELATION_PATTERNS
             )
-    def _normalizar_token(self, token: str) -> str:
-        token = token.strip().lower()
-
-        token = unicodedata.normalize("NFD", token)
-        token = token.encode("ascii", "ignore").decode("utf-8")
-
-        if len(token) > 6 and token.endswith("ciones"):
-            token = token[:-6] + "cion"
-
-        elif len(token) > 5 and token.endswith("dades"):
-            token = token[:-5] + "dad"
-
-        elif len(token) > 3 and token.endswith("s"):
-            token = token[:-1]
-
-        return token
 
 
     def normalizar_texto(self, texto: str) -> set[str]:
@@ -94,7 +78,7 @@ class TextUtils:
         tokens = texto.split()
 
         return {
-            self._normalizar_token(token)
+            token
             for token in tokens
             if token not in self._STOPWORDS
         }

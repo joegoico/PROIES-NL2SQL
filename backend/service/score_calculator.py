@@ -40,7 +40,7 @@ class CalcularScoreNombreTabla(ScoreCalculator):
 
         # Bonus sólo si todos los tokens del nombre aparecen en la pregunta
         # de forma exacta normalizada
-        if tokens_nombre and tokens_nombre.issubset(tokens_pregunta):
+        if tokens_nombre and matches == len(tokens_nombre):
             score += BONUS_MATCH_EXACTO_NOMBRE_TABLA
         if (self.text_utils._es_tabla_relacion(nombre) and score > 0):
             score = (score * FACTOR_PENALIZACION_TABLA_RELACION)

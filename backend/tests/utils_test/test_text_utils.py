@@ -38,7 +38,7 @@ def test_normalizar_texto_separa_guion_bajo(text_utils):
     resultado = text_utils.normalizar_texto(texto)
 
     # Assert
-    assert resultado == {"entidad", "aportante"}
+    assert resultado == {"entidades", "aportantes"}
 
 
 def test_normalizar_texto_elimina_puntuacion(text_utils):
@@ -49,7 +49,7 @@ def test_normalizar_texto_elimina_puntuacion(text_utils):
     resultado = text_utils.normalizar_texto(texto)
 
     # Assert
-    assert resultado == {"organizacion", "proyecto"}
+    assert resultado == {"organizacion", "proyectos"}
 
 
 def test_normalizar_texto_elimina_stopwords(text_utils):
@@ -60,29 +60,7 @@ def test_normalizar_texto_elimina_stopwords(text_utils):
     resultado = text_utils.normalizar_texto(texto)
 
     # Assert
-    assert resultado == {"organizacion", "ciudad"}
-
-
-def test_normalizar_texto_normaliza_plural_terminado_en_s(text_utils):
-    # Arrange
-    texto = "proyectos"
-
-    # Act
-    resultado = text_utils.normalizar_texto(texto)
-
-    # Assert
-    assert resultado == {"proyecto"}
-
-
-def test_normalizar_texto_normaliza_plural_terminado_en_es(text_utils):
-    # Arrange
-    texto = "organizaciones"
-
-    # Act
-    resultado = text_utils.normalizar_texto(texto)
-
-    # Assert
-    assert resultado == {"organizacion"}
+    assert resultado == {"organizaciones", "ciudad"}
 
 
 def test_son_similares_devuelve_similitud_alta_para_error_tipografico(text_utils):
@@ -238,3 +216,31 @@ def test_es_tabla_relacion_devuelve_false_para_tabla_entidad(text_utils):
 
     # Assert
     assert resultado is False
+
+def test_normalizar_texto_no_aplica_stemming(text_utils):
+    # Arrange
+    texto = "organizaciones aportantes provenientes"
+
+    # Act
+    resultado = text_utils.normalizar_texto(texto)
+
+    # Assert
+    assert resultado == {
+        "organizaciones",
+        "aportantes",
+        "provenientes",
+    }
+
+def test_contar_matches_reconoce_singular_plural(text_utils):
+    # Arrange
+    tokens_pregunta = {"organizaciones"}
+    tokens_tabla = {"organizacion"}
+
+    # Act
+    matches = text_utils.contar_matches(
+        tokens_pregunta,
+        tokens_tabla,
+    )
+
+    # Assert
+    assert matches == 1
