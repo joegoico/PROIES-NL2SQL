@@ -53,14 +53,14 @@
     "split": "dev",
     "difficulty": "meeting",
     "question": "Si realizan evaluaciones y quienes las realizan.",
-    "gold_tables": []
+    "gold_tables": ["T1","T18","T19"]
   },
   {
     "id": "DEV_008",
     "split": "dev",
     "difficulty": "meeting",
     "question": "que forma de organizacion de trabajo predomina.",
-    "gold_tables": []
+    "gold_tables": ["T42","T22"]
   },
   {
     "id": "DEV_009",
