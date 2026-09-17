@@ -1,0 +1,432 @@
+[
+  {
+    "id": "DEV_001",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "¿Cuantos proyectos tienen en marcha?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_002",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "¿Cuáles son los proyectos que tiene?",
+    "gold_tables": ["T1","T83","T82"]
+  },
+  {
+    "id": "DEV_003",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "A que poblacion llegan",
+    "gold_tables": ["T1","T21","T25"]
+  },
+  {
+    "id": "DEV_004",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "A que poblacion está destinada",
+    "gold_tables": ["T84","T1"]
+  },
+  {
+    "id": "DEV_005",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Tiene aportes privados?",
+    "gold_tables": ["T1","T8","T14"]
+  },
+    {
+    "id": "DEV_060",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "quienes son los privados que aportan?",
+    "gold_tables": ["T1","T8","T14"]
+  },
+  {
+    "id": "DEV_006",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "¿Cómo se componen los ingresos estatales?",
+    "gold_tables": ["T1"]
+  },
+  {
+    "id": "DEV_007",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Si realizan evaluaciones y quienes las realizan.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_008",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "que forma de organizacion de trabajo predomina.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_009",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "A que areas temáticas se dedica la organizacion.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_010",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Cuantas organizaciones hay que se dedique a x area temática.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_011",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "O marcarlo según prioridades.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_012",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Que rol estan cumpliendo las organizaciones.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_013",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Cual es el rol principal que cumple una organizacion de acuerdo a lo que piensan.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_014",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Cual es el rol que deberian cumplir.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_015",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "Preguntas sobre la entrevista, quein es la org y quienes contestan y los datos de las tablas.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_016",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuáles son las organizaciones existentes?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_017",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuantos proyectos tienen en marcha cada una?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_018",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuáles son los proyectos que tiene?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_019",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "A que poblacion llegan",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_020",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "A que poblacion está destinada.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_021",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "Tiene aportes privados? quienes?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_022",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cómo se componen los ingresos estatales?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_023",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "Cuantas organizaciones hay?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_024",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "Que tipos de organizaciones hay?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_025",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "Decime todas las organizaciones que son {tipo}.",
+    "gold_tables": [],
+    "notes": "Consulta parametrizada por tipo de organización."
+  },
+  {
+    "id": "DEV_026",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué organizaciones pertenecen a cada tipo de organización?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_027",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuál de estas",
+    "gold_tables": [],
+    "notes": "Pregunta incompleta en las notas originales; conservar hasta definir su redacción final."
+  },
+  {
+    "id": "DEV_028",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuáles son los proyectos que se encuentran activos en esta organizacion?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_029",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué demandas sociales se encuentran registradas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_030",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué entidades aportantes están registradas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_031",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuáles son las organizaciones que poseen recursos materiales?",
+    "gold_tables": [],
+    "notes": "Incluye posibles preguntas puntuales por cada tipo de recurso."
+  },
+  {
+    "id": "DEV_032",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué organizaciones cuentan con recursos humanos?",
+    "gold_tables": [],
+    "notes": "Interesa discriminar principalmente entre personal rentado y no rentado."
+  },
+  {
+    "id": "DEV_033",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cuál es el presupuesto/ingresos anual estimado de cada organización?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_034",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Cómo se compone el presupuesto del mismo?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_035",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "Cuales es el presupuesto promedio de {x tipo}.",
+    "gold_tables": [],
+    "notes": "Consulta parametrizada por tipo de organización."
+  },
+  {
+    "id": "DEV_036",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué organizaciones tienen más actividad?",
+    "gold_tables": [],
+    "notes": "Requiere definir una métrica operacional de actividad."
+  },
+  {
+    "id": "DEV_037",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué proyectos tuvieron mayor impacto medido por {distintas métricas de impacto}?",
+    "gold_tables": [],
+    "notes": "Ejemplos de métricas: llegada a cantidad de organizaciones; llegada a población."
+  },
+  {
+    "id": "DEV_038",
+    "split": "dev",
+    "difficulty": "simple",
+    "question": "¿Qué organizaciones poseen más recursos {métrica de recurso}?",
+    "gold_tables": [],
+    "notes": "Ejemplos: personas trabajando, recursos materiales, presupuesto, etc."
+  },
+  {
+    "id": "DEV_039",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Qué organizaciones tienen proyectos actualmente activos?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_040",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Qué organizaciones poseen demandas sociales activas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_041",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Cuáles son las organizaciones relacionadas con otras organizaciones?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_042",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Qué organizaciones reciben recursos financieros provenientes de fuentes (o aportes) externas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_043",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Cuáles son las organizaciones que trabajan sobre determinadas áreas temáticas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_044",
+    "split": "dev",
+    "difficulty": "medium",
+    "question": "¿Qué proyectos están relacionados con más de una organización?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_045",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué organizaciones con proyectos activos poseen además demandas sociales registradas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_046",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Cuáles son las organizaciones que reciben recursos financieros externos y a qué fines destinan esos fondos?",
+    "gold_tables": [],
+    "notes": "En estas notas, 'externo' se refiere a casa matriz externa."
+  },
+  {
+    "id": "DEV_047",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué organizaciones participan en proyectos y además mantienen vínculos con otras organizaciones?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_048",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Cuáles son las organizaciones que poseen recursos humanos y materiales y además cuentan con presupuesto registrado?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_049",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué organizaciones trabajan en áreas vinculadas con problemas sociales y poseen proyectos activos?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_050",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Cuáles son las organizaciones que reciben aportes externos y participan en proyectos relacionados con otras organizaciones?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_051",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Cuáles son las organizaciones sociales que durante el último año recibieron donaciones provenientes de entidades aportantes y participaron en proyectos activos?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_052",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué proyectos financiados por entidades privadas fueron difundidos mediante campañas públicas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_053",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Cuáles son las organizaciones que participaron en proyectos vinculados con demandas sociales y además fueron auditadas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_054",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "Cuales surgen de demandas directas de la sociedad.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_055",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "Si hay proyectos que han recibido algún subsidio en específico.",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_056",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "Auditada siempre cunado reciben subsidios.",
+    "gold_tables": [],
+    "notes": "Redacción original conservada; parece expresar una condición o regla más que una pregunta."
+  },
+  {
+    "id": "DEV_057",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué organizaciones privadas recibieron donaciones públicas?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_058",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué organizaciones participaron en proyectos auditados y financiados por entidades aportantes?",
+    "gold_tables": []
+  },
+  {
+    "id": "DEV_059",
+    "split": "dev",
+    "difficulty": "complex",
+    "question": "¿Qué demandas sociales fueron atendidas mediante proyectos financiados por organizaciones privadas?",
+    "gold_tables": []
+  }
+]
