@@ -67,78 +67,65 @@
     "split": "dev",
     "difficulty": "meeting",
     "question": "A que areas temáticas se dedica la organizacion.",
-    "gold_tables": []
+    "gold_tables": ["T1","T23","T24"]
   },
   {
     "id": "DEV_010",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cuantas organizaciones hay que se dedique a x area temática.",
-    "gold_tables": []
-  },
-  {
-    "id": "DEV_011",
-    "split": "dev",
-    "difficulty": "meeting",
-    "question": "O marcarlo según prioridades.",
-    "gold_tables": []
+    "gold_tables": ["T1","T23","T24"]
   },
   {
     "id": "DEV_012",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Que rol estan cumpliendo las organizaciones.",
-    "gold_tables": []
+    "gold_tables": ["T1","T66","T29"]
   },
   {
     "id": "DEV_013",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cual es el rol principal que cumple una organizacion de acuerdo a lo que piensan.",
-    "gold_tables": []
+    "gold_tables": ["T1","T66","T29","T28"]
   },
   {
     "id": "DEV_014",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cual es el rol que deberian cumplir.",
-    "gold_tables": []
+    "gold_tables": ["T1","T66","T28"]
   },
   {
     "id": "DEV_015",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Preguntas sobre la entrevista, quein es la org y quienes contestan y los datos de las tablas.",
-    "gold_tables": []
+    "gold_tables": ["T39","T1"]
   },
   {
     "id": "DEV_016",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuáles son las organizaciones existentes?",
-    "gold_tables": []
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_017",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuantos proyectos tienen en marcha cada una?",
-    "gold_tables": []
+    "gold_tables": ["T1","82","T83"]
   },
   {
     "id": "DEV_018",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuáles son los proyectos que tiene?",
-    "gold_tables": []
+    "gold_tables": ["T1","T83","T82"]
   },
-  {
-    "id": "DEV_019",
-    "split": "dev",
-    "difficulty": "simple",
-    "question": "A que poblacion llegan",
-    "gold_tables": []
-  },
+
   {
     "id": "DEV_020",
     "split": "dev",
@@ -151,14 +138,14 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "Tiene aportes privados? quienes?",
-    "gold_tables": []
+    "gold_tables": ["T1","T8","T14"]
   },
   {
     "id": "DEV_022",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cómo se componen los ingresos estatales?",
-    "gold_tables": []
+    "gold_tables": ["T1","T11","T17"]
   },
   {
     "id": "DEV_023",
