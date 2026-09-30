@@ -11,3 +11,9 @@ def recall_at_k(
     encontrados = gold.intersection(top_k)
 
     return len(encontrados) / len(gold)
+
+def false_negatives(
+        gold: set[str],
+        predicted: set[str],
+    ) -> set[str]:
+        return gold - predicted

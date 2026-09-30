@@ -26,6 +26,7 @@ from fastapi import FastAPI
 
 from backend.controllers import nl2sql_controller
 from backend.engine import init_models, teardown_models
+from backend.utils.schema_loader import cargar_esquema_maestro
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +70,10 @@ async def lifespan(app: FastAPI):
         logger.warning("lifespan: init_schema falló (DB no disponible?): %s", e)
 
     # 2. Esquema maestro en memoria
-    app.state.esquema_maestro = _cargar_esquema_maestro()
+    app.state.esquema_maestro = cargar_esquema_maestro(
+        schema_path=_SCHEMA_PATH,
+        fallback_path=_SCHEMA_FALLBACK_PATH,
+    )
 
     # 3. Modelos de IA — SIEMPRE después del esquema
     init_models(app)
@@ -83,35 +87,6 @@ async def lifespan(app: FastAPI):
     teardown_models(app)
 
 
-def _cargar_esquema_maestro() -> dict:
-    """
-    Carga master_schema.json en memoria. Retorna dict vacío si no existe.
-    """
-    schema_path = _SCHEMA_PATH
-    if not schema_path.exists() and _SCHEMA_FALLBACK_PATH.exists():
-        schema_path = _SCHEMA_FALLBACK_PATH
-
-    if not schema_path.exists():
-        logger.warning(
-            "lifespan: master_schema.json no encontrado en %s ni en %s. "
-            "El pipeline NL2SQL no tendrá contexto de tablas.",
-            _SCHEMA_PATH,
-            _SCHEMA_FALLBACK_PATH,
-        )
-        return {}
-
-    try:
-        with open(schema_path, encoding="utf-8") as f:
-            esquema = json.load(f)
-        logger.info(
-            "lifespan: esquema maestro cargado — %d tablas desde %s",
-            len(esquema),
-            schema_path,
-        )
-        return esquema
-    except (json.JSONDecodeError, OSError) as e:
-        logger.error("lifespan: error cargando master_schema.json: %s", e)
-        return {}
 
 
 # ─────────────────────────────────────────────────────────────────────────────

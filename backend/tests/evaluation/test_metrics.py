@@ -1,4 +1,4 @@
-from backend.evaluation.metrics import recall_at_k
+from backend.evaluation.metrics import recall_at_k, false_negatives
 
 
 def test_recall_at_k_encuentra_todas_las_tablas_gold():
@@ -67,3 +67,25 @@ def test_recall_at_k_solo_considera_los_primeros_k_resultados():
 
     # Assert
     assert recall == 2 / 3
+
+def test_false_negatives_devuelve_tablas_gold_no_recuperadas():
+    gold = {"T1", "T82", "T83"}
+    predicted = {"T82", "T83", "T69"}
+
+    resultado = false_negatives(
+        gold=gold,
+        predicted=predicted,
+    )
+
+    assert resultado == {"T1"}
+
+def test_false_negatives_devuelve_vacio_si_recupera_todo():
+    gold = {"T1", "T82"}
+    predicted = {"T1", "T82", "T69"}
+
+    resultado = false_negatives(
+        gold=gold,
+        predicted=predicted,
+    )
+
+    assert resultado == set()

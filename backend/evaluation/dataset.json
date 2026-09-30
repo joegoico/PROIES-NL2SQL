@@ -116,7 +116,7 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuantos proyectos tienen en marcha cada una?",
-    "gold_tables": ["T1","82","T83"]
+    "gold_tables": ["T1","T82","T83"]
   },
   {
     "id": "DEV_018",
@@ -131,7 +131,7 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "A que poblacion está destinada.",
-    "gold_tables": []
+    "gold_tables": null
   },
   {
     "id": "DEV_021",
@@ -233,7 +233,7 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Qué organizaciones poseen más recursos {métrica de recurso}?",
-    "gold_tables": [],
+    "gold_tables": null,
     "notes": "Ejemplos: personas trabajando, recursos materiales, presupuesto, etc."
   },
   {
@@ -276,7 +276,7 @@
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué organizaciones con proyectos activos poseen además demandas sociales registradas?",
-    "gold_tables": []
+    "gold_tables": null
   },
   {
     "id": "DEV_046",
@@ -319,41 +319,41 @@
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Cuáles son las organizaciones sociales que durante el último año recibieron donaciones provenientes de entidades aportantes y participaron en proyectos activos?",
-    "gold_tables": []
+    "gold_tables": null
   },
   {
     "id": "DEV_052",
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué proyectos financiados por entidades privadas fueron difundidos mediante campañas públicas?",
-    "gold_tables": ["T82"]
+    "gold_tables": null
   },
   {
     "id": "DEV_054",
     "split": "dev",
     "difficulty": "complex",
     "question": "Cuales proyectos surgen de demandas directas de la sociedad.",
-    "gold_tables": []
+    "gold_tables": null
   },
   {
     "id": "DEV_055",
     "split": "dev",
     "difficulty": "complex",
     "question": "Si hay proyectos que han recibido algún subsidio en específico.",
-    "gold_tables": []
+    "gold_tables": null
   },
   {
     "id": "DEV_058",
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué organizaciones participaron en proyectos auditados y financiados por entidades aportantes?",
-    "gold_tables": []
+    "gold_tables":null
   },
   {
     "id": "DEV_059",
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué demandas sociales fueron atendidas mediante proyectos financiados por organizaciones privadas?",
-    "gold_tables": []
+    "gold_tables": null
   }
 ]
