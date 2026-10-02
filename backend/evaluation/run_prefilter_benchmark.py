@@ -8,7 +8,7 @@ from backend.evaluation.prefilter_runner import (
     ejecutar_prefilter_benchmark,
 )
 from backend.evaluation.error_analysis import (
-    contar_false_negatives_por_tabla,
+    calcular_estadisticas_por_tabla,
 )
 
 from backend.custom.schema_prefilter import SchemaPrefilter
@@ -60,19 +60,34 @@ def main():
             print(f"Recall@10: {caso['recall_at_10']}")
 
     # False negatives agregados por tabla
-    conteo_fn = contar_false_negatives_por_tabla(
-        resultado["casos"]
+    estadisticas_tablas = calcular_estadisticas_por_tabla(
+    resultado["casos"]
     )
 
     print()
-    print("=== FALSE NEGATIVES POR TABLA ===")
+    print("=== ESTADISTICAS POR TABLA ===")
+    print(
+        f"{'Tabla':<8}"
+        f"{'Gold':>8}"
+        f"{'Recup.':>10}"
+        f"{'FN':>8}"
+        f"{'Recall':>10}"
+    )
 
-    for tabla, cantidad in sorted(
-        conteo_fn.items(),
-        key=lambda item: item[1],
-        reverse=True,
+    for tabla, stats in sorted(
+        estadisticas_tablas.items(),
+        key=lambda item: (
+            item[1]["recall"],
+            -item[1]["gold_count"],
+        ),
     ):
-        print(f"{tabla}: {cantidad}")
+        print(
+            f"{tabla:<8}"
+            f"{stats['gold_count']:>8}"
+            f"{stats['retrieved_count']:>10}"
+            f"{stats['false_negative_count']:>8}"
+            f"{stats['recall']:>10.4f}"
+        )
 
 
 if __name__ == "__main__":
