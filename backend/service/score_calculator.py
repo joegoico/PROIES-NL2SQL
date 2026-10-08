@@ -30,10 +30,8 @@ class CalcularScoreNombreTabla(ScoreCalculator):
         tokens_pregunta: set[str],
         tabla: dict[str, Any],
     ) -> int:
-        print("\nTOKENS PREGUNTA:", tokens_pregunta)
         nombre = tabla.get("nombre_real", "")
         tokens_nombre = self.text_utils.normalizar_texto(nombre)
-        print("TOKENS NOMBRE TABLA:", tokens_nombre)
 
         matches = self.text_utils.contar_matches(tokens_pregunta, tokens_nombre)
         score = matches * PESO_NOMBRE_TABLA

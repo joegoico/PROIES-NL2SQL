@@ -10,6 +10,11 @@ from backend.evaluation.prefilter_runner import (
 from backend.evaluation.error_analysis import (
     calcular_estadisticas_por_tabla,
 )
+from backend.evaluation.reports.reports_generator import (
+    construir_diagnosticos,
+    generar_reporte_markdown,
+    guardar_reporte_markdown,
+)
 
 from backend.custom.schema_prefilter import SchemaPrefilter
 from backend.utils.schema_loader import cargar_esquema_maestro
@@ -24,6 +29,10 @@ def main():
         dataset=dataset,
         split="dev",
     )
+    casos_por_id = {
+        caso["id"]: caso
+        for caso in casos_dev
+    }
 
     esquema_maestro = cargar_esquema_maestro(
         schema_path=Path("data/master_schema.json"),
@@ -37,57 +46,47 @@ def main():
         prefilter=prefilter,
         esquema_maestro=esquema_maestro,
     )
+    casos_por_id = {
+    caso["id"]: caso
+    for caso in casos_dev
+    }
 
-    print(f"Casos evaluados: {len(resultado['casos'])}")
+    rankings = {}
 
-    print(
-        f"Recall@5 promedio: "
-        f"{resultado['recall_at_5_promedio']:.4f}"
-    )
-
-    print(
-        f"Recall@10 promedio: "
-        f"{resultado['recall_at_10_promedio']:.4f}"
-    )
-
-    # Errores por caso
     for caso in resultado["casos"]:
         if caso["recall_at_10"] < 1.0:
-            print()
-            print(f"ERROR: {caso['id']}")
-            print(f"Gold: {caso['gold_tables']}")
-            print(f"Predicted: {caso['predicted_tables']}")
-            print(f"Recall@10: {caso['recall_at_10']}")
+            pregunta = casos_por_id[caso["id"]]["question"]
 
-    # False negatives agregados por tabla
-    estadisticas_tablas = calcular_estadisticas_por_tabla(
-    resultado["casos"]
+            rankings[caso["id"]] = prefilter.obtener_ranking(
+                pregunta=pregunta,
+                esquema_maestro=esquema_maestro,
+            )
+
+
+    diagnosticos = construir_diagnosticos(
+        casos=casos_dev,
+        resultados=resultado["casos"],
+        rankings=rankings,
+    )
+
+    contenido_reporte = generar_reporte_markdown(
+        resultado=resultado,
+        diagnosticos=diagnosticos,
+    )
+
+    ruta_reporte = Path(
+        "backend/evaluation/reports/prefilter_benchmark.md"
+    )
+
+    guardar_reporte_markdown(
+        contenido=contenido_reporte,
+        ruta=ruta_reporte,
     )
 
     print()
-    print("=== ESTADISTICAS POR TABLA ===")
-    print(
-        f"{'Tabla':<8}"
-        f"{'Gold':>8}"
-        f"{'Recup.':>10}"
-        f"{'FN':>8}"
-        f"{'Recall':>10}"
-    )
+    print(f"Reporte generado: {ruta_reporte}")
 
-    for tabla, stats in sorted(
-        estadisticas_tablas.items(),
-        key=lambda item: (
-            item[1]["recall"],
-            -item[1]["gold_count"],
-        ),
-    ):
-        print(
-            f"{tabla:<8}"
-            f"{stats['gold_count']:>8}"
-            f"{stats['retrieved_count']:>10}"
-            f"{stats['false_negative_count']:>8}"
-            f"{stats['recall']:>10.4f}"
-        )
+   
 
 
 if __name__ == "__main__":

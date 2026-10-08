@@ -175,3 +175,113 @@ def test_schema_prefilter_maneja_esquema_vacio():
             "donaciones",
             {},
         )
+def test_obtener_ranking_devuelve_indices_con_score_ordenados():
+    esquema = {
+        "T1": {
+            "nombre_real": "organizacion",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+        "T2": {
+            "nombre_real": "proyectos",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+    }
+
+    prefilter = SchemaPrefilter()
+
+    ranking = prefilter.obtener_ranking(
+        pregunta="proyectos",
+        esquema_maestro=esquema,
+    )
+
+    assert ranking[0][0] == "T2"
+    assert ranking[0][1] > 0
+
+def test_obtener_ranking_no_aplica_top_k():
+    esquema = {
+        "T1": {
+            "nombre_real": "organizacion",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+        "T2": {
+            "nombre_real": "proyectos",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+        "T3": {
+            "nombre_real": "proyectos_sociales",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+    }
+
+    prefilter = SchemaPrefilter()
+
+    ranking = prefilter.obtener_ranking(
+        pregunta="proyectos organizaciones",
+        esquema_maestro=esquema,
+    )
+
+    assert len(ranking) >= 2
+
+def test_obtener_indices_coincide_con_top_k_del_ranking():
+    esquema = {
+        "T1": {
+            "nombre_real": "organizacion",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+        "T2": {
+            "nombre_real": "proyectos",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+        "T3": {
+            "nombre_real": "donaciones",
+            "descripcion_tabla": "",
+            "columnas": {},
+        },
+    }
+
+    prefilter = SchemaPrefilter()
+
+    ranking = prefilter.obtener_ranking(
+        pregunta="organizaciones proyectos donaciones",
+        esquema_maestro=esquema,
+    )
+
+    indices = prefilter.obtener_indices(
+        pregunta="organizaciones proyectos donaciones",
+        esquema_maestro=esquema,
+        top_k=2,
+    )
+
+    assert indices == [
+        indice
+        for indice, _ in ranking[:2]
+    ]
+
+def test_diagnostico_t1():
+    prefilter = SchemaPrefilter()
+
+    pregunta = "¿Cuantos proyectos tienen en marcha?"
+
+    tokens_pregunta = prefilter.text_utils.normalizar_texto(
+        pregunta
+    )
+
+    prefilter._calcular_score_tabla(
+        tokens_pregunta=tokens_pregunta,
+        tabla={
+            "nombre_real": "organizaciones",
+            "descripcion_tabla": "ONGs y asociaciones civiles",
+            "columnas": {
+                "nombre": "Nombre de la organización",
+                "presupuesto": "Presupuesto anual",
+            },
+        },
+        debug=True,
+    )
