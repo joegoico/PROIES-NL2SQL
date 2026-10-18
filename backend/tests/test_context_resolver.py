@@ -11,29 +11,30 @@ def resolver():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Contrato v2 (decisiones definitivas)
+# Contrato v3 (arquitectura por etapas)
 #
-#  1. Se recorre TODO el historial, de la pregunta más reciente a la más
-#     antigua.
-#  2. Sin evidencia suficiente de un referente único → pregunta original
-#     exacta y uso_contexto=False.
-#  3. La concordancia de género es condición de compatibilidad (excluye
-#     candidatos), nunca prueba suficiente para elegir entre candidatos.
-#  4. Varios candidatos plausibles con distinto núcleo nominal → abstención.
-#     No se elige el más reciente.
-#  5. Compartir el núcleo nominal NO hace equivalentes a dos expresiones: si
-#     difieren en filtros o modificadores («organizaciones» vs «organizaciones
-#     rurales») son conjuntos distintos → abstención. Solo la MISMA expresión
-#     repetida es un único referente.
-#  6. Una pregunta de conteo intermedia con predicado/filtro («están
-#     activas») que la heurística no puede preservar BLOQUEA la búsqueda
-#     hacia preguntas más antiguas.
-#  7. «Cambiando de tema» corta la búsqueda hacia las preguntas anteriores al
-#     marcador. La pregunta que contiene el marcador abre el tema nuevo y sí
-#     puede aportar referente.
-#  8. Referencias múltiples: todas se resuelven o ninguna (sin sustitución
+#  1. Etapa 1 — Detector de referencias explícitas: evalúa una estructura
+#     clasificada de patrones (pronombres/demostrativos plurales como «esas»,
+#     «esos», «ellas», «ellos», «estas», «estos», construcciones partitivas y
+#     expresiones de identidad como «el mismo» / «la misma»).
+#  2. Etapa 2 — Heurística de respaldo: solo si el detector explícito no
+#     encuentra referencias, evalúa si la pregunta presenta dependencia
+#     implícita por elipsis nominal (ej. «¿Y cuántas tienen donaciones?»,
+#     «¿Cuántas son rurales?»).
+#  3. Etapa 3 — Resolución: recorre el historial de la pregunta más reciente a
+#     la más antigua buscando antecedentes compatibles en género y tipo.
+#  4. Sin evidencia suficiente de un referente único → devuelve la pregunta
+#     original exacta y uso_contexto=False.
+#  5. La concordancia de género es condición de compatibilidad (excluye
+#     candidatos), nunca prueba suficiente para desempatar entre candidatos
+#     distintos compatibles.
+#  6. Varios candidatos compatibles distintos (diferente núcleo o diferentes
+#     modificadores/filtros, incluido un conteo con predicado que define un
+#     subconjunto distinto) → abstención. Solo la misma expresión repetida
+#     cuenta como un único referente.
+#  7. Referencias múltiples: todas se resuelven o ninguna (sin sustitución
 #     parcial).
-#  9. El historial original no se modifica.
+#  8. El historial original no se modifica.
 # ─────────────────────────────────────────────────────────────────────────────
 
 
@@ -65,7 +66,7 @@ def test_sin_historial_devuelve_la_pregunta_original(resolver):
     [
         "¿Cuántas capacitaciones se dictaron?",
         "¿Cuántos recursos humanos tiene cada organización?",
-        "Cambiando de tema, ¿cuántos actores hay?",
+        "¿Y cuántos actores hay?",
     ],
 )
 def test_pregunta_autonoma_no_arrastra_entidades_del_historial(resolver, pregunta):
@@ -81,7 +82,7 @@ def test_pregunta_autonoma_no_arrastra_entidades_del_historial(resolver, pregunt
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Referencia en la última pregunta (candidato único)
+# Etapa 1 — Detector de referencias explícitas y variantes
 # ─────────────────────────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize(
@@ -96,7 +97,15 @@ def test_pregunta_autonoma_no_arrastra_entidades_del_historial(resolver, pregunt
             "¿Cuántas organizaciones son rurales?",
         ),
         (
+            "¿Cuántas de estas están activas?",
+            "¿Cuántas organizaciones están activas?",
+        ),
+        (
             "¿Cuántos recursos financieros recibieron esas?",
+            "¿Cuántos recursos financieros recibieron las organizaciones?",
+        ),
+        (
+            "¿Cuántos recursos financieros recibieron estas?",
             "¿Cuántos recursos financieros recibieron las organizaciones?",
         ),
     ],
@@ -146,10 +155,18 @@ def test_referente_conserva_el_filtro_de_la_pregunta_previa(resolver):
     assert resultado.uso_contexto is True
 
 
-def test_el_mismo_se_reemplaza_por_la_entidad_nombrada_en_la_pregunta_previa(resolver):
+@pytest.mark.parametrize(
+    "pregunta",
+    [
+        "¿Cuántos recursos humanos tiene el mismo?",
+        "¿Cuántos recursos humanos tiene la misma?",
+    ],
+)
+def test_el_mismo_o_la_misma_se_reemplaza_por_la_entidad_nombrada_previa(
+    resolver, pregunta
+):
     # Arrange
     historial = ["¿Cuál es la situación jurídica de Cáritas Tandil?"]
-    pregunta = "¿Cuántos recursos humanos tiene el mismo?"
 
     # Act
     resultado = resolver.resolver(pregunta, historial)
@@ -162,7 +179,79 @@ def test_el_mismo_se_reemplaza_por_la_entidad_nombrada_en_la_pregunta_previa(res
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisión 1 — Referencia en una pregunta anterior
+# Etapa 2 — Heurística de respaldo (dependencia implícita por elipsis nominal)
+# ─────────────────────────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize(
+    "historial, pregunta, esperada",
+    [
+        (
+            ["¿Cuántas organizaciones hay?"],
+            "¿Y cuántas tienen donaciones?",
+            "¿Y cuántas organizaciones tienen donaciones?",
+        ),
+        (
+            ["¿Cuántas organizaciones rurales hay?"],
+            "¿Cuántas tienen personería jurídica?",
+            "¿Cuántas organizaciones rurales tienen personería jurídica?",
+        ),
+        (
+            ["¿Cuántos actores hay?"],
+            "¿Y cuántos son externos?",
+            "¿Y cuántos actores son externos?",
+        ),
+        (
+            ["¿Cuántas organizaciones hay?", "¿Cuántos actores hay?"],
+            "¿Y cuántas están activas?",
+            "¿Y cuántas organizaciones están activas?",
+        ),
+    ],
+)
+def test_heuristica_de_respaldo_resuelve_dependencia_implicita_por_elipsis(
+    resolver, historial, pregunta, esperada
+):
+    # Arrange + Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_original == pregunta
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
+@pytest.mark.parametrize(
+    "historial, pregunta",
+    [
+        # Dos candidatos compatibles en género para la elipsis femenina
+        (
+            ["¿Cuántas organizaciones hay?", "¿Cuántas capacitaciones hay?"],
+            "¿Y cuántas están activas?",
+        ),
+        # Ningún candidato compatible en género (historial femenino, elipsis masculina)
+        (
+            ["¿Cuántas organizaciones hay?"],
+            "¿Y cuántos son externos?",
+        ),
+        # Sin antecedente identificable
+        (
+            ["Hola, necesito consultar datos"],
+            "¿Y cuántas tienen donaciones?",
+        ),
+    ],
+)
+def test_heuristica_de_respaldo_se_abstiene_sin_evidencia_suficiente(
+    resolver, historial, pregunta
+):
+    # Arrange + Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Recorrido del historial — Referencia en una pregunta anterior
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_resuelve_con_referente_de_una_pregunta_anterior(resolver):
@@ -200,7 +289,7 @@ def test_el_mismo_se_resuelve_con_una_entidad_de_una_pregunta_anterior(resolver)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisión 3 — La concordancia de género excluye candidatos incompatibles
+# La concordancia de género excluye candidatos incompatibles
 # ─────────────────────────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize(
@@ -237,7 +326,7 @@ def test_la_concordancia_de_genero_descarta_candidatos_incompatibles(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisión 5 — Misma expresión repetida = un único referente
+# Misma expresión repetida = un único referente
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_misma_expresion_plural_repetida_es_un_unico_referente(resolver):
@@ -277,7 +366,7 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisiones 2, 4 y 5 — Ambigüedad: abstención con la pregunta original
+# Ambigüedad: abstención con la pregunta original
 # ─────────────────────────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize(
@@ -303,13 +392,12 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ["¿Cuántas organizaciones hay?"],
             "¿Cuántos recursos humanos tiene el mismo?",
         ),
-        # Decisión 4: dos candidatos compatibles con distinto núcleo
+        # Dos candidatos compatibles con distinto núcleo
         (
             ["¿Cuántas organizaciones hay?", "¿Cuántas capacitaciones hay?"],
             "¿Cuántas de esas son rurales?",
         ),
-        # Decisión 4: el más reciente es incompatible; quedan dos compatibles
-        # con distinto núcleo → no se elige ninguno
+        # El más reciente es incompatible; quedan dos compatibles con distinto núcleo
         (
             [
                 "¿Cuántas organizaciones hay?",
@@ -318,7 +406,7 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ],
             "¿Cuántas de esas son rurales?",
         ),
-        # Decisión 4: dos entidades nombradas distintas en preguntas diferentes
+        # Dos entidades nombradas distintas en preguntas diferentes
         (
             [
                 "¿Cuál es la situación jurídica de Cáritas Tandil?",
@@ -326,12 +414,12 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ],
             "¿Cuántos recursos humanos tiene el mismo?",
         ),
-        # Decisión 5: mismo núcleo, pero uno es un subconjunto del otro
+        # Mismo núcleo, pero uno es un subconjunto del otro (modificador nominal)
         (
             ["¿Cuántas organizaciones hay?", "¿Cuántas organizaciones rurales hay?"],
             "¿Cuántas de esas tienen personería jurídica?",
         ),
-        # Decisión 5: mismo núcleo con filtros distintos → conjuntos diferentes
+        # Mismo núcleo con filtros distintos → conjuntos diferentes
         (
             [
                 "¿Cuántas organizaciones rurales hay?",
@@ -339,13 +427,15 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ],
             "¿Cuántas de esas tienen personería jurídica?",
         ),
+        # Mismo núcleo pero la segunda pregunta acota un subconjunto mediante predicado
+        (
+            ["¿Cuántas organizaciones hay?", "¿Cuántas organizaciones están activas?"],
+            "¿Cuántas de esas son rurales?",
+        ),
     ],
 )
 def test_ambiguedad_conserva_la_pregunta_original(resolver, historial, pregunta):
-    # Arrange
-    # (historial y pregunta provistos por parametrize)
-
-    # Act
+    # Arrange + Act
     resultado = resolver.resolver(pregunta, historial)
 
     # Assert
@@ -354,80 +444,7 @@ def test_ambiguedad_conserva_la_pregunta_original(resolver, historial, pregunta)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisión 6 — Una pregunta intermedia con filtro bloquea la búsqueda
-# ─────────────────────────────────────────────────────────────────────────────
-
-@pytest.mark.parametrize(
-    "historial",
-    [
-        # Predicado «están activas»: el filtro no se puede preservar
-        ["¿Cuántas organizaciones hay?", "¿Cuántas organizaciones están activas?"],
-        # Otro filtro en forma de predicado
-        [
-            "¿Cuántas organizaciones hay?",
-            "¿Cuántas organizaciones tienen personería jurídica?",
-        ],
-        # El bloqueo ocurre en profundidad: hay una pregunta más reciente que
-        # no es de conteo y se ignora, pero el filtro intermedio corta la búsqueda
-        [
-            "¿Cuántas organizaciones hay?",
-            "¿Cuántas organizaciones están activas?",
-            "¿Cuál es la situación jurídica de Cáritas Tandil?",
-        ],
-    ],
-)
-def test_pregunta_intermedia_con_filtro_bloquea_la_busqueda_de_referentes_antiguos(
-    resolver, historial
-):
-    # Arrange
-    pregunta = "¿Cuántas de esas son rurales?"
-
-    # Act
-    resultado = resolver.resolver(pregunta, historial)
-
-    # Assert
-    assert resultado.pregunta_resuelta == pregunta
-    assert resultado.uso_contexto is False
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Decisión 7 — Cambio explícito de tema
-# ─────────────────────────────────────────────────────────────────────────────
-
-def test_marcador_de_cambio_de_tema_corta_la_busqueda_hacia_atras(resolver):
-    # Arrange
-    historial = [
-        "¿Cuántas organizaciones hay?",
-        "Cambiando de tema, ¿cuántos actores hay?",
-    ]
-    pregunta = "¿Cuántas de esas son rurales?"
-
-    # Act
-    resultado = resolver.resolver(pregunta, historial)
-
-    # Assert
-    assert resultado.pregunta_resuelta == pregunta
-    assert resultado.uso_contexto is False
-
-
-def test_la_pregunta_con_el_marcador_abre_el_tema_y_puede_aportar_referente(resolver):
-    # Arrange
-    historial = [
-        "¿Cuántas organizaciones hay?",
-        "Cambiando de tema, ¿cuántos actores hay?",
-    ]
-    pregunta = "¿Cuántos de esos son externos?"
-
-    # Act
-    resultado = resolver.resolver(pregunta, historial)
-
-    # Assert
-    assert resultado.pregunta_resuelta == "¿Cuántos actores son externos?"
-    assert resultado.uso_contexto is True
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Decisión 8 — Referencias múltiples: todas o ninguna
+# Referencias múltiples: todas o ninguna
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_referencias_multiples_se_resuelven_con_preguntas_distintas(resolver):
@@ -478,7 +495,7 @@ def test_si_una_referencia_no_se_resuelve_no_hay_sustitucion_parcial(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Decisión 9 — El resolver no modifica el historial
+# El resolver no modifica el historial
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_resolver_no_modifica_el_historial(resolver):

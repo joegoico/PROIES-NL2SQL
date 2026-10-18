@@ -1,35 +1,23 @@
 """
 backend/custom/context_resolver.py
 ─────────────────────────────────────────────────────────────────────────────
-Resolución contextual heurística previa al SchemaPrefilter.
+Resolución contextual heurística previa al SchemaPrefilter (arquitectura por
+etapas).
 
-Dada la pregunta actual y el historial, intenta producir una pregunta
-autónoma reemplazando referencias («esas», «de ellas», «el mismo») por su
-referente. Si no hay un referente único y confiable, devuelve la pregunta
-original sin cambios (política conservadora).
-
-Reglas explícitas y acotadas (versión 1):
-  - Solo se usa la pregunta MÁS RECIENTE del historial.
-  - Referente plural: la pregunta previa debe tener exactamente la forma
-    «¿Cuántos/as <sintagma nominal> hay|existen?». El sintagma se copia
-    textualmente (incluye modificadores, p. ej. «organizaciones rurales»).
-  - Referente singular («el mismo»): la pregunta previa debe terminar en
-    «de|del <Nombre Propio de 2+ palabras capitalizadas>» o en
-    «de|del "nombre entre comillas"». La capitalización por sí sola no basta:
-    se exige además el marco sintáctico (preposición + cierre de pregunta).
-  - Si la pregunta contiene referencias y alguna no puede resolverse, no se
-    resuelve ninguna (nunca se devuelve una pregunta a medio resolver).
-
-Limitaciones conocidas (se dejan SIN resolver a propósito):
-  - Previas con predicado («¿Cuántas organizaciones están activas?»): el
-    filtro del predicado se perdería, así que no se usa como referente.
-  - Sintagma con dos núcleos coordinados («organizaciones y actores»): una
-    conjunción justo tras el primer núcleo es ambigua. Una conjunción entre
-    modificadores («organizaciones rurales y urbanas») sí se tolera.
-  - Nombres propios de una sola palabra, o precedidos por otra preposición
-    («entre X y Y», «de la Cruz Roja»), no se reconocen.
-  - No se verifica concordancia de género entre pronombre y referente.
-  - Solo «el mismo» (no «la misma») y solo pronombres plurales.
+Etapas:
+  1. Detector de referencias explícitas: evalúa una estructura clasificada de
+     patrones para referencias plurales (partitivas y pronominales/
+     demostrativas: «esas», «esos», «ellas», «ellos», «estas», «estos») y
+     referencias de identidad a entidad nombrada («el mismo», «la misma»).
+  2. Heurística de respaldo: solo si el detector explícito no encuentra
+     coincidencias, evalúa si la pregunta presenta una dependencia implícita
+     por elipsis del núcleo nominal (ej. «¿Y cuántas tienen donaciones?»,
+     «¿Cuántos son externos?»).
+  3. Resolución: busca antecedentes compatibles en el historial (de más
+     reciente a más antiguo) y reescribe únicamente cuando hay evidencia de
+     un referente único y confiable. Si alguna referencia no puede resolverse
+     con certeza, conserva la pregunta original exacta sin sustituciones
+     parciales.
 ─────────────────────────────────────────────────────────────────────────────
 """
 
@@ -37,20 +25,79 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from typing import Literal
 
-_PRONOMBRES = r"esas|esos|ellas|ellos"
-_INTERROGATIVOS = {"cuántos", "cuántas", "cuantos", "cuantas", "cuáles", "cuales", "qué", "que"}
+TipoReferencia = Literal["plural_partitivo", "plural_pronominal", "entidad"]
+Genero = Literal["F", "M"]
+
+_DEMOSTRATIVOS_Y_PRONOMBRES = r"esas|esos|ellas|ellos|estas|estos"
+_INTERROGATIVOS = {
+    "cuántos",
+    "cuántas",
+    "cuantos",
+    "cuantas",
+    "cuáles",
+    "cuales",
+    "qué",
+    "que",
+}
 _CONJUNCIONES = {"y", "e", "o", "u"}
+_VERBOS_PREDICADO_PLURAL = (
+    r"tienen|est[áa]n|son|recibieron|participan|trabajan|cuentan|poseen|pertenecen"
+)
 
-_RE_PARTITIVO = re.compile(
-    rf"\b(?P<q>cu[áa]nt[oa]s|cu[áa]les)\s+de\s+(?P<p>{_PRONOMBRES})\b",
+
+@dataclass(frozen=True)
+class PatronReferenciaExplicita:
+    """Patrón clasificado del detector de referencias explícitas."""
+
+    nombre: str
+    tipo: TipoReferencia
+    expresion: re.Pattern[str]
+
+
+_PATRON_PARTITIVO_PLURAL = PatronReferenciaExplicita(
+    nombre="partitivo_plural",
+    tipo="plural_partitivo",
+    expresion=re.compile(
+        rf"\b(?P<q>cu[áa]nt[oa]s|cu[áa]les)\s+de\s+(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b",
+        re.IGNORECASE,
+    ),
+)
+_PATRON_PRONOMBRE_PLURAL = PatronReferenciaExplicita(
+    nombre="pronombre_plural",
+    tipo="plural_pronominal",
+    expresion=re.compile(
+        rf"\b(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b",
+        re.IGNORECASE,
+    ),
+)
+_PATRON_IDENTIDAD_ENTIDAD = PatronReferenciaExplicita(
+    nombre="identidad_entidad",
+    tipo="entidad",
+    expresion=re.compile(
+        r"\b(?:el\s+mismo|la\s+misma)\b",
+        re.IGNORECASE,
+    ),
+)
+
+PATRONES_REFERENCIA_EXPLICITA: tuple[PatronReferenciaExplicita, ...] = (
+    _PATRON_PARTITIVO_PLURAL,
+    _PATRON_PRONOMBRE_PLURAL,
+    _PATRON_IDENTIDAD_ENTIDAD,
+)
+
+_RE_DEPENDENCIA_IMPLICITA = re.compile(
+    rf"^(?P<prefijo>\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s))\s+(?P<verbo>{_VERBOS_PREDICADO_PLURAL})\b",
     re.IGNORECASE,
 )
-_RE_PRONOMBRE = re.compile(rf"\b(?P<p>{_PRONOMBRES})\b", re.IGNORECASE)
-_RE_EL_MISMO = re.compile(r"\bel\s+mismo\b", re.IGNORECASE)
 
-_RE_CONTEO = re.compile(
-    r"^\W*cu[áa]nt[oa]s\s+(?P<ref>[^?¿¡!.,;:]+?)\s+(?:hay|existen)\W*$",
+_RE_CONTEO_EXISTENCIAL = re.compile(
+    r"^\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s)\s+(?P<ref>[^?¿¡!.,;:]+?)\s+(?:hay|existen)\W*$",
+    re.IGNORECASE,
+)
+_RE_CONTEO_PREDICATIVO = re.compile(
+    rf"^\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s)\s+(?P<nucleo>[^?¿¡!.,;:]+?)\s+(?:{_VERBOS_PREDICADO_PLURAL})\s+(?P<pred>[^?¿¡!.,;:]+?)\W*$",
     re.IGNORECASE,
 )
 _RE_ENTIDAD_CAPITALIZADA = re.compile(
@@ -63,7 +110,7 @@ _RE_ENTIDAD_ENTRECOMILLAS = re.compile(
 
 @dataclass(frozen=True)
 class ResultadoResolucion:
-    """Resultado de contextualizar una pregunta."""
+    """Resultado inmutable de contextualizar una pregunta."""
 
     pregunta_original: str
     pregunta_resuelta: str
@@ -72,53 +119,97 @@ class ResultadoResolucion:
 
 class ContextResolver:
     """
-    Resuelve referencias de seguimiento usando solo la pregunta más reciente.
-
-    No tiene estado y no modifica el historial recibido.
+    Resuelve referencias contextuales mediante detección por etapas:
+      1. Detector de referencias explícitas clasificadas.
+      2. Heurística de respaldo para dependencias implícitas (elipsis).
+      3. Búsqueda conservadora de antecedentes compatibles.
     """
 
     def resolver(self, pregunta: str, historial: list[str]) -> ResultadoResolucion:
-        """
-        Args:
-            pregunta: Pregunta actual del usuario.
-            historial: Preguntas originales previas, en orden cronológico.
-
-        Returns:
-            ResultadoResolucion. uso_contexto es True solo si la pregunta
-            resuelta incorpora información del historial.
-
-        Raises:
-            ValueError: Si la pregunta está vacía o es None.
-        """
         if not pregunta or not pregunta.strip():
             raise ValueError("La pregunta no puede estar vacía.")
 
         if not historial:
             return self._sin_cambios(pregunta)
 
-        anterior = historial[-1]
+        # Etapa 1: Detector de referencias explícitas
+        patrones_activos = [
+            p for p in PATRONES_REFERENCIA_EXPLICITA if p.expresion.search(pregunta)
+        ]
+        if patrones_activos:
+            return self._resolver_referencias_explicitas(
+                pregunta, historial, patrones_activos
+            )
+
+        # Etapa 2: Heurística de respaldo (solo si no hubo referencias explícitas)
+        return self._resolver_dependencia_implicita(pregunta, historial)
+
+    def _resolver_referencias_explicitas(
+        self,
+        pregunta: str,
+        historial: list[str],
+        patrones_activos: list[PatronReferenciaExplicita],
+    ) -> ResultadoResolucion:
         resuelta = pregunta
+        tipos_activos = {p.tipo for p in patrones_activos}
 
-        if _RE_PRONOMBRE.search(resuelta):
-            referente = self._referente_plural(anterior)
-            if referente is None:
-                return self._sin_cambios(pregunta)
-            resuelta = _RE_PARTITIVO.sub(
-                lambda m: f"{m['q']} {referente}", resuelta
+        if "plural_partitivo" in tipos_activos or "plural_pronominal" in tipos_activos:
+            pronombres = [
+                m["p"] for m in _PATRON_PRONOMBRE_PLURAL.expresion.finditer(resuelta)
+            ]
+            generos = {self._genero_palabra(p) for p in pronombres}
+            referentes_por_genero: dict[Genero, str] = {}
+            for genero in generos:
+                ref = self._buscar_referente_plural(historial, genero)
+                if ref is None:
+                    return self._sin_cambios(pregunta)
+                referentes_por_genero[genero] = ref
+
+            resuelta = _PATRON_PARTITIVO_PLURAL.expresion.sub(
+                lambda m: (
+                    f"{m['q']} "
+                    f"{referentes_por_genero[self._genero_palabra(m['p'])]}"
+                ),
+                resuelta,
             )
-            resuelta = _RE_PRONOMBRE.sub(
-                lambda m: f"{self._articulo(m['p'])} {referente}", resuelta
+            resuelta = _PATRON_PRONOMBRE_PLURAL.expresion.sub(
+                lambda m: (
+                    f"{self._articulo(m['p'])} "
+                    f"{referentes_por_genero[self._genero_palabra(m['p'])]}"
+                ),
+                resuelta,
             )
 
-        if _RE_EL_MISMO.search(resuelta):
-            entidad = self._entidad_nombrada(anterior)
+        if "entidad" in tipos_activos:
+            entidad = self._buscar_entidad_nombrada(historial)
             if entidad is None:
                 return self._sin_cambios(pregunta)
-            resuelta = _RE_EL_MISMO.sub(lambda _: entidad, resuelta)
+            resuelta = _PATRON_IDENTIDAD_ENTIDAD.expresion.sub(
+                lambda _: entidad, resuelta
+            )
 
         if resuelta == pregunta:
             return self._sin_cambios(pregunta)
 
+        return ResultadoResolucion(pregunta, resuelta, True)
+
+    def _resolver_dependencia_implicita(
+        self, pregunta: str, historial: list[str]
+    ) -> ResultadoResolucion:
+        coincidencia = _RE_DEPENDENCIA_IMPLICITA.match(pregunta)
+        if coincidencia is None:
+            return self._sin_cambios(pregunta)
+
+        genero = self._genero_palabra(coincidencia["q"])
+        referente = self._buscar_referente_plural(historial, genero)
+        if referente is None:
+            return self._sin_cambios(pregunta)
+
+        resuelta = _RE_DEPENDENCIA_IMPLICITA.sub(
+            lambda m: f"{m['prefijo']} {referente} {m['verbo']}",
+            pregunta,
+            count=1,
+        )
         return ResultadoResolucion(pregunta, resuelta, True)
 
     @staticmethod
@@ -130,23 +221,91 @@ class ContextResolver:
         return "las" if pronombre.lower().endswith("as") else "los"
 
     @staticmethod
-    def _referente_plural(anterior: str) -> str | None:
-        coincidencia = _RE_CONTEO.match(anterior)
-        if coincidencia is None:
+    def _genero_palabra(palabra: str) -> Genero:
+        return "F" if palabra.lower().endswith("as") else "M"
+
+    @staticmethod
+    def _normalizar_espacios(texto: str) -> str:
+        return " ".join(texto.lower().split())
+
+    def _buscar_referente_plural(
+        self, historial: list[str], genero_buscado: Genero
+    ) -> str | None:
+        candidatos_reemplazo: list[str] = []
+        conjuntos_detectados: set[str] = set()
+
+        for pregunta_previa in reversed(historial):
+            info_conteo = self._extraer_candidato_plural(pregunta_previa)
+            if info_conteo is None:
+                continue
+
+            genero_ref, referente, es_reemplazable = info_conteo
+            if genero_ref != genero_buscado:
+                continue
+
+            conjuntos_detectados.add(self._normalizar_espacios(referente))
+            if es_reemplazable:
+                candidatos_reemplazo.append(referente)
+
+        if not candidatos_reemplazo or len(conjuntos_detectados) != 1:
             return None
 
-        referente = coincidencia["ref"].strip()
+        return candidatos_reemplazo[0]
+
+    def _buscar_entidad_nombrada(self, historial: list[str]) -> str | None:
+        candidatos: list[str] = []
+
+        for pregunta_previa in reversed(historial):
+            entidad = self._entidad_nombrada(pregunta_previa)
+            if entidad is not None:
+                candidatos.append(entidad)
+
+        if not candidatos:
+            return None
+
+        normalizados = {self._normalizar_espacios(c) for c in candidatos}
+        if len(normalizados) != 1:
+            return None
+
+        return candidatos[0]
+
+    @classmethod
+    def _extraer_candidato_plural(
+        cls, anterior: str
+    ) -> tuple[Genero, str, bool] | None:
+        coincidencia = _RE_CONTEO_EXISTENCIAL.match(anterior)
+        if coincidencia is not None:
+            referente = coincidencia["ref"].strip()
+            if not cls._sintagma_plural_valido(referente):
+                return None
+            genero = cls._genero_palabra(coincidencia["q"])
+            return genero, referente, True
+
+        coincidencia_pred = _RE_CONTEO_PREDICATIVO.match(anterior)
+        if coincidencia_pred is not None:
+            nucleo = coincidencia_pred["nucleo"].strip()
+            pred = coincidencia_pred["pred"].strip()
+            if cls._sintagma_plural_valido(nucleo):
+                genero = cls._genero_palabra(coincidencia_pred["q"])
+                # Representa un subconjunto filtrado por predicado: cuenta
+                # como conjunto candidato para detección de ambigüedad, pero
+                # no es insertable directamente como sintagma nominal simple.
+                return genero, f"{nucleo} ({pred})", False
+
+        return None
+
+    @staticmethod
+    def _sintagma_plural_valido(referente: str) -> bool:
         tokens = [t.lower() for t in referente.split()]
-
         if any(t in _INTERROGATIVOS for t in tokens):
-            return None
-        if re.search(rf"\b({_PRONOMBRES})\b", referente, re.IGNORECASE):
-            return None
-        # Conjunción justo tras el primer núcleo → dos núcleos posibles.
+            return False
+        if re.search(
+            rf"\b({_DEMOSTRATIVOS_Y_PRONOMBRES})\b", referente, re.IGNORECASE
+        ):
+            return False
         if len(tokens) > 1 and tokens[1] in _CONJUNCIONES:
-            return None
-
-        return referente
+            return False
+        return True
 
     @staticmethod
     def _entidad_nombrada(anterior: str) -> str | None:
@@ -155,3 +314,5 @@ class ContextResolver:
             if coincidencia:
                 return coincidencia["ent"].strip()
         return None
+
+
