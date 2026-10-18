@@ -67,6 +67,9 @@ def test_sin_historial_devuelve_la_pregunta_original(resolver):
         "¿Cuántas capacitaciones se dictaron?",
         "¿Cuántos recursos humanos tiene cada organización?",
         "¿Y cuántos actores hay?",
+        "¿Qué proyectos tienen estas organizaciones?",
+        "¿Cuántos proyectos tienen esas fundaciones?",
+        "¿Cuáles son los ingresos de estos actores?",
     ],
 )
 def test_pregunta_autonoma_no_arrastra_entidades_del_historial(resolver, pregunta):
@@ -365,6 +368,64 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
     assert resultado.uso_contexto is True
 
 
+@pytest.mark.parametrize(
+    "historial, pregunta, esperada",
+    [
+        (
+            [
+                "¿Cuántas organizaciones hay?",
+                "¿Cuántas organizaciones reciben aportes externos?",
+            ],
+            "¿Cuántas de esas son rurales?",
+            "¿Cuántas organizaciones que reciben aportes externos son rurales?",
+        ),
+        (
+            [
+                "¿Cuántas organizaciones hay?",
+                "¿Cuántas organizaciones rurales hay?",
+            ],
+            "¿Cuántas de esas tienen personería jurídica?",
+            "¿Cuántas organizaciones rurales tienen personería jurídica?",
+        ),
+    ],
+)
+def test_referente_conserva_condicion_de_pregunta_intermedia(
+    resolver, historial, pregunta, esperada
+):
+    # Arrange + Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
+@pytest.mark.parametrize(
+    "historial, pregunta, esperada",
+    [
+        (
+            ["¿Cuántas organizaciones están activas?"],
+            "¿Cuántas de esas son rurales?",
+            "¿Cuántas organizaciones que están activas son rurales?",
+        ),
+        (
+            ["¿Cuántas organizaciones reciben aportes externos?"],
+            "¿Y cuántas realizan evaluaciones?",
+            "¿Y cuántas organizaciones que reciben aportes externos realizan evaluaciones?",
+        ),
+    ],
+)
+def test_referente_con_predicado_verbal_se_preserva_como_clausula_relativa(
+    resolver, historial, pregunta, esperada
+):
+    # Arrange + Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Ambigüedad: abstención con la pregunta original
 # ─────────────────────────────────────────────────────────────────────────────
@@ -377,9 +438,26 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ["¿Cuántas organizaciones y cuántos actores hay?"],
             "¿Cuántas de esas son rurales?",
         ),
-        # Dos entidades nombradas posibles para "el mismo"
+        # Dos referentes plurales coordinados con modificadores
+        (
+            ["¿Cuántas organizaciones sociales y fundaciones privadas hay?"],
+            "¿Cuántas de esas tienen personería jurídica?",
+        ),
+        # Dos entidades nombradas posibles para "el mismo" (incluyendo preposición "de" en ambas)
         (
             ["¿Qué diferencia hay entre Cáritas Tandil y Cruz Roja?"],
+            "¿Cuántos recursos humanos tiene el mismo?",
+        ),
+        (
+            [
+                "¿Cómo se comparan los ingresos de Cáritas Tandil y de Cruz Roja Argentina?"
+            ],
+            "¿Cuántos recursos humanos tiene el mismo?",
+        ),
+        (
+            [
+                "¿Cuál es la situación jurídica de Cáritas Tandil y Cruz Roja Argentina?"
+            ],
             "¿Cuántos recursos humanos tiene el mismo?",
         ),
         # La pregunta previa no expone un referente identificable
@@ -414,11 +492,6 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ],
             "¿Cuántos recursos humanos tiene el mismo?",
         ),
-        # Mismo núcleo, pero uno es un subconjunto del otro (modificador nominal)
-        (
-            ["¿Cuántas organizaciones hay?", "¿Cuántas organizaciones rurales hay?"],
-            "¿Cuántas de esas tienen personería jurídica?",
-        ),
         # Mismo núcleo con filtros distintos → conjuntos diferentes
         (
             [
@@ -427,9 +500,19 @@ def test_misma_entidad_repetida_en_varias_preguntas_no_es_ambigua(resolver):
             ],
             "¿Cuántas de esas tienen personería jurídica?",
         ),
-        # Mismo núcleo pero la segunda pregunta acota un subconjunto mediante predicado
+        # Mismo núcleo con predicados incompatibles → conjuntos diferentes
         (
-            ["¿Cuántas organizaciones hay?", "¿Cuántas organizaciones están activas?"],
+            [
+                "¿Cuántas organizaciones rurales hay?",
+                "¿Cuántas organizaciones realizan evaluaciones?",
+            ],
+            "¿Cuántas de esas tienen personería jurídica?",
+        ),
+        (
+            [
+                "¿Cuántas organizaciones reciben aportes externos?",
+                "¿Cuántas organizaciones realizan evaluaciones?",
+            ],
             "¿Cuántas de esas son rurales?",
         ),
     ],

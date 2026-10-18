@@ -42,8 +42,85 @@ _INTERROGATIVOS = {
     "que",
 }
 _CONJUNCIONES = {"y", "e", "o", "u"}
-_VERBOS_PREDICADO_PLURAL = (
-    r"tienen|est[áa]n|son|recibieron|participan|trabajan|cuentan|poseen|pertenecen"
+_PREPOSICIONES_SINTAGMA = {
+    "de",
+    "del",
+    "en",
+    "con",
+    "sin",
+    "por",
+    "para",
+    "sobre",
+    "entre",
+    "hacia",
+    "según",
+    "segun",
+}
+_PARTICULAS_PREVERBALES = {
+    "no",
+    "ya",
+    "también",
+    "tambien",
+    "aún",
+    "aun",
+    "todavía",
+    "todavia",
+    "se",
+    "le",
+    "les",
+    "nos",
+    "me",
+    "te",
+    "lo",
+    "la",
+    "los",
+    "las",
+}
+_VERBOS_PLURAL_CORTOS_O_IRREGULARES = {
+    "son",
+    "están",
+    "estan",
+    "han",
+    "van",
+    "dan",
+    "tienen",
+    "vienen",
+    "pueden",
+    "quieren",
+    "saben",
+    "hacen",
+    "dicen",
+    "ponen",
+    "salen",
+    "valen",
+    "caen",
+    "traen",
+    "oyen",
+    "leen",
+    "creen",
+    "poseen",
+    "proveen",
+    "fueron",
+    "dieron",
+    "vieron",
+}
+_SUFIJOS_NOMINALES_EN_N = (
+    "cion",
+    "ciones",
+    "sion",
+    "siones",
+    "xion",
+    "xiones",
+    "gion",
+    "giones",
+    "men",
+    "menes",
+    "gen",
+    "genes",
+    "ven",
+    "venes",
+    "den",
+    "denes",
 )
 
 
@@ -60,7 +137,7 @@ _PATRON_PARTITIVO_PLURAL = PatronReferenciaExplicita(
     nombre="partitivo_plural",
     tipo="plural_partitivo",
     expresion=re.compile(
-        rf"\b(?P<q>cu[áa]nt[oa]s|cu[áa]les)\s+de\s+(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b",
+        rf"\b(?P<q>cu[áa]nt[oa]s|cu[áa]les)\s+de\s+(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b(?P<sig>\s+[a-záéíóúñü]+)?",
         re.IGNORECASE,
     ),
 )
@@ -68,7 +145,7 @@ _PATRON_PRONOMBRE_PLURAL = PatronReferenciaExplicita(
     nombre="pronombre_plural",
     tipo="plural_pronominal",
     expresion=re.compile(
-        rf"\b(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b",
+        rf"\b(?P<p>{_DEMOSTRATIVOS_Y_PRONOMBRES})\b(?P<sig>\s+[a-záéíóúñü]+)?",
         re.IGNORECASE,
     ),
 )
@@ -87,25 +164,25 @@ PATRONES_REFERENCIA_EXPLICITA: tuple[PatronReferenciaExplicita, ...] = (
     _PATRON_IDENTIDAD_ENTIDAD,
 )
 
-_RE_DEPENDENCIA_IMPLICITA = re.compile(
-    rf"^(?P<prefijo>\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s))\s+(?P<verbo>{_VERBOS_PREDICADO_PLURAL})\b",
+_RE_ENCABEZADO_CUANTIFICADO = re.compile(
+    r"^(?P<prefijo>\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s))\s+(?P<resto>[^?¿¡!.,;:]+?)\W*$",
     re.IGNORECASE,
 )
-
 _RE_CONTEO_EXISTENCIAL = re.compile(
     r"^\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s)\s+(?P<ref>[^?¿¡!.,;:]+?)\s+(?:hay|existen)\W*$",
     re.IGNORECASE,
 )
-_RE_CONTEO_PREDICATIVO = re.compile(
-    rf"^\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s)\s+(?P<nucleo>[^?¿¡!.,;:]+?)\s+(?:{_VERBOS_PREDICADO_PLURAL})\s+(?P<pred>[^?¿¡!.,;:]+?)\W*$",
-    re.IGNORECASE,
-)
+_RE_ENTIDAD_ENTRECOMILLAS = re.compile(r"[\"“«](?P<ent>[^\"”»]+)[\"”»]")
 _RE_ENTIDAD_CAPITALIZADA = re.compile(
-    r"\b(?:de|del)\s+(?P<ent>[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\W*$"
+    r"(?<!^)(?<![¿¡.!?:;])\b(?P<ent>[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\b"
 )
-_RE_ENTIDAD_ENTRECOMILLAS = re.compile(
-    r"\b(?:de|del)\s+[\"“«](?P<ent>[^\"”»]+)[\"”»]\W*$"
-)
+
+
+@dataclass(frozen=True)
+class _CandidatoPlural:
+    genero: Genero
+    nucleo: str
+    expresion: str
 
 
 @dataclass(frozen=True)
@@ -133,9 +210,7 @@ class ContextResolver:
             return self._sin_cambios(pregunta)
 
         # Etapa 1: Detector de referencias explícitas
-        patrones_activos = [
-            p for p in PATRONES_REFERENCIA_EXPLICITA if p.expresion.search(pregunta)
-        ]
+        patrones_activos = self._detectar_patrones_explicitos(pregunta)
         if patrones_activos:
             return self._resolver_referencias_explicitas(
                 pregunta, historial, patrones_activos
@@ -143,6 +218,36 @@ class ContextResolver:
 
         # Etapa 2: Heurística de respaldo (solo si no hubo referencias explícitas)
         return self._resolver_dependencia_implicita(pregunta, historial)
+
+    @classmethod
+    def _detectar_patrones_explicitos(
+        cls, pregunta: str
+    ) -> list[PatronReferenciaExplicita]:
+        activos: list[PatronReferenciaExplicita] = []
+        for patron in PATRONES_REFERENCIA_EXPLICITA:
+            if patron.tipo in ("plural_partitivo", "plural_pronominal"):
+                if any(
+                    cls._es_uso_pronominal(m)
+                    for m in patron.expresion.finditer(pregunta)
+                ):
+                    activos.append(patron)
+            elif patron.expresion.search(pregunta):
+                activos.append(patron)
+        return activos
+
+    @classmethod
+    def _es_uso_pronominal(cls, coincidencia: re.Match[str]) -> bool:
+        pronombre = coincidencia["p"].lower()
+        siguiente_raw = coincidencia.groupdict().get("sig")
+        if not siguiente_raw or pronombre in ("ellas", "ellos"):
+            return True
+
+        siguiente = siguiente_raw.strip().lower()
+        if siguiente in (
+            _PARTICULAS_PREVERBALES | _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
+        ):
+            return True
+        return cls._es_verbo_conjugado_plural(siguiente)
 
     def _resolver_referencias_explicitas(
         self,
@@ -154,10 +259,15 @@ class ContextResolver:
         tipos_activos = {p.tipo for p in patrones_activos}
 
         if "plural_partitivo" in tipos_activos or "plural_pronominal" in tipos_activos:
-            pronombres = [
-                m["p"] for m in _PATRON_PRONOMBRE_PLURAL.expresion.finditer(resuelta)
+            matches_pronominales = [
+                m
+                for m in _PATRON_PRONOMBRE_PLURAL.expresion.finditer(resuelta)
+                if self._es_uso_pronominal(m)
             ]
-            generos = {self._genero_palabra(p) for p in pronombres}
+            if not matches_pronominales:
+                return self._sin_cambios(pregunta)
+
+            generos = {self._genero_palabra(m["p"]) for m in matches_pronominales}
             referentes_por_genero: dict[Genero, str] = {}
             for genero in generos:
                 ref = self._buscar_referente_plural(historial, genero)
@@ -169,6 +279,9 @@ class ContextResolver:
                 lambda m: (
                     f"{m['q']} "
                     f"{referentes_por_genero[self._genero_palabra(m['p'])]}"
+                    f"{m['sig'] or ''}"
+                    if self._es_uso_pronominal(m)
+                    else m.group(0)
                 ),
                 resuelta,
             )
@@ -176,6 +289,9 @@ class ContextResolver:
                 lambda m: (
                     f"{self._articulo(m['p'])} "
                     f"{referentes_por_genero[self._genero_palabra(m['p'])]}"
+                    f"{m['sig'] or ''}"
+                    if self._es_uso_pronominal(m)
+                    else m.group(0)
                 ),
                 resuelta,
             )
@@ -196,8 +312,12 @@ class ContextResolver:
     def _resolver_dependencia_implicita(
         self, pregunta: str, historial: list[str]
     ) -> ResultadoResolucion:
-        coincidencia = _RE_DEPENDENCIA_IMPLICITA.match(pregunta)
+        coincidencia = _RE_ENCABEZADO_CUANTIFICADO.match(pregunta)
         if coincidencia is None:
+            return self._sin_cambios(pregunta)
+
+        resto = coincidencia["resto"].strip()
+        if not self._inicia_con_predicado_verbal_plural(resto):
             return self._sin_cambios(pregunta)
 
         genero = self._genero_palabra(coincidencia["q"])
@@ -205,11 +325,9 @@ class ContextResolver:
         if referente is None:
             return self._sin_cambios(pregunta)
 
-        resuelta = _RE_DEPENDENCIA_IMPLICITA.sub(
-            lambda m: f"{m['prefijo']} {referente} {m['verbo']}",
-            pregunta,
-            count=1,
-        )
+        prefijo = coincidencia["prefijo"]
+        sufijo_puntuacion = pregunta[coincidencia.end("resto") :]
+        resuelta = f"{prefijo} {referente} {resto}{sufijo_puntuacion}"
         return ResultadoResolucion(pregunta, resuelta, True)
 
     @staticmethod
@@ -231,88 +349,132 @@ class ContextResolver:
     def _buscar_referente_plural(
         self, historial: list[str], genero_buscado: Genero
     ) -> str | None:
-        candidatos_reemplazo: list[str] = []
-        conjuntos_detectados: set[str] = set()
-
-        for pregunta_previa in reversed(historial):
-            info_conteo = self._extraer_candidato_plural(pregunta_previa)
-            if info_conteo is None:
-                continue
-
-            genero_ref, referente, es_reemplazable = info_conteo
-            if genero_ref != genero_buscado:
-                continue
-
-            conjuntos_detectados.add(self._normalizar_espacios(referente))
-            if es_reemplazable:
-                candidatos_reemplazo.append(referente)
-
-        if not candidatos_reemplazo or len(conjuntos_detectados) != 1:
+        candidatos = [
+            info
+            for pregunta_previa in historial
+            if (info := self._extraer_candidato_plural(pregunta_previa)) is not None
+            and info.genero == genero_buscado
+        ]
+        if not candidatos or len({c.nucleo for c in candidatos}) != 1:
             return None
 
-        return candidatos_reemplazo[0]
+        # Validar cadena consistente: repetición exacta o refinamiento sobre el núcleo base
+        actual = candidatos[0]
+        for siguiente in candidatos[1:]:
+            norm_actual = self._normalizar_espacios(actual.expresion)
+            norm_sig = self._normalizar_espacios(siguiente.expresion)
+            if norm_sig == norm_actual or (
+                norm_actual == actual.nucleo
+                and norm_sig.startswith(actual.nucleo + " ")
+            ):
+                actual = siguiente
+            else:
+                return None
+
+        return actual.expresion
 
     def _buscar_entidad_nombrada(self, historial: list[str]) -> str | None:
         candidatos: list[str] = []
 
         for pregunta_previa in reversed(historial):
-            entidad = self._entidad_nombrada(pregunta_previa)
-            if entidad is not None:
-                candidatos.append(entidad)
+            entidades = self._entidades_nombradas(pregunta_previa)
+            if len(entidades) > 1:
+                return None
+            if len(entidades) == 1:
+                candidatos.append(entidades[0])
 
         if not candidatos:
             return None
 
-        normalizados = {self._normalizar_espacios(c) for c in candidatos}
-        if len(normalizados) != 1:
+        if len({self._normalizar_espacios(c) for c in candidatos}) != 1:
             return None
 
         return candidatos[0]
 
     @classmethod
-    def _extraer_candidato_plural(
-        cls, anterior: str
-    ) -> tuple[Genero, str, bool] | None:
-        coincidencia = _RE_CONTEO_EXISTENCIAL.match(anterior)
-        if coincidencia is not None:
-            referente = coincidencia["ref"].strip()
+    def _extraer_candidato_plural(cls, anterior: str) -> _CandidatoPlural | None:
+        coincidencia_existencial = _RE_CONTEO_EXISTENCIAL.match(anterior)
+        if coincidencia_existencial is not None:
+            referente = coincidencia_existencial["ref"].strip()
             if not cls._sintagma_plural_valido(referente):
                 return None
-            genero = cls._genero_palabra(coincidencia["q"])
-            return genero, referente, True
+            genero = cls._genero_palabra(coincidencia_existencial["q"])
+            nucleo = referente.split()[0].lower()
+            return _CandidatoPlural(genero=genero, nucleo=nucleo, expresion=referente)
 
-        coincidencia_pred = _RE_CONTEO_PREDICATIVO.match(anterior)
-        if coincidencia_pred is not None:
-            nucleo = coincidencia_pred["nucleo"].strip()
-            pred = coincidencia_pred["pred"].strip()
-            if cls._sintagma_plural_valido(nucleo):
-                genero = cls._genero_palabra(coincidencia_pred["q"])
-                # Representa un subconjunto filtrado por predicado: cuenta
-                # como conjunto candidato para detección de ambigüedad, pero
-                # no es insertable directamente como sintagma nominal simple.
-                return genero, f"{nucleo} ({pred})", False
+        coincidencia_cuant = _RE_ENCABEZADO_CUANTIFICADO.match(anterior)
+        if coincidencia_cuant is not None:
+            resto = coincidencia_cuant["resto"].strip()
+            separacion = cls._separar_sujeto_y_predicado_plural(resto)
+            if separacion is not None:
+                sujeto, predicado = separacion
+                if cls._sintagma_plural_valido(sujeto):
+                    genero = cls._genero_palabra(coincidencia_cuant["q"])
+                    nucleo = sujeto.split()[0].lower()
+                    return _CandidatoPlural(
+                        genero=genero,
+                        nucleo=nucleo,
+                        expresion=f"{sujeto} que {predicado}",
+                    )
 
         return None
+
+    @classmethod
+    def _inicia_con_predicado_verbal_plural(cls, texto: str) -> bool:
+        tokens = texto.split()
+        idx = 0
+        while idx < len(tokens) and tokens[idx].lower() in _PARTICULAS_PREVERBALES:
+            idx += 1
+        return idx < len(tokens) and cls._es_verbo_conjugado_plural(tokens[idx])
+
+    @classmethod
+    def _separar_sujeto_y_predicado_plural(
+        cls, resto: str
+    ) -> tuple[str, str] | None:
+        tokens = resto.split()
+        for i in range(1, len(tokens)):
+            if cls._inicia_con_predicado_verbal_plural(" ".join(tokens[i:])):
+                return " ".join(tokens[:i]), " ".join(tokens[i:])
+        return None
+
+    @staticmethod
+    def _es_verbo_conjugado_plural(token: str) -> bool:
+        limpio = token.lower().strip("?¿¡!.,;:")
+        if not limpio or limpio in {"hay", "existen"}:
+            return False
+        if limpio in _VERBOS_PLURAL_CORTOS_O_IRREGULARES:
+            return True
+        if any(limpio.endswith(suf) for suf in _SUFIJOS_NOMINALES_EN_N):
+            return False
+        if limpio.endswith(("aron", "ieron", "an")) and len(limpio) >= 4:
+            return True
+        return limpio.endswith("en") and len(limpio) >= 5
 
     @staticmethod
     def _sintagma_plural_valido(referente: str) -> bool:
         tokens = [t.lower() for t in referente.split()]
-        if any(t in _INTERROGATIVOS for t in tokens):
+        if not tokens or any(t in _INTERROGATIVOS for t in tokens):
             return False
         if re.search(
             rf"\b({_DEMOSTRATIVOS_Y_PRONOMBRES})\b", referente, re.IGNORECASE
         ):
             return False
-        if len(tokens) > 1 and tokens[1] in _CONJUNCIONES:
-            return False
+        for idx, tok in enumerate(tokens):
+            if tok in _CONJUNCIONES and (idx == 1 or idx + 2 < len(tokens)):
+                return False
         return True
 
     @staticmethod
-    def _entidad_nombrada(anterior: str) -> str | None:
-        for patron in (_RE_ENTIDAD_ENTRECOMILLAS, _RE_ENTIDAD_CAPITALIZADA):
-            coincidencia = patron.search(anterior)
-            if coincidencia:
-                return coincidencia["ent"].strip()
-        return None
+    def _entidades_nombradas(anterior: str) -> list[str]:
+        entrecomilladas = [
+            m["ent"].strip() for m in _RE_ENTIDAD_ENTRECOMILLAS.finditer(anterior)
+        ]
+        if entrecomilladas:
+            return entrecomilladas
+        return [
+            m["ent"].strip() for m in _RE_ENTIDAD_CAPITALIZADA.finditer(anterior)
+        ]
+
+
 
 
