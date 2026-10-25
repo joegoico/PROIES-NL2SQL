@@ -626,3 +626,361 @@ def test_pregunta_vacia_lanza_value_error(resolver, pregunta):
     # Act + Assert
     with pytest.raises(ValueError):
         resolver.resolver(pregunta, historial)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 1. Preguntas autónomas y referencias ambiguas (casos explícitos)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_red_pregunta_autonoma_con_nucleo_no_sustituye_por_otro_antecedente(resolver):
+    historial = ["¿Cuántas organizaciones hay?", "¿Cuántos actores hay?"]
+    pregunta = "¿Y cuántos actores hay?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+def test_red_elipsis_con_multiples_referentes_femeninos_se_abstiene(resolver):
+    historial = ["¿Cuántas organizaciones hay?", "¿Cuántas capacitaciones hay?"]
+    pregunta = "¿Y cuántas están activas?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+def test_red_refinamiento_por_modificador_preserva_filtro_y_se_abstiene_si_es_ambiguo(
+    resolver,
+):
+    # Refinamiento inequívoco (conjunto general -> subconjunto rural): preserva condición
+    historial_refinado = [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones rurales hay?",
+    ]
+    pregunta = "¿Cuántas de esas tienen personería jurídica?"
+
+    res_refinado = resolver.resolver(pregunta, historial_refinado)
+
+    assert res_refinado.pregunta_resuelta == (
+        "¿Cuántas organizaciones rurales tienen personería jurídica?"
+    )
+    assert res_refinado.uso_contexto is True
+
+    # Secuencia inversa (subconjunto rural -> conjunto general): no es refinamiento, se abstiene
+    historial_ambiguo = [
+        "¿Cuántas organizaciones rurales hay?",
+        "¿Cuántas organizaciones hay?",
+    ]
+    res_ambiguo = resolver.resolver(pregunta, historial_ambiguo)
+
+    assert res_ambiguo.pregunta_resuelta == pregunta
+    assert res_ambiguo.uso_contexto is False
+
+
+def test_red_refinamiento_por_predicado_preserva_condicion_y_se_abstiene_si_es_ambiguo(
+    resolver,
+):
+    # Refinamiento inequívoco (conjunto general -> subconjunto con predicado): preserva condición
+    historial_refinado = [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones están activas?",
+    ]
+    pregunta = "¿Cuántas de esas son rurales?"
+
+    res_refinado = resolver.resolver(pregunta, historial_refinado)
+
+    assert res_refinado.pregunta_resuelta == (
+        "¿Cuántas organizaciones que están activas son rurales?"
+    )
+    assert res_refinado.uso_contexto is True
+
+    # Secuencia inversa (subconjunto con predicado -> conjunto general): ambiguo, se abstiene
+    historial_ambiguo = [
+        "¿Cuántas organizaciones están activas?",
+        "¿Cuántas organizaciones hay?",
+    ]
+    res_ambiguo = resolver.resolver(pregunta, historial_ambiguo)
+
+    assert res_ambiguo.pregunta_resuelta == pregunta
+    assert res_ambiguo.uso_contexto is False
+
+
+def test_red_elipsis_con_antecedente_incompatible_en_genero_se_abstiene(resolver):
+    historial = ["¿Cuántas organizaciones hay?"]
+    pregunta = "¿Y cuántos son externos?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+def test_red_referencia_adicional_irresoluble_impide_reescritura_parcial(resolver):
+    historial = ["¿Cuántas organizaciones hay?"]
+    pregunta = "¿Cuántas de esas tienen más recursos humanos que el mismo?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 2. Detección de estructuras verbales
+# ─────────────────────────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize(
+    "pregunta, esperada",
+    [
+        # Verbos regulares e irregulares en presente y pretérito
+        (
+            "¿Y cuántas trabajan con comedores?",
+            "¿Y cuántas organizaciones trabajan con comedores?",
+        ),
+        (
+            "¿Y cuántas tienen convenio?",
+            "¿Y cuántas organizaciones tienen convenio?",
+        ),
+        (
+            "¿Y cuántas fueron relevadas?",
+            "¿Y cuántas organizaciones fueron relevadas?",
+        ),
+        # Perífrasis verbales
+        (
+            "¿Y cuántas van a participar?",
+            "¿Y cuántas organizaciones van a participar?",
+        ),
+        (
+            "¿Y cuántas pueden recibir subsidios?",
+            "¿Y cuántas organizaciones pueden recibir subsidios?",
+        ),
+        (
+            "¿Y cuántas han presentado balances?",
+            "¿Y cuántas organizaciones han presentado balances?",
+        ),
+        # Verbos conjugados fuera de las listas/sufijos sin tilde actuales (futuro y pretérito fuerte)
+        (
+            "¿Y cuántas recibirán subsidios?",
+            "¿Y cuántas organizaciones recibirán subsidios?",
+        ),
+        (
+            "¿Y cuántas tendrán personería jurídica?",
+            "¿Y cuántas organizaciones tendrán personería jurídica?",
+        ),
+        (
+            "¿Y cuántas produjeron informes?",
+            "¿Y cuántas organizaciones produjeron informes?",
+        ),
+        (
+            "¿Y cuántas volverán a participar?",
+            "¿Y cuántas organizaciones volverán a participar?",
+        ),
+    ],
+)
+def test_red_deteccion_estructuras_verbales_en_elipsis(resolver, pregunta, esperada):
+    historial = ["¿Cuántas organizaciones hay?"]
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
+@pytest.mark.parametrize(
+    "pregunta",
+    [
+        # Palabras terminadas en -an o -en que NO funcionan como verbos tras demostrativo
+        "¿Cuántos proyectos tienen esas gran organizaciones?",
+        "¿Qué alcance tienen estos plan estratégicos?",
+        # Pregunta con sustantivo/adjetivo en -an/-en tras cuantificador que no es verbo
+        "¿Cuántos gran impacto generaron?",
+        "¿Cuántos plan anual presentaron?",
+    ],
+)
+def test_red_palabras_terminadas_en_an_o_en_no_verbales_no_disparan_falso_positivo(
+    resolver, pregunta
+):
+    historial = ["¿Cuántas organizaciones hay?", "¿Cuántos proyectos hay?"]
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+@pytest.mark.parametrize(
+    "historial, pregunta, esperada",
+    [
+        # Modificadores con palabras terminadas en -an ("San Juan", "gran", "plan") no deben
+        # confundirse con el verbo del predicado al analizar el antecedente
+        (
+            ["¿Cuántas organizaciones de San Juan hay?"],
+            "¿Cuántas de esas son rurales?",
+            "¿Cuántas organizaciones de San Juan son rurales?",
+        ),
+        (
+            ["¿Cuántas organizaciones de San Juan reciben subsidios?"],
+            "¿Cuántas de esas son rurales?",
+            "¿Cuántas organizaciones de San Juan que reciben subsidios son rurales?",
+        ),
+        (
+            ["¿Cuántas organizaciones con plan anual reciben subsidios?"],
+            "¿Cuántas de esas son rurales?",
+            "¿Cuántas organizaciones con plan anual que reciben subsidios son rurales?",
+        ),
+    ],
+)
+def test_red_modificadores_terminados_en_an_no_se_parten_como_verbos(
+    resolver, historial, pregunta, esperada
+):
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 3. Extracción de antecedentes plurales
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_red_conteo_existencial_seguido_de_restriccion_por_modificador_y_predicado(
+    resolver,
+):
+    historial = ["¿Cuántas organizaciones hay?"]
+
+    res_modificador = resolver.resolver("¿Cuántas de esas son rurales?", historial)
+    res_predicado = resolver.resolver(
+        "¿Cuántas de esas tienen personería jurídica?", historial
+    )
+
+    assert res_modificador.pregunta_resuelta == "¿Cuántas organizaciones son rurales?"
+    assert res_modificador.uso_contexto is True
+    assert (
+        res_predicado.pregunta_resuelta
+        == "¿Cuántas organizaciones tienen personería jurídica?"
+    )
+    assert res_predicado.uso_contexto is True
+
+
+def test_red_conteo_con_predicado_distingue_clausula_autorizada_de_no_autorizada(
+    resolver,
+):
+    pregunta = "¿Cuántas de esas son rurales?"
+
+    # Autorizado: sujeto nominal único y predicado verbal explícito -> cláusula relativa
+    res_autorizado = resolver.resolver(
+        pregunta, ["¿Cuántas organizaciones están activas?"]
+    )
+    assert res_autorizado.pregunta_resuelta == (
+        "¿Cuántas organizaciones que están activas son rurales?"
+    )
+    assert res_autorizado.uso_contexto is True
+
+    # No autorizado: pregunta previa con predicado pero sin sujeto nominal explícito
+    res_sin_sujeto = resolver.resolver(pregunta, ["¿Cuántas están activas?"])
+    assert res_sin_sujeto.pregunta_resuelta == pregunta
+    assert res_sin_sujeto.uso_contexto is False
+
+    # No autorizado: pregunta previa con núcleos coordinados en el sujeto del predicado
+    res_coordinado = resolver.resolver(
+        pregunta, ["¿Cuántas organizaciones y asociaciones están activas?"]
+    )
+    assert res_coordinado.pregunta_resuelta == pregunta
+    assert res_coordinado.uso_contexto is False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 4. Entidades nombradas
+# ─────────────────────────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize(
+    "historial, esperada",
+    [
+        # Entidad entrecomillada de varias palabras
+        (
+            ['¿Cuál es la situación jurídica de "Cáritas Tandil"?'],
+            "¿Cuántos recursos humanos tiene Cáritas Tandil?",
+        ),
+        # Entidad entrecomillada de una sola palabra
+        (
+            ['¿Cuál es la situación jurídica de "Cáritas"?'],
+            "¿Cuántos recursos humanos tiene Cáritas?",
+        ),
+        # Nombre propio de dos o más palabras sin comillas
+        (
+            ["¿Cuál es la situación jurídica de Cruz Roja Argentina?"],
+            "¿Cuántos recursos humanos tiene Cruz Roja Argentina?",
+        ),
+    ],
+)
+def test_red_entidades_nombradas_validas_se_resuelven(resolver, historial, esperada):
+    pregunta = "¿Cuántos recursos humanos tiene el mismo?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == esperada
+    assert resultado.uso_contexto is True
+
+
+@pytest.mark.parametrize(
+    "historial",
+    [
+        # Entidad de una sola palabra sin comillas (no reconocible sin NER)
+        ["¿Cuál es la situación jurídica de Cáritas?"],
+        # Varias entidades entrecomilladas en la misma pregunta
+        ['¿Qué convenio firmaron "Cáritas Tandil" y "Cruz Roja Argentina"?'],
+        # Varias entidades capitalizadas en la misma pregunta
+        ["¿Qué convenio firmaron Cáritas Tandil y Cruz Roja Argentina?"],
+        # Una entidad entrecomillada y otra no entrecomillada en la misma pregunta
+        ['¿Qué convenio firmaron "Cáritas Tandil" y Cruz Roja Argentina?'],
+        # Una entidad de una palabra y otra de dos palabras en una comparación
+        ["¿Qué diferencia hay entre Cáritas y Cruz Roja Argentina?"],
+    ],
+)
+def test_red_entidades_nombradas_ambiguas_o_insuficientes_se_abstienen(
+    resolver, historial
+):
+    pregunta = "¿Cuántos recursos humanos tiene el mismo?"
+
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 5. Contrato de abstención integral
+# ─────────────────────────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize(
+    "historial, pregunta",
+    [
+        # Dos referencias pronominales de distinto género cuando solo uno existe en el historial
+        (
+            ["¿Cuántas organizaciones hay?"],
+            "¿Cuántas de esas articulan con esos?",
+        ),
+        # Referencia pronominal plural válida pero referencia de entidad ambigua
+        (
+            [
+                "¿Cuántas organizaciones hay?",
+                '¿Qué relación hay entre "Cáritas Tandil" y Cruz Roja Argentina?',
+            ],
+            "¿Cuántas de esas articulan con el mismo?",
+        ),
+    ],
+)
+def test_red_contrato_de_abstencion_sin_sustitucion_parcial_ni_invencion(
+    resolver, historial, pregunta
+):
+    resultado = resolver.resolver(pregunta, historial)
+
+    assert resultado == ResultadoResolucion(
+        pregunta_original=pregunta,
+        pregunta_resuelta=pregunta,
+        uso_contexto=False,
+    )
+

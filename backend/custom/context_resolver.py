@@ -176,6 +176,12 @@ _RE_ENTIDAD_ENTRECOMILLAS = re.compile(r"[\"“«](?P<ent>[^\"”»]+)[\"”»]"
 _RE_ENTIDAD_CAPITALIZADA = re.compile(
     r"(?<!^)(?<![¿¡.!?:;])\b(?P<ent>[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\b"
 )
+_RE_COORDINACION_ENTIDAD_SIMPLE_IZQ = re.compile(
+    r"(?<!^)(?<![¿¡.!?:;])\b(?P<simple>[A-ZÁÉÍÓÚÑ]\w+)\s+(?:y|e|o|u)\s+(?:(?:de|del)\s+)?(?:[\"“«][^\"”»]+[\"”»]|[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\b"
+)
+_RE_COORDINACION_ENTIDAD_SIMPLE_DER = re.compile(
+    r"(?:[\"“«][^\"”»]+[\"”»]|(?<!^)(?<![¿¡.!?:;])\b[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\s+(?:y|e|o|u)\s+(?:(?:de|del)\s+)?(?P<simple>[A-ZÁÉÍÓÚÑ]\w+)\b"
+)
 
 
 @dataclass(frozen=True)
@@ -433,22 +439,36 @@ class ContextResolver:
     ) -> tuple[str, str] | None:
         tokens = resto.split()
         for i in range(1, len(tokens)):
+            previo = tokens[i - 1].lower().strip("?¿¡!.,;:")
+            if previo in (_PREPOSICIONES_SINTAGMA | _CONJUNCIONES):
+                continue
             if cls._inicia_con_predicado_verbal_plural(" ".join(tokens[i:])):
                 return " ".join(tokens[:i]), " ".join(tokens[i:])
         return None
 
     @staticmethod
     def _es_verbo_conjugado_plural(token: str) -> bool:
-        limpio = token.lower().strip("?¿¡!.,;:")
-        if not limpio or limpio in {"hay", "existen"}:
+        sin_puntuacion = token.strip("?¿¡!.,;:")
+        if not sin_puntuacion or sin_puntuacion[0].isupper():
+            return False
+
+        limpio = sin_puntuacion.lower()
+        if limpio in {"hay", "existen"}:
             return False
         if limpio in _VERBOS_PLURAL_CORTOS_O_IRREGULARES:
             return True
         if any(limpio.endswith(suf) for suf in _SUFIJOS_NOMINALES_EN_N):
             return False
-        if limpio.endswith(("aron", "ieron", "an")) and len(limpio) >= 4:
+        if limpio.endswith(("aron", "ieron", "eron")) and len(limpio) >= 5:
             return True
-        return limpio.endswith("en") and len(limpio) >= 5
+        if limpio.endswith("án") and len(limpio) >= 4:
+            return True
+        if (limpio.endswith("an") and len(limpio) >= 4) or (
+            limpio.endswith("en") and len(limpio) >= 5
+        ):
+            raiz = limpio[:-2]
+            return bool(re.search(r"[aeoáéíóú]|[iu][^aeiouáéíóú]", raiz))
+        return False
 
     @staticmethod
     def _sintagma_plural_valido(referente: str) -> bool:
@@ -466,14 +486,22 @@ class ContextResolver:
 
     @staticmethod
     def _entidades_nombradas(anterior: str) -> list[str]:
-        entrecomilladas = [
+        entidades: list[str] = [
             m["ent"].strip() for m in _RE_ENTIDAD_ENTRECOMILLAS.finditer(anterior)
         ]
-        if entrecomilladas:
-            return entrecomilladas
-        return [
-            m["ent"].strip() for m in _RE_ENTIDAD_CAPITALIZADA.finditer(anterior)
-        ]
+        sin_comillas = _RE_ENTIDAD_ENTRECOMILLAS.sub(" ", anterior)
+        entidades.extend(
+            m["ent"].strip() for m in _RE_ENTIDAD_CAPITALIZADA.finditer(sin_comillas)
+        )
+        for patron_coord in (
+            _RE_COORDINACION_ENTIDAD_SIMPLE_IZQ,
+            _RE_COORDINACION_ENTIDAD_SIMPLE_DER,
+        ):
+            for coincidencia in patron_coord.finditer(anterior):
+                simple = coincidencia["simple"].strip()
+                if simple not in entidades:
+                    entidades.append(simple)
+        return entidades
 
 
 
