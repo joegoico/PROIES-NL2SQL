@@ -104,6 +104,11 @@ _VERBOS_PLURAL_CORTOS_O_IRREGULARES = {
     "dieron",
     "vieron",
 }
+_LIMITE_PREVIO_PREDICADO = _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
+_CONECTORES_TRAS_PRONOMBRE = (
+    _PARTICULAS_PREVERBALES | _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
+)
+_SIGNOS_PUNTUACION = "?¿¡!.,;:"
 _SUFIJOS_NOMINALES_EN_N = (
     "cion",
     "ciones",
@@ -172,15 +177,27 @@ _RE_CONTEO_EXISTENCIAL = re.compile(
     r"^\W*(?:y\s+)?(?P<q>cu[áa]nt[oa]s)\s+(?P<ref>[^?¿¡!.,;:]+?)\s+(?:hay|existen)\W*$",
     re.IGNORECASE,
 )
+_RE_DEMOSTRATIVO_O_PRONOMBRE = re.compile(
+    rf"\b({_DEMOSTRATIVOS_Y_PRONOMBRES})\b",
+    re.IGNORECASE,
+)
+_RE_VOCAL_SILABICA_RAIZ = re.compile(r"[aeoáéíóú]|[iu][^aeiouáéíóú]")
+
+_PAT_LIMITE_INTERIOR = r"(?<!^)(?<![¿¡.!?:;])\b"
+_PAT_NOMBRE_SIMPLE = r"[A-ZÁÉÍÓÚÑ]\w+"
+_PAT_NOMBRE_COMPUESTO = rf"{_PAT_NOMBRE_SIMPLE}(?:\s+{_PAT_NOMBRE_SIMPLE})+"
+_PAT_ENTRECOMILLADO = r"[\"“«][^\"”»]+[\"”»]"
+_PAT_CONECTOR_COORD = r"\s+(?:y|e|o|u)\s+(?:(?:de|del)\s+)?"
+
 _RE_ENTIDAD_ENTRECOMILLAS = re.compile(r"[\"“«](?P<ent>[^\"”»]+)[\"”»]")
 _RE_ENTIDAD_CAPITALIZADA = re.compile(
-    r"(?<!^)(?<![¿¡.!?:;])\b(?P<ent>[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\b"
+    rf"{_PAT_LIMITE_INTERIOR}(?P<ent>{_PAT_NOMBRE_COMPUESTO})\b"
 )
 _RE_COORDINACION_ENTIDAD_SIMPLE_IZQ = re.compile(
-    r"(?<!^)(?<![¿¡.!?:;])\b(?P<simple>[A-ZÁÉÍÓÚÑ]\w+)\s+(?:y|e|o|u)\s+(?:(?:de|del)\s+)?(?:[\"“«][^\"”»]+[\"”»]|[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\b"
+    rf"{_PAT_LIMITE_INTERIOR}(?P<simple>{_PAT_NOMBRE_SIMPLE}){_PAT_CONECTOR_COORD}(?:{_PAT_ENTRECOMILLADO}|{_PAT_NOMBRE_COMPUESTO})\b"
 )
 _RE_COORDINACION_ENTIDAD_SIMPLE_DER = re.compile(
-    r"(?:[\"“«][^\"”»]+[\"”»]|(?<!^)(?<![¿¡.!?:;])\b[A-ZÁÉÍÓÚÑ]\w+(?:\s+[A-ZÁÉÍÓÚÑ]\w+)+)\s+(?:y|e|o|u)\s+(?:(?:de|del)\s+)?(?P<simple>[A-ZÁÉÍÓÚÑ]\w+)\b"
+    rf"(?:{_PAT_ENTRECOMILLADO}|{_PAT_LIMITE_INTERIOR}{_PAT_NOMBRE_COMPUESTO}){_PAT_CONECTOR_COORD}(?P<simple>{_PAT_NOMBRE_SIMPLE})\b"
 )
 
 
@@ -248,10 +265,8 @@ class ContextResolver:
         if not siguiente_raw or pronombre in ("ellas", "ellos"):
             return True
 
-        siguiente = siguiente_raw.strip().lower()
-        if siguiente in (
-            _PARTICULAS_PREVERBALES | _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
-        ):
+        siguiente = siguiente_raw.strip()
+        if siguiente.lower() in _CONECTORES_TRAS_PRONOMBRE:
             return True
         return cls._es_verbo_conjugado_plural(siguiente)
 
@@ -401,12 +416,10 @@ class ContextResolver:
     def _extraer_candidato_plural(cls, anterior: str) -> _CandidatoPlural | None:
         coincidencia_existencial = _RE_CONTEO_EXISTENCIAL.match(anterior)
         if coincidencia_existencial is not None:
-            referente = coincidencia_existencial["ref"].strip()
-            if not cls._sintagma_plural_valido(referente):
-                return None
-            genero = cls._genero_palabra(coincidencia_existencial["q"])
-            nucleo = referente.split()[0].lower()
-            return _CandidatoPlural(genero=genero, nucleo=nucleo, expresion=referente)
+            return cls._construir_candidato_plural(
+                interrogativo=coincidencia_existencial["q"],
+                sujeto=coincidencia_existencial["ref"].strip(),
+            )
 
         coincidencia_cuant = _RE_ENCABEZADO_CUANTIFICADO.match(anterior)
         if coincidencia_cuant is not None:
@@ -414,21 +427,37 @@ class ContextResolver:
             separacion = cls._separar_sujeto_y_predicado_plural(resto)
             if separacion is not None:
                 sujeto, predicado = separacion
-                if cls._sintagma_plural_valido(sujeto):
-                    genero = cls._genero_palabra(coincidencia_cuant["q"])
-                    nucleo = sujeto.split()[0].lower()
-                    return _CandidatoPlural(
-                        genero=genero,
-                        nucleo=nucleo,
-                        expresion=f"{sujeto} que {predicado}",
-                    )
+                return cls._construir_candidato_plural(
+                    interrogativo=coincidencia_cuant["q"],
+                    sujeto=sujeto,
+                    predicado=predicado,
+                )
 
         return None
 
     @classmethod
+    def _construir_candidato_plural(
+        cls,
+        interrogativo: str,
+        sujeto: str,
+        predicado: str | None = None,
+    ) -> _CandidatoPlural | None:
+        if not cls._sintagma_plural_valido(sujeto):
+            return None
+        genero = cls._genero_palabra(interrogativo)
+        nucleo = sujeto.split()[0].lower()
+        expresion = sujeto if predicado is None else f"{sujeto} que {predicado}"
+        return _CandidatoPlural(genero=genero, nucleo=nucleo, expresion=expresion)
+
+    @classmethod
     def _inicia_con_predicado_verbal_plural(cls, texto: str) -> bool:
-        tokens = texto.split()
-        idx = 0
+        return cls._tokens_inician_con_predicado_verbal(texto.split())
+
+    @classmethod
+    def _tokens_inician_con_predicado_verbal(
+        cls, tokens: list[str], inicio: int = 0
+    ) -> bool:
+        idx = inicio
         while idx < len(tokens) and tokens[idx].lower() in _PARTICULAS_PREVERBALES:
             idx += 1
         return idx < len(tokens) and cls._es_verbo_conjugado_plural(tokens[idx])
@@ -439,16 +468,16 @@ class ContextResolver:
     ) -> tuple[str, str] | None:
         tokens = resto.split()
         for i in range(1, len(tokens)):
-            previo = tokens[i - 1].lower().strip("?¿¡!.,;:")
-            if previo in (_PREPOSICIONES_SINTAGMA | _CONJUNCIONES):
+            previo = tokens[i - 1].lower().strip(_SIGNOS_PUNTUACION)
+            if previo in _LIMITE_PREVIO_PREDICADO:
                 continue
-            if cls._inicia_con_predicado_verbal_plural(" ".join(tokens[i:])):
+            if cls._tokens_inician_con_predicado_verbal(tokens, inicio=i):
                 return " ".join(tokens[:i]), " ".join(tokens[i:])
         return None
 
     @staticmethod
     def _es_verbo_conjugado_plural(token: str) -> bool:
-        sin_puntuacion = token.strip("?¿¡!.,;:")
+        sin_puntuacion = token.strip(_SIGNOS_PUNTUACION)
         if not sin_puntuacion or sin_puntuacion[0].isupper():
             return False
 
@@ -467,7 +496,7 @@ class ContextResolver:
             limpio.endswith("en") and len(limpio) >= 5
         ):
             raiz = limpio[:-2]
-            return bool(re.search(r"[aeoáéíóú]|[iu][^aeiouáéíóú]", raiz))
+            return _RE_VOCAL_SILABICA_RAIZ.search(raiz) is not None
         return False
 
     @staticmethod
@@ -475,9 +504,7 @@ class ContextResolver:
         tokens = [t.lower() for t in referente.split()]
         if not tokens or any(t in _INTERROGATIVOS for t in tokens):
             return False
-        if re.search(
-            rf"\b({_DEMOSTRATIVOS_Y_PRONOMBRES})\b", referente, re.IGNORECASE
-        ):
+        if _RE_DEMOSTRATIVO_O_PRONOMBRE.search(referente):
             return False
         for idx, tok in enumerate(tokens):
             if tok in _CONJUNCIONES and (idx == 1 or idx + 2 < len(tokens)):

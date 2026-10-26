@@ -1,0 +1,1133 @@
+{
+  "dataset_name": "ContextResolver Evaluation Set",
+  "version": "1.0",
+  "language": "es-AR",
+  "total_cases": 80,
+  "split_counts": {
+    "holdout": 20,
+    "development": 60
+  },
+  "category_counts": {
+    "referencias_plurales_simples": 12,
+    "refinamiento_y_conservacion_de_filtros": 14,
+    "cambios_de_tema": 9,
+    "entidades_nombradas": 11,
+    "ambiguedad_y_abstencion": 11,
+    "referencias_multiples": 9,
+    "sintagmas_preposicionales_y_estructura": 7,
+    "ambiguedad_morfologica": 7
+  },
+  "notes": [
+    "Las etiquetas son referencias de evaluación definidas independientemente de la salida del resolver.",
+    "Revisar las etiquetas contra el contrato y la API real antes de tomar métricas como definitivas.",
+    "Mantener holdout separado de cualquier ajuste de heurísticas."
+  ],
+  "cases": [
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen personería jurídica?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones rurales tienen personería jurídica?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales"
+      ],
+      "justificacion": "El partitivo refiere al conjunto rural.",
+      "id": "CR-001",
+      "split": "holdout"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Esas reciben donaciones?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones reciben donaciones?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Antecedente único femenino plural.",
+      "id": "CR-002",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántos proyectos hay?"
+      ],
+      "pregunta_actual": "¿Esos están activos?",
+      "pregunta_resuelta_esperada": "¿Los proyectos están activos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Antecedente único masculino plural.",
+      "id": "CR-003",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas asociaciones civiles existen?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas están registradas?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones civiles están registradas?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Pronombre concordante con asociaciones.",
+      "id": "CR-004",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántos voluntarios hay?"
+      ],
+      "pregunta_actual": "¿Ellos reciben subsidios?",
+      "pregunta_resuelta_esperada": "¿Los voluntarios reciben subsidios?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Ellos retoma voluntarios.",
+      "id": "CR-005",
+      "split": "holdout"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas organizaciones sociales hay?"
+      ],
+      "pregunta_actual": "¿Cuáles de estas tienen donaciones?",
+      "pregunta_resuelta_esperada": "¿Cuáles organizaciones sociales tienen donaciones?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Referencia partitiva femenina.",
+      "id": "CR-006",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas asociaciones hay?"
+      ],
+      "pregunta_actual": "¿Estas participan en proyectos?",
+      "pregunta_resuelta_esperada": "¿Las asociaciones participan en proyectos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Demostrativo femenino plural.",
+      "id": "CR-007",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántos voluntarios hay?"
+      ],
+      "pregunta_actual": "¿Cuántos de esos están activos?",
+      "pregunta_resuelta_esperada": "¿Cuántos voluntarios están activos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Partitivo masculino plural.",
+      "id": "CR-008",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas organizaciones educativas hay?"
+      ],
+      "pregunta_actual": "¿Ellas trabajan en educación?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones educativas trabajan en educación?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Antecedente femenino plural único.",
+      "id": "CR-009",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántos programas sociales existen?"
+      ],
+      "pregunta_actual": "¿Cuáles de esos tienen proyectos?",
+      "pregunta_resuelta_esperada": "¿Cuáles programas sociales tienen proyectos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Partitivo referido a programas.",
+      "id": "CR-010",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen personería jurídica?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones rurales tienen personería jurídica?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales"
+      ],
+      "justificacion": "General seguido de refinamiento rural.",
+      "id": "CR-011",
+      "split": "holdout"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones están activas?"
+      ],
+      "pregunta_actual": "¿Esas reciben donaciones?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones que están activas reciben donaciones?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "activas"
+      ],
+      "justificacion": "Se conserva la condición activa del antecedente más reciente.",
+      "id": "CR-012",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas asociaciones civiles hay?",
+        "¿Cuántas asociaciones civiles registradas hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen voluntarios?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones civiles registradas tienen voluntarios?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "registradas"
+      ],
+      "justificacion": "Se conserva el refinamiento registradas.",
+      "id": "CR-013",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones rurales están activas?"
+      ],
+      "pregunta_actual": "¿Esas tienen proyectos vigentes?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones rurales que están activas tienen proyectos vigentes?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales",
+        "activas"
+      ],
+      "justificacion": "Se conservan ambas condiciones.",
+      "id": "CR-014",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas entidades aportantes hay?",
+        "¿Cuántas entidades aportantes privadas hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas reciben aportes?",
+      "pregunta_resuelta_esperada": "¿Cuántas entidades aportantes privadas reciben aportes?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "privadas"
+      ],
+      "justificacion": "Se conserva el filtro privadas.",
+      "id": "CR-015",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántos proyectos hay?",
+        "¿Cuántos proyectos financiados hay?"
+      ],
+      "pregunta_actual": "¿Esos están vigentes?",
+      "pregunta_resuelta_esperada": "¿Los proyectos financiados están vigentes?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "financiados"
+      ],
+      "justificacion": "El antecedente específico refina el general.",
+      "id": "CR-016",
+      "split": "holdout"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?",
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas están registradas?",
+      "pregunta_resuelta_esperada": "¿Cuántas de esas están registradas?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "El historial va de subconjunto a conjunto general; no se elige arbitrariamente.",
+      "id": "CR-017",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones activas hay?",
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "¿Esas tienen personería jurídica?",
+      "pregunta_resuelta_esperada": "¿Esas tienen personería jurídica?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Dos subconjuntos distintos generan ambigüedad.",
+      "id": "CR-018",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántos proyectos hay?",
+        "¿Cuántos programas hay?"
+      ],
+      "pregunta_actual": "¿Cuántos de esos tienen presupuesto?",
+      "pregunta_resuelta_esperada": "¿Cuántos de esos tienen presupuesto?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Los antecedentes tienen núcleos diferentes.",
+      "id": "CR-019",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas asociaciones hay?",
+        "¿Cuántas asociaciones registradas hay?",
+        "¿Cuántas asociaciones registradas hay?"
+      ],
+      "pregunta_actual": "¿Ellas tienen convenio?",
+      "pregunta_resuelta_esperada": "¿Las asociaciones registradas tienen convenio?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "registradas"
+      ],
+      "justificacion": "El refinamiento se repite consistentemente.",
+      "id": "CR-020",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones activas hay?",
+        "¿Cuántas organizaciones activas hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas reciben fondos públicos?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones activas reciben fondos públicos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "activas"
+      ],
+      "justificacion": "El refinamiento activo se repite.",
+      "id": "CR-021",
+      "split": "holdout"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántos proyectos sociales hay?",
+        "¿Cuántos proyectos sociales con financiamiento hay?"
+      ],
+      "pregunta_actual": "¿Esos tienen responsables asignados?",
+      "pregunta_resuelta_esperada": "¿Los proyectos sociales con financiamiento tienen responsables asignados?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "con financiamiento"
+      ],
+      "justificacion": "Se conserva el complemento restrictivo.",
+      "id": "CR-022",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántos actores hay?",
+      "pregunta_resuelta_esperada": "¿Cuántos actores hay?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La pregunta introduce explícitamente otro núcleo nominal y no contiene una referencia contextual.",
+      "id": "CR-023",
+      "split": "holdout"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "Ahora quiero consultar los gastos institucionales.",
+      "pregunta_resuelta_esperada": "Ahora quiero consultar los gastos institucionales.",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Pregunta independiente sin referencia.",
+      "id": "CR-024",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas asociaciones civiles hay?"
+      ],
+      "pregunta_actual": "¿Qué normativa regula las donaciones?",
+      "pregunta_resuelta_esperada": "¿Qué normativa regula las donaciones?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Consulta autónoma.",
+      "id": "CR-025",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "Pasemos a otro asunto: ¿cuántos municipios participan?",
+      "pregunta_resuelta_esperada": "Pasemos a otro asunto: ¿cuántos municipios participan?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Cambio explícito de asunto.",
+      "id": "CR-026",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántos proyectos hay?"
+      ],
+      "pregunta_actual": "¿Cuál es la fecha del próximo evento?",
+      "pregunta_resuelta_esperada": "¿Cuál es la fecha del próximo evento?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "No contiene dependencia anafórica.",
+      "id": "CR-027",
+      "split": "holdout"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "Dejando eso de lado, ¿cuánto se gastó en administración?",
+      "pregunta_resuelta_esperada": "Dejando eso de lado, ¿cuánto se gastó en administración?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Declara que deja el tema anterior.",
+      "id": "CR-028",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Qué provincias tienen más población?",
+      "pregunta_resuelta_esperada": "¿Qué provincias tienen más población?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Consulta independiente.",
+      "id": "CR-029",
+      "split": "development"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "Quiero saber cómo se crea una asociación civil.",
+      "pregunta_resuelta_esperada": "Quiero saber cómo se crea una asociación civil.",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Pregunta informativa sin referencia contextual.",
+      "id": "CR-030",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Cuál es la situación de \"Cáritas Argentina\"?"
+      ],
+      "pregunta_actual": "¿Qué convenio firmó la misma?",
+      "pregunta_resuelta_esperada": "¿Qué convenio firmó Cáritas Argentina?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Entidad entrecomillada única.",
+      "id": "CR-031",
+      "split": "holdout"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Cuándo se fundó \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Cuándo se creó el mismo?",
+      "pregunta_resuelta_esperada": "¿Cuándo se creó Fundación Vida?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "El mismo retoma entidad única.",
+      "id": "CR-032",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué proyectos gestiona \"Manos Abiertas\"?"
+      ],
+      "pregunta_actual": "¿La misma recibió donaciones?",
+      "pregunta_resuelta_esperada": "¿Manos Abiertas recibió donaciones?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "La misma se sustituye por entidad identificada.",
+      "id": "CR-033",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué sabemos de \"Banco de Alimentos\"?"
+      ],
+      "pregunta_actual": "¿Qué presupuesto tiene el mismo?",
+      "pregunta_resuelta_esperada": "¿Qué presupuesto tiene Banco de Alimentos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Entidad compuesta única.",
+      "id": "CR-034",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué actividades realiza \"Fundación Horizonte\"?"
+      ],
+      "pregunta_actual": "¿La misma tiene voluntarios?",
+      "pregunta_resuelta_esperada": "¿Fundación Horizonte tiene voluntarios?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Mención entrecomillada única.",
+      "id": "CR-035",
+      "split": "holdout"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué información hay sobre \"Cooperativa La Esperanza\"?"
+      ],
+      "pregunta_actual": "¿Qué proyectos financia el mismo?",
+      "pregunta_resuelta_esperada": "¿Qué proyectos financia Cooperativa La Esperanza?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Referencia de identidad inequívoca.",
+      "id": "CR-036",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Cuál es la situación de \"Cáritas Argentina\"?",
+        "¿Qué proyectos gestiona \"Cáritas Argentina\"?"
+      ],
+      "pregunta_actual": "¿Qué convenio firmó la misma?",
+      "pregunta_resuelta_esperada": "¿Qué convenio firmó Cáritas Argentina?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Todas las menciones apuntan a la misma entidad.",
+      "id": "CR-037",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué sabemos de \"Fundación Vida\"?",
+        "¿Qué proyectos desarrolla \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿La misma tiene sede en Tandil?",
+      "pregunta_resuelta_esperada": "¿Fundación Vida tiene sede en Tandil?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Antecedentes consistentes.",
+      "id": "CR-038",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué información hay sobre \"Cáritas Argentina\"?",
+        "¿Qué información hay sobre \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Qué aportes recibió el mismo?",
+      "pregunta_resuelta_esperada": "¿Qué aportes recibió el mismo?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Dos entidades distintas impiden una identidad única.",
+      "id": "CR-039",
+      "split": "holdout"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué sabemos de \"Cáritas Argentina\" y Fundación Vida?"
+      ],
+      "pregunta_actual": "¿La misma tiene personería jurídica?",
+      "pregunta_resuelta_esperada": "¿La misma tiene personería jurídica?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La pregunta previa menciona entidades coordinadas.",
+      "id": "CR-040",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas asociaciones civiles hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen donaciones?",
+      "pregunta_resuelta_esperada": "¿Cuántas de esas tienen donaciones?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Antecedentes de núcleos diferentes.",
+      "id": "CR-041",
+      "split": "holdout"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántos proyectos hay?",
+        "¿Cuántos voluntarios hay?"
+      ],
+      "pregunta_actual": "¿Esos están activos?",
+      "pregunta_resuelta_esperada": "¿Esos están activos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "No existe referente único.",
+      "id": "CR-042",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas entidades aportantes hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas están registradas?",
+      "pregunta_resuelta_esperada": "¿Cuántas de ellas están registradas?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Dos clases de antecedente posibles.",
+      "id": "CR-043",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Qué sabemos de \"Fundación Vida\"?",
+        "¿Qué sabemos de \"Cáritas Argentina\"?"
+      ],
+      "pregunta_actual": "¿El mismo está vigente?",
+      "pregunta_resuelta_esperada": "¿El mismo está vigente?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Dos entidades distintas en el historial.",
+      "id": "CR-044",
+      "split": "holdout"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [],
+      "pregunta_actual": "¿Cuáles de esas tienen proyectos?",
+      "pregunta_resuelta_esperada": "¿Cuáles de esas tienen proyectos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "No hay historial para resolver la referencia.",
+      "id": "CR-045",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántos proyectos hay?"
+      ],
+      "pregunta_actual": "¿Ellas tienen donaciones?",
+      "pregunta_resuelta_esperada": "¿Ellas tienen donaciones?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Discordancia de género con el antecedente.",
+      "id": "CR-046",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántos de esas están activos?",
+      "pregunta_resuelta_esperada": "¿Cuántos de esas están activos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Discordancia de género en el partitivo.",
+      "id": "CR-047",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [],
+      "pregunta_actual": "¿La misma recibió aportes?",
+      "pregunta_resuelta_esperada": "¿La misma recibió aportes?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "No hay entidad previa.",
+      "id": "CR-048",
+      "split": "holdout"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántos proyectos hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esos tienen responsables?",
+      "pregunta_resuelta_esperada": "¿Cuántas de esos tienen responsables?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Discordancia de género en la referencia.",
+      "id": "CR-049",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas asociaciones civiles hay?"
+      ],
+      "pregunta_actual": "¿Esas tienen presupuesto?",
+      "pregunta_resuelta_esperada": "¿Esas tienen presupuesto?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "El historial no permite elegir entre dos referentes.",
+      "id": "CR-050",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?",
+        "¿Qué sabemos de \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen donaciones y el mismo recibe subsidios?",
+      "pregunta_resuelta_esperada": "¿Cuántas de esas tienen donaciones y el mismo recibe subsidios?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La referencia plural y la entidad no pueden resolverse ambas de forma segura.",
+      "id": "CR-051",
+      "split": "holdout"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Qué sabemos de \"Cáritas Argentina\"?"
+      ],
+      "pregunta_actual": "¿Esas y el mismo tienen convenios?",
+      "pregunta_resuelta_esperada": "¿Esas y el mismo tienen convenios?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Referencias a antecedentes distintos; evitar resolución parcial.",
+      "id": "CR-052",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas asociaciones hay?",
+        "¿Qué proyectos gestiona \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas están activas y la misma recibe fondos?",
+      "pregunta_resuelta_esperada": "¿Cuántas de ellas están activas y la misma recibe fondos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La referencia plural y la identidad no se corresponden de forma inequívoca.",
+      "id": "CR-053",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "¿Esas tienen proyectos y donaciones?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones rurales tienen proyectos y donaciones?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales"
+      ],
+      "justificacion": "Una referencia plural única gobierna ambos predicados.",
+      "id": "CR-054",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas asociaciones civiles registradas hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen voluntarios y personería jurídica?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones civiles registradas tienen voluntarios y personería jurídica?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "registradas"
+      ],
+      "justificacion": "Un referente resuelto y dos predicados.",
+      "id": "CR-055",
+      "split": "holdout"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Qué sabemos de \"Banco de Alimentos\"?"
+      ],
+      "pregunta_actual": "¿El mismo tiene proyectos y presupuesto?",
+      "pregunta_resuelta_esperada": "¿Banco de Alimentos tiene proyectos y presupuesto?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "Una referencia de identidad única.",
+      "id": "CR-056",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Esas y esas otras tienen donaciones?",
+      "pregunta_resuelta_esperada": "¿Esas y esas otras tienen donaciones?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Una de las referencias no tiene antecedente seguro.",
+      "id": "CR-057",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas asociaciones civiles hay?",
+        "¿Qué sabemos de \"Fundación Horizonte\"?",
+        "¿Qué sabemos de \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas tienen fondos y el mismo está vigente?",
+      "pregunta_resuelta_esperada": "¿Cuántas de ellas tienen fondos y el mismo está vigente?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Identidad ambigua; no debe haber sustitución parcial.",
+      "id": "CR-058",
+      "split": "development"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones de San Juan hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas reciben aportes?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones de San Juan reciben aportes?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "de San Juan"
+      ],
+      "justificacion": "El complemento preposicional integra el sujeto.",
+      "id": "CR-059",
+      "split": "development"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones con plan anual hay?"
+      ],
+      "pregunta_actual": "¿Esas reciben fondos?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones con plan anual reciben fondos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "con plan anual"
+      ],
+      "justificacion": "Se preserva el complemento nominal.",
+      "id": "CR-060",
+      "split": "development"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas asociaciones para la inclusión hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen convenios?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones para la inclusión tienen convenios?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "para la inclusión"
+      ],
+      "justificacion": "Se conserva el complemento restrictivo.",
+      "id": "CR-061",
+      "split": "holdout"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones entre municipios hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen sede?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones entre municipios tienen sede?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "entre municipios"
+      ],
+      "justificacion": "La preposición pertenece al sintagma nominal.",
+      "id": "CR-062",
+      "split": "development"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones y asociaciones están activas?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones y asociaciones están activas?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La coordinación nominal actual es ambigua como antecedente.",
+      "id": "CR-063",
+      "split": "development"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas están activas?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones están activas?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "La elipsis actual tiene antecedente nominal seguro.",
+      "id": "CR-064",
+      "split": "holdout"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones con plan anual reciben fondos?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones con plan anual reciben fondos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La pregunta ya expresa su sujeto; no se agrega otro referente.",
+      "id": "CR-065",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones de San Juan reciben aportes?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones de San Juan reciben aportes?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Juan es parte de un nombre propio, no un verbo.",
+      "id": "CR-066",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones gran reciben fondos?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones gran reciben fondos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Gran no debe disparar por sí solo una partición verbal.",
+      "id": "CR-067",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas asociaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas asociaciones reciben donaciones?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones reciben donaciones?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "El sujeto explícito hace innecesaria la resolución contextual.",
+      "id": "CR-068",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones produjeron informes?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones produjeron informes?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "El pretérito plural forma parte de la pregunta actual explícita.",
+      "id": "CR-069",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones volverán a participar?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones volverán a participar?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "El futuro plural no implica elipsis del núcleo nominal.",
+      "id": "CR-070",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántas asociaciones civiles hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de ellas tienen convenios vigentes?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones civiles tienen convenios vigentes?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "El pronombre femenino retoma asociaciones civiles.",
+      "id": "CR-071",
+      "split": "holdout"
+    },
+    {
+      "categoria": "referencias_plurales_simples",
+      "historial": [
+        "¿Cuántos proyectos sociales hay?"
+      ],
+      "pregunta_actual": "¿Estos cuentan con financiamiento?",
+      "pregunta_resuelta_esperada": "¿Los proyectos sociales cuentan con financiamiento?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "El demostrativo masculino retoma proyectos sociales.",
+      "id": "CR-072",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas organizaciones comunitarias hay?"
+      ],
+      "pregunta_actual": "¿Esas recibieron aportes el año pasado?",
+      "pregunta_resuelta_esperada": "¿Las organizaciones comunitarias recibieron aportes el año pasado?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "comunitarias"
+      ],
+      "justificacion": "Se conserva el refinamiento comunitarias.",
+      "id": "CR-073",
+      "split": "development"
+    },
+    {
+      "categoria": "refinamiento_y_conservacion_de_filtros",
+      "historial": [
+        "¿Cuántas asociaciones hay?",
+        "¿Cuántas asociaciones registradas hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen convenios activos?",
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones registradas tienen convenios activos?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "registradas"
+      ],
+      "justificacion": "Se mantiene el filtro registrado.",
+      "id": "CR-074",
+      "split": "holdout"
+    },
+    {
+      "categoria": "cambios_de_tema",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?"
+      ],
+      "pregunta_actual": "Otra consulta: ¿qué requisitos necesita una ONG para inscribirse?",
+      "pregunta_resuelta_esperada": "Otra consulta: ¿qué requisitos necesita una ONG para inscribirse?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La pregunta es independiente y no usa un referente previo.",
+      "id": "CR-075",
+      "split": "development"
+    },
+    {
+      "categoria": "entidades_nombradas",
+      "historial": [
+        "¿Qué información hay sobre \"Red Solidaria\"?"
+      ],
+      "pregunta_actual": "¿Qué donaciones recibió la misma?",
+      "pregunta_resuelta_esperada": "¿Qué donaciones recibió Red Solidaria?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [],
+      "justificacion": "La entidad entrecomillada es el único antecedente.",
+      "id": "CR-076",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_y_abstencion",
+      "historial": [
+        "¿Cuántas organizaciones hay?",
+        "¿Cuántas asociaciones civiles hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas tienen proyectos activos?",
+      "pregunta_resuelta_esperada": "¿Cuántas de esas tienen proyectos activos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "No se puede determinar a qué conjunto refiere esas.",
+      "id": "CR-077",
+      "split": "development"
+    },
+    {
+      "categoria": "referencias_multiples",
+      "historial": [
+        "¿Cuántas organizaciones rurales hay?",
+        "¿Qué sabemos de \"Fundación Vida\"?"
+      ],
+      "pregunta_actual": "¿Esas tienen convenios y el mismo está activo?",
+      "pregunta_resuelta_esperada": "¿Esas tienen convenios y el mismo está activo?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "Las referencias múltiples no tienen un referente común y seguro.",
+      "id": "CR-078",
+      "split": "holdout"
+    },
+    {
+      "categoria": "sintagmas_preposicionales_y_estructura",
+      "historial": [
+        "¿Cuántas organizaciones con proyectos comunitarios hay?"
+      ],
+      "pregunta_actual": "¿Cuántas de esas trabajan con comunidades de San Juan?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones con proyectos comunitarios trabajan con comunidades de San Juan?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "con proyectos comunitarios"
+      ],
+      "justificacion": "Se preserva el sintagma nominal completo.",
+      "id": "CR-079",
+      "split": "development"
+    },
+    {
+      "categoria": "ambiguedad_morfologica",
+      "historial": [
+        "¿Cuántas organizaciones hay?"
+      ],
+      "pregunta_actual": "¿Cuántas organizaciones que reciben donaciones tienen proyectos?",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones que reciben donaciones tienen proyectos?",
+      "uso_contexto_esperado": false,
+      "filtros_obligatorios": [],
+      "justificacion": "La pregunta ya expresa un sujeto y una relativa explícitos; no debe añadirse otro antecedente.",
+      "id": "CR-080",
+      "split": "development"
+    }
+  ]
+}
