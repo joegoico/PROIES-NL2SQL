@@ -719,10 +719,12 @@
         "¿Qué sabemos de \"Fundación Vida\"?"
       ],
       "pregunta_actual": "¿Cuántas de esas tienen donaciones y el mismo recibe subsidios?",
-      "pregunta_resuelta_esperada": "¿Cuántas de esas tienen donaciones y el mismo recibe subsidios?",
-      "uso_contexto_esperado": false,
-      "filtros_obligatorios": [],
-      "justificacion": "La referencia plural y la entidad no pueden resolverse ambas de forma segura.",
+      "pregunta_resuelta_esperada": "¿Cuántas organizaciones rurales tienen donaciones y Fundación Vida recibe subsidios?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales"
+      ],
+      "justificacion": "Ambas referencias tienen un antecedente único y compatible en preguntas distintas del historial.",
       "id": "CR-051",
       "split": "holdout"
     },
@@ -733,10 +735,10 @@
         "¿Qué sabemos de \"Cáritas Argentina\"?"
       ],
       "pregunta_actual": "¿Esas y el mismo tienen convenios?",
-      "pregunta_resuelta_esperada": "¿Esas y el mismo tienen convenios?",
-      "uso_contexto_esperado": false,
+      "pregunta_resuelta_esperada": "¿Las organizaciones y Cáritas Argentina tienen convenios?",
+      "uso_contexto_esperado": true,
       "filtros_obligatorios": [],
-      "justificacion": "Referencias a antecedentes distintos; evitar resolución parcial.",
+      "justificacion": "Tanto la referencia plural como la entidad nombrada tienen un referente único en el historial.",
       "id": "CR-052",
       "split": "development"
     },
@@ -747,10 +749,10 @@
         "¿Qué proyectos gestiona \"Fundación Vida\"?"
       ],
       "pregunta_actual": "¿Cuántas de ellas están activas y la misma recibe fondos?",
-      "pregunta_resuelta_esperada": "¿Cuántas de ellas están activas y la misma recibe fondos?",
-      "uso_contexto_esperado": false,
+      "pregunta_resuelta_esperada": "¿Cuántas asociaciones están activas y Fundación Vida recibe fondos?",
+      "uso_contexto_esperado": true,
       "filtros_obligatorios": [],
-      "justificacion": "La referencia plural y la identidad no se corresponden de forma inequívoca.",
+      "justificacion": "La referencia plural y la identidad tienen antecedentes únicos e inequívocos en el historial.",
       "id": "CR-053",
       "split": "development"
     },
@@ -1094,10 +1096,12 @@
         "¿Qué sabemos de \"Fundación Vida\"?"
       ],
       "pregunta_actual": "¿Esas tienen convenios y el mismo está activo?",
-      "pregunta_resuelta_esperada": "¿Esas tienen convenios y el mismo está activo?",
-      "uso_contexto_esperado": false,
-      "filtros_obligatorios": [],
-      "justificacion": "Las referencias múltiples no tienen un referente común y seguro.",
+      "pregunta_resuelta_esperada": "¿Las organizaciones rurales tienen convenios y Fundación Vida está activo?",
+      "uso_contexto_esperado": true,
+      "filtros_obligatorios": [
+        "rurales"
+      ],
+      "justificacion": "Tanto la referencia plural con su filtro como la entidad nombrada tienen referentes únicos en el historial.",
       "id": "CR-078",
       "split": "holdout"
     },
