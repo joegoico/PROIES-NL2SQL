@@ -105,8 +105,12 @@ _VERBOS_PLURAL_CORTOS_O_IRREGULARES = {
     "vieron",
 }
 _LIMITE_PREVIO_PREDICADO = _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
+_MODIFICADORES_INDEFINIDOS = {"otra", "otras", "otro", "otros", "demás", "demas"}
 _CONECTORES_TRAS_PRONOMBRE = (
-    _PARTICULAS_PREVERBALES | _PREPOSICIONES_SINTAGMA | _CONJUNCIONES
+    _PARTICULAS_PREVERBALES
+    | _PREPOSICIONES_SINTAGMA
+    | _CONJUNCIONES
+    | _MODIFICADORES_INDEFINIDOS
 )
 _SIGNOS_PUNTUACION = "?¿¡!.,;:"
 _SUFIJOS_NOMINALES_EN_N = (
@@ -260,6 +264,17 @@ class ContextResolver:
 
     @classmethod
     def _es_uso_pronominal(cls, coincidencia: re.Match[str]) -> bool:
+        """
+        Determina si una coincidencia de demostrativo/pronombre corresponde a un
+        uso pronominal genuino (con función anafórica) o a un determinante adjetivo.
+
+        Args:
+            coincidencia: Objeto Match con grupos 'p' (pronombre) y opcional 'sig' (palabra siguiente).
+
+        Returns:
+            True si el término actúa como pronombre anafórico; False si actúa como
+            determinante precediendo a un sustantivo autónomo.
+        """
         pronombre = coincidencia["p"].lower()
         siguiente_raw = coincidencia.groupdict().get("sig")
         if not siguiente_raw or pronombre in ("ellas", "ellos"):
@@ -270,12 +285,45 @@ class ContextResolver:
             return True
         return cls._es_verbo_conjugado_plural(siguiente)
 
+    @classmethod
+    def _es_modificador_indefinido_contraste(cls, coincidencia: re.Match[str]) -> bool:
+        """
+        Determina si una referencia pronominal va acompañada de un modificador
+        indefinido de contraste (ej. «otras», «otros», «demás»), el cual presupone
+        un segundo antecedente alternativo no disponible de manera unívoca.
+
+        Args:
+            coincidencia: Objeto Match del patrón pronominal con grupo 'sig'.
+
+        Returns:
+            True si la palabra siguiente es un modificador indefinido de contraste;
+            False en caso contrario.
+        """
+        sig = (coincidencia.groupdict().get("sig") or "").strip().lower()
+        return sig in _MODIFICADORES_INDEFINIDOS
+
     def _resolver_referencias_explicitas(
         self,
         pregunta: str,
         historial: list[str],
         patrones_activos: list[PatronReferenciaExplicita],
     ) -> ResultadoResolucion:
+        """
+        Resuelve referencias explícitas (plurales partitivos, pronombres y entidades)
+        sustituyendo los anafóricos por los antecedentes correspondientes del historial.
+        Garantiza abstención integral ante referencias múltiples ambiguas, incompletas
+        o irresolubles.
+
+        Args:
+            pregunta: Pregunta actual formulada por el usuario.
+            historial: Lista cronológica de preguntas previas en la conversación.
+            patrones_activos: Lista de patrones de referencia explícita detectados.
+
+        Returns:
+            ResultadoResolucion con la pregunta reescrita y uso_contexto=True si todas
+            las referencias se resolvieron sin ambigüedad; de lo contrario, la pregunta
+            original intacta con uso_contexto=False.
+        """
         resuelta = pregunta
         tipos_activos = {p.tipo for p in patrones_activos}
 
@@ -297,6 +345,14 @@ class ContextResolver:
                 if self._es_uso_pronominal(m)
             ]
             if not matches_pronominales:
+                return self._sin_cambios(pregunta)
+
+            # Si una referencia pronominal usa un modificador indefinido de contraste
+            # (ej. «esas otras»), presupone un antecedente alternativo no disponible.
+            if any(
+                self._es_modificador_indefinido_contraste(m)
+                for m in matches_pronominales
+            ):
                 return self._sin_cambios(pregunta)
 
             generos = {self._genero_palabra(m["p"]) for m in matches_pronominales}
