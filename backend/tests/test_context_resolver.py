@@ -984,3 +984,164 @@ def test_red_contrato_de_abstencion_sin_sustitucion_parcial_ni_invencion(
         uso_contexto=False,
     )
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 6. Refinamiento progresivo sobre expresiones ya compuestas
+# (Casos CR-013, CR-015 y CR-022)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_should_resolve_progressive_refinement_and_preserve_filter_when_civil_associations_are_refined_by_registered(
+    resolver: ContextResolver,
+) -> None:
+    """
+    Verifica que un refinamiento progresivo sobre «asociaciones civiles» hacia
+    «asociaciones civiles registradas» (caso CR-013) utilice el antecedente más
+    específico y conserve el filtro «registradas».
+
+    Args:
+        resolver: Instancia de ContextResolver bajo prueba.
+
+    Returns:
+        None
+    """
+    # Arrange
+    historial = [
+        "¿Cuántas asociaciones civiles hay?",
+        "¿Cuántas asociaciones civiles registradas hay?",
+    ]
+    pregunta = "¿Cuántas de esas tienen voluntarios?"
+
+    # Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert (
+        resultado.pregunta_resuelta
+        == "¿Cuántas asociaciones civiles registradas tienen voluntarios?"
+    )
+    assert resultado.uso_contexto is True
+
+
+def test_should_resolve_progressive_refinement_and_preserve_filter_when_contributing_entities_are_refined_by_private(
+    resolver: ContextResolver,
+) -> None:
+    """
+    Verifica que un refinamiento progresivo sobre «entidades aportantes» hacia
+    «entidades aportantes privadas» (caso CR-015) utilice el antecedente más
+    específico y conserve el filtro «privadas».
+
+    Args:
+        resolver: Instancia de ContextResolver bajo prueba.
+
+    Returns:
+        None
+    """
+    # Arrange
+    historial = [
+        "¿Cuántas entidades aportantes hay?",
+        "¿Cuántas entidades aportantes privadas hay?",
+    ]
+    pregunta = "¿Cuántas de ellas reciben aportes?"
+
+    # Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert (
+        resultado.pregunta_resuelta
+        == "¿Cuántas entidades aportantes privadas reciben aportes?"
+    )
+    assert resultado.uso_contexto is True
+
+
+def test_should_resolve_progressive_refinement_and_preserve_filter_when_social_projects_are_refined_by_prepositional_phrase(
+    resolver: ContextResolver,
+) -> None:
+    """
+    Verifica que un refinamiento progresivo sobre «proyectos sociales» hacia
+    «proyectos sociales con financiamiento» (caso CR-022) utilice el antecedente
+    más específico y conserve el complemento restrictivo «con financiamiento».
+
+    Args:
+        resolver: Instancia de ContextResolver bajo prueba.
+
+    Returns:
+        None
+    """
+    # Arrange
+    historial = [
+        "¿Cuántos proyectos sociales hay?",
+        "¿Cuántos proyectos sociales con financiamiento hay?",
+    ]
+    pregunta = "¿Esos tienen responsables asignados?"
+
+    # Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert (
+        resultado.pregunta_resuelta.casefold()
+        == "¿Los proyectos sociales con financiamiento tienen responsables asignados?".casefold()
+    )
+    assert "con financiamiento" in resultado.pregunta_resuelta
+    assert resultado.uso_contexto is True
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase RED — 7. Discordancia interna de género en partitivos
+# (Casos CR-047 y CR-049)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_should_abstain_and_preserve_original_question_when_partitive_has_gender_mismatch_masc_fem(
+    resolver: ContextResolver,
+) -> None:
+    """
+    Verifica que el resolver se abstenga y conserve la pregunta original cuando
+    existe discordancia interna de género entre el cuantificador masculino y el
+    demostrativo partitivo femenino («¿Cuántos de esas...?», caso CR-047).
+
+    Args:
+        resolver: Instancia de ContextResolver bajo prueba.
+
+    Returns:
+        None
+    """
+    # Arrange
+    historial = ["¿Cuántas organizaciones hay?"]
+    pregunta = "¿Cuántos de esas están activos?"
+
+    # Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+def test_should_abstain_and_preserve_original_question_when_partitive_has_gender_mismatch_fem_masc(
+    resolver: ContextResolver,
+) -> None:
+    """
+    Verifica que el resolver se abstenga y conserve la pregunta original cuando
+    existe discordancia interna de género entre el cuantificador femenino y el
+    demostrativo partitivo masculino («¿Cuántas de esos...?», caso CR-049).
+
+    Args:
+        resolver: Instancia de ContextResolver bajo prueba.
+
+    Returns:
+        None
+    """
+    # Arrange
+    historial = ["¿Cuántos proyectos hay?"]
+    pregunta = "¿Cuántas de esos tienen responsables?"
+
+    # Act
+    resultado = resolver.resolver(pregunta, historial)
+
+    # Assert
+    assert resultado.pregunta_resuelta == pregunta
+    assert resultado.uso_contexto is False
+
+
+

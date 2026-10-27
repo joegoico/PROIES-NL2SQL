@@ -160,8 +160,10 @@ def evaluar_caso_context_resolver(
 ) -> dict[str, Any]:
     """
     Ejecuta el ContextResolver sobre un caso individual del dataset, midiendo su
-    latencia de resolución y determinando exactitud de decisión, coincidencia exacta,
-    falsos positivos/negativos y conservación de filtros obligatorios.
+    latencia de resolución y determinando exactitud de decisión, coincidencia exacta
+    (insensible a diferencias de mayúsculas/minúsculas pero estricta en tildes,
+    signos de puntuación y palabras), falsos positivos/negativos y conservación
+    de filtros obligatorios.
 
     Args:
         caso: Diccionario con las claves 'id', 'pregunta_actual', 'historial',
@@ -185,7 +187,8 @@ def evaluar_caso_context_resolver(
     uso_predicho = bool(resultado.uso_contexto)
 
     decision_correcta = uso_predicho == uso_esperado
-    coincidencia_exacta = predicha == esperada
+    # Ignora únicamente diferencias de capitalización conservando tildes, puntuación y palabras
+    coincidencia_exacta = predicha.casefold() == esperada.casefold()
 
     falso_positivo = (not uso_esperado) and uso_predicho
     falso_negativo = uso_esperado and (not uso_predicho)

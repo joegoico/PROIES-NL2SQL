@@ -604,3 +604,107 @@ def test_evaluacion_sobre_dataset_real_respeta_splits_y_genera_reporte(
     assert "# Benchmark ContextResolver" in reporte
     assert f"Casos evaluados: {cantidad_esperada}" in reporte
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Coincidencia exacta insensible a mayúsculas/minúsculas (TDD AAA)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@pytest.mark.parametrize(
+    "predicha, esperada",
+    [
+        (
+            "¿las organizaciones reciben donaciones?",
+            "¿Las organizaciones reciben donaciones?",
+        ),
+        (
+            "¿qué convenio firmó cáritas argentina?",
+            "¿Qué convenio firmó Cáritas Argentina?",
+        ),
+        (
+            "¿CUÁNTAS ORGANIZACIONES RURALES TIENEN PERSONERÍA JURÍDICA?",
+            "¿Cuántas organizaciones rurales tienen personería jurídica?",
+        ),
+    ],
+)
+def test_should_mark_exact_match_true_when_only_capitalization_differs(
+    predicha: str, esperada: str
+) -> None:
+    # Arrange
+    pregunta_actual = "¿Esas reciben donaciones?"
+    caso = {
+        "id": "CR-CAP",
+        "split": "development",
+        "categoria": "referencias_plurales_simples",
+        "historial": ["¿Cuántas organizaciones hay?"],
+        "pregunta_actual": pregunta_actual,
+        "pregunta_resuelta_esperada": esperada,
+        "uso_contexto_esperado": True,
+        "filtros_obligatorios": [],
+    }
+    stub = StubResolver(
+        {
+            pregunta_actual: ResultadoResolucion(
+                pregunta_original=pregunta_actual,
+                pregunta_resuelta=predicha,
+                uso_contexto=True,
+            )
+        }
+    )
+
+    # Act
+    resultado = evaluar_caso_context_resolver(caso, stub)
+
+    # Assert
+    assert resultado["coincidencia_exacta"] is True
+
+
+@pytest.mark.parametrize(
+    "predicha, esperada",
+    [
+        (
+            "¿Las organizaciones tienen personeria juridica?",
+            "¿Las organizaciones tienen personería jurídica?",
+        ),
+        (
+            "Las organizaciones reciben donaciones",
+            "¿Las organizaciones reciben donaciones?",
+        ),
+        (
+            "¿Las organizaciones rurales reciben donaciones?",
+            "¿Las organizaciones reciben donaciones?",
+        ),
+    ],
+)
+def test_should_mark_exact_match_false_when_accents_punctuation_or_words_differ(
+    predicha: str, esperada: str
+) -> None:
+    # Arrange
+    pregunta_actual = "¿Esas reciben donaciones?"
+    caso = {
+        "id": "CR-STRICT",
+        "split": "development",
+        "categoria": "referencias_plurales_simples",
+        "historial": ["¿Cuántas organizaciones hay?"],
+        "pregunta_actual": pregunta_actual,
+        "pregunta_resuelta_esperada": esperada,
+        "uso_contexto_esperado": True,
+        "filtros_obligatorios": [],
+    }
+    stub = StubResolver(
+        {
+            pregunta_actual: ResultadoResolucion(
+                pregunta_original=pregunta_actual,
+                pregunta_resuelta=predicha,
+                uso_contexto=True,
+            )
+        }
+    )
+
+    # Act
+    resultado = evaluar_caso_context_resolver(caso, stub)
+
+    # Assert
+    assert resultado["coincidencia_exacta"] is False
+
+

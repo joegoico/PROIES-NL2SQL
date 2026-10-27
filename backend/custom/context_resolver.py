@@ -280,6 +280,17 @@ class ContextResolver:
         tipos_activos = {p.tipo for p in patrones_activos}
 
         if "plural_partitivo" in tipos_activos or "plural_pronominal" in tipos_activos:
+            # Validar concordancia de género en construcciones partitivas cuantificadas
+            for match_partitivo in _PATRON_PARTITIVO_PLURAL.expresion.finditer(resuelta):
+                if not self._es_uso_pronominal(match_partitivo):
+                    continue
+                interrogativo = match_partitivo["q"].lower()
+                if interrogativo.startswith("cu\xe1nt") or interrogativo.startswith("cuant"):
+                    genero_cuantificador = self._genero_palabra(interrogativo)
+                    genero_demostrativo = self._genero_palabra(match_partitivo["p"])
+                    if genero_cuantificador != genero_demostrativo:
+                        return self._sin_cambios(pregunta)
+
             matches_pronominales = [
                 m
                 for m in _PATRON_PRONOMBRE_PLURAL.expresion.finditer(resuelta)
@@ -370,6 +381,20 @@ class ContextResolver:
     def _buscar_referente_plural(
         self, historial: list[str], genero_buscado: Genero
     ) -> str | None:
+        """
+        Busca en el historial un referente plural único o una cadena de refinamiento
+        progresivo estricta compatible con el género solicitado.
+
+        Args:
+            historial: Lista cronológica de preguntas anteriores.
+            genero_buscado: Género gramatical requerido ('F' o 'M').
+
+        Returns:
+            Expresión nominal más específica si todos los candidatos compatibles
+            comparten el mismo núcleo y forman una secuencia consistente (repetición
+            exacta o refinamiento por prefijo sin cláusula relativa previa); None si
+            no existen candidatos o hay ambigüedad entre conjuntos distintos.
+        """
         candidatos = [
             info
             for pregunta_previa in historial
@@ -379,14 +404,14 @@ class ContextResolver:
         if not candidatos or len({c.nucleo for c in candidatos}) != 1:
             return None
 
-        # Validar cadena consistente: repetición exacta o refinamiento sobre el núcleo base
+        # Validar cadena consistente: repetición exacta o refinamiento progresivo por prefijo
         actual = candidatos[0]
         for siguiente in candidatos[1:]:
             norm_actual = self._normalizar_espacios(actual.expresion)
             norm_sig = self._normalizar_espacios(siguiente.expresion)
             if norm_sig == norm_actual or (
-                norm_actual == actual.nucleo
-                and norm_sig.startswith(actual.nucleo + " ")
+                " que " not in norm_actual
+                and norm_sig.startswith(norm_actual + " ")
             ):
                 actual = siguiente
             else:
