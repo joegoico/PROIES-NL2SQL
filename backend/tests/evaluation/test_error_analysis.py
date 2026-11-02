@@ -1,4 +1,9 @@
-from backend.evaluation.error_analysis import contar_false_negatives_por_tabla, calcular_recall_por_tabla, calcular_estadisticas_por_tabla
+from backend.evaluation.error_analysis import (
+    calcular_estadisticas_por_tabla,
+    calcular_recall_por_tabla,
+    contar_false_negatives_por_tabla,
+    contar_false_positives_por_tabla,
+)
 
 
 def test_calcular_estadisticas_por_tabla():
@@ -116,3 +121,26 @@ def test_estadisticas_por_tabla_no_incluye_tablas_solo_predichas():
     )
 
     assert set(estadisticas.keys()) == {"T1"}
+
+
+def test_should_count_false_positives_by_table_when_irrelevant_tables_are_selected():
+    # Arrange
+    resultados = [
+        {
+            "gold_tables": ["T1"],
+            "predicted_tables": ["T1", "T89", "T29"],
+        },
+        {
+            "gold_tables": ["T1", "T82"],
+            "predicted_tables": ["T82", "T89"],
+        },
+    ]
+
+    # Act
+    conteo_fp = contar_false_positives_por_tabla(resultados)
+
+    # Assert
+    assert conteo_fp == {
+        "T89": 2,
+        "T29": 1,
+    }

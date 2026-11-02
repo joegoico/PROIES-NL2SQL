@@ -1,9 +1,10 @@
 import json
 
 from backend.evaluation.dataset_loader import (
-    tiene_gold,
+    calcular_cobertura_dataset,
+    cargar_dataset,
     obtener_casos_evaluables,
-    cargar_dataset
+    tiene_gold,
 )
 from backend.evaluation.dataset_validator import validar_gold_tables
 
@@ -112,3 +113,26 @@ def test_validar_gold_tables_acepta_tablas_existentes():
     )
 
     assert errores == []
+
+
+def test_should_report_dataset_coverage_and_identify_missing_gold_ids_when_some_cases_lack_gold():
+    # Arrange
+    dataset = [
+        {"id": "DEV_001", "split": "dev", "gold_tables": ["T1"]},
+        {"id": "DEV_002", "split": "dev", "gold_tables": None},
+        {"id": "DEV_003", "split": "dev", "gold_tables": ["T82"]},
+        {"id": "DEV_004", "split": "dev"},
+        {"id": "VAL_001", "split": "validation", "gold_tables": None},
+    ]
+
+    # Act
+    cobertura = calcular_cobertura_dataset(dataset=dataset, split="dev")
+
+    # Assert
+    assert cobertura == {
+        "total_casos": 4,
+        "casos_evaluables": 2,
+        "casos_sin_gold": 2,
+        "ids_sin_gold": ["DEV_002", "DEV_004"],
+        "cobertura_dataset": 0.5,
+    }

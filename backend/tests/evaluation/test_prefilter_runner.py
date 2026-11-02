@@ -42,7 +42,7 @@ class MockPrefilter:
                 "T3",
                 "T4",
                 "T5",
-            ]
+            ][:top_k]
 
         if pregunta == "pregunta 2":
             return [
@@ -52,9 +52,9 @@ class MockPrefilter:
                 "T4",
                 "T5",
                 "T6",
-            ]
+            ][:top_k]
 
-        return [] 
+        return []
 def test_ejecutar_prefilter_benchmark_calcula_promedios():
     casos = [
         {
@@ -126,3 +126,137 @@ def test_ejecutar_prefilter_benchmark_sin_casos_lanza_error():
             prefilter=None,
             esquema_maestro={},
         )
+
+
+def test_should_aggregate_complete_recovery_precision_fp_fn_latency_and_coverage_when_running_benchmark():
+    # Arrange
+    casos = [
+        {
+            "id": "DEV_001",
+            "split": "dev",
+            "question": "pregunta 1",
+            "gold_tables": ["T1", "T2"],
+        },
+        {
+            "id": "DEV_002",
+            "split": "dev",
+            "question": "pregunta 2",
+            "gold_tables": ["T1", "T6"],
+        },
+    ]
+    esquema_maestro = {
+        "T1": {},
+        "T2": {},
+        "T3": {},
+        "T4": {},
+        "T5": {},
+        "T6": {},
+    }
+
+    # Act
+    resultado = ejecutar_prefilter_benchmark(
+        casos=casos,
+        prefilter=MockPrefilter(),
+        esquema_maestro=esquema_maestro,
+        top_k=10,
+    )
+
+    # Assert
+    assert resultado["top_k"] == 10
+    assert resultado["complete_recovery_rate_at_5"] == 0.5
+    assert resultado["complete_recovery_rate_at_10"] == 1.0
+    assert resultado["complete_recovery_rate"] == 1.0
+    assert resultado["complete_recovery_count"] == 2
+    assert resultado["precision_at_5_promedio"] == pytest.approx((2 / 5 + 1 / 5) / 2)
+    assert resultado["precision_at_10_promedio"] == pytest.approx((2 / 5 + 2 / 6) / 2)
+    assert resultado["precision_at_k_promedio"] == pytest.approx((2 / 5 + 2 / 6) / 2)
+    assert resultado["false_positives_total"] == 7
+    assert resultado["false_negatives_total"] == 0
+    assert resultado["latencia_p50_ms"] >= 0.0
+    assert resultado["latencia_p95_ms"] >= 0.0
+    assert resultado["total_casos"] == 2
+    assert resultado["casos_evaluables"] == 2
+    assert resultado["casos_sin_gold"] == 0
+    assert resultado["ids_sin_gold"] == []
+    assert resultado["cobertura_dataset"] == 1.0
+
+
+def test_should_exclude_unlabeled_cases_from_false_negatives_and_report_them_in_coverage_when_dataset_has_missing_gold():
+    # Arrange
+    dataset_mixto = [
+        {
+            "id": "DEV_001",
+            "split": "dev",
+            "question": "pregunta 1",
+            "gold_tables": ["T1", "T2"],
+        },
+        {
+            "id": "DEV_020",
+            "split": "dev",
+            "question": "pregunta sin etiqueta",
+            "gold_tables": None,
+        },
+        {
+            "id": "DEV_038",
+            "split": "dev",
+            "question": "otra sin etiqueta",
+        },
+    ]
+    esquema_maestro = {
+        "T1": {},
+        "T2": {},
+        "T3": {},
+        "T4": {},
+        "T5": {},
+    }
+
+    # Act
+    resultado = ejecutar_prefilter_benchmark(
+        casos=dataset_mixto,
+        prefilter=MockPrefilter(),
+        esquema_maestro=esquema_maestro,
+    )
+
+    # Assert
+    assert resultado["total_casos"] == 3
+    assert resultado["casos_evaluables"] == 1
+    assert resultado["casos_sin_gold"] == 2
+    assert resultado["ids_sin_gold"] == ["DEV_020", "DEV_038"]
+    assert resultado["cobertura_dataset"] == pytest.approx(1 / 3)
+    assert len(resultado["casos"]) == 1
+    assert resultado["false_negatives_total"] == 0
+    assert resultado["complete_recovery_rate"] == 1.0
+
+
+def test_should_propagate_custom_top_k_when_running_benchmark():
+    # Arrange
+    casos = [
+        {
+            "id": "DEV_002",
+            "split": "dev",
+            "question": "pregunta 2",
+            "gold_tables": ["T1", "T6"],
+        }
+    ]
+    esquema_maestro = {
+        "T1": {},
+        "T2": {},
+        "T3": {},
+        "T4": {},
+        "T5": {},
+        "T6": {},
+    }
+
+    # Act
+    resultado = ejecutar_prefilter_benchmark(
+        casos=casos,
+        prefilter=MockPrefilter(),
+        esquema_maestro=esquema_maestro,
+        top_k=5,
+    )
+
+    # Assert
+    assert resultado["top_k"] == 5
+    assert resultado["recall_at_k_promedio"] == 0.5
+    assert resultado["complete_recovery_rate"] == 0.0
+    assert resultado["false_negatives_total"] == 1

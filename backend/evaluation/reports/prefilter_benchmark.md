@@ -2,9 +2,23 @@
 
 ## Resumen
 
+- Top-K configurado: 10
+- Total casos dataset: 50
 - Casos evaluados: 41
+- Casos sin gold_tables: 9
+- IDs sin gold_tables: DEV_020, DEV_038, DEV_045, DEV_051, DEV_052, DEV_054, DEV_055, DEV_058, DEV_059
+- Cobertura del dataset: 0.8200
 - Recall@5: 0.7198
 - Recall@10: 0.7831
+- Precision@5: 0.3915
+- Precision@10: 0.2487
+- Complete Recovery Rate@5: 0.3902
+- Complete Recovery Rate@10: 0.4878
+- Complete Recovery Rate: 0.4878
+- Falsos positivos totales: 272
+- Falsos negativos totales: 25
+- Latencia p50 (ms): 8.53
+- Latencia p95 (ms): 14.74
 
 ---
 
