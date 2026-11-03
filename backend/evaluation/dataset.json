@@ -3,42 +3,49 @@
     "id": "DEV_001",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "¿Cuantos proyectos tienen en marcha?",
+    "question": "¿Qué organizaciones tienen proyectos actualmente activos?",
     "gold_tables": ["T1","T82","T83"]
   },
   {
     "id": "DEV_002",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "¿Cuáles son los proyectos que tiene?",
+    "question": "¿Qué proyectos tienen actualmente las organizaciones relevadas?",
     "gold_tables": ["T1","T83","T82"]
   },
   {
     "id": "DEV_003",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "A que poblacion llegan",
+    "question": "¿A qué población atienden las organizaciones relevadas?",
     "gold_tables": ["T1","T21","T25"]
   },
   {
-    "id": "DEV_004",
+    "id": "DEV_004A",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "A que poblacion está destinada",
-    "gold_tables": ["T84","T1"]
+    "question": "¿A qué grupos etarios están dirigidas las organizaciones relevadas?",
+    "gold_tables": ["T1","T84","T85"]
+  },
+  {
+    "id": "DEV_004B",
+    "split": "dev",
+    "difficulty": "meeting",
+    "question": "¿A qué población están dirigidas las organizaciones según sus características?",
+    "gold_tables": ["T1","T22"]
   },
   {
     "id": "DEV_005",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "Tiene aportes privados?",
+    "question": "¿Qué organizaciones reciben aportes del sector privado?",
     "gold_tables": ["T1","T8","T14"]
   },
     {
     "id": "DEV_060",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "quienes son los privados que aportan?",
+    "question": "¿Qué entidades del sector privado realizan aportes a las organizaciones relevadas?",
     "gold_tables": ["T1","T8","T14"]
   },
   {
@@ -115,29 +122,14 @@
     "id": "DEV_017",
     "split": "dev",
     "difficulty": "simple",
-    "question": "¿Cuantos proyectos tienen en marcha cada una?",
+    "question": "¿Cuántos proyectos activos tiene cada organización relevada?",
     "gold_tables": ["T1","T82","T83"]
-  },
-  {
-    "id": "DEV_018",
-    "split": "dev",
-    "difficulty": "simple",
-    "question": "¿Cuáles son los proyectos que tiene?",
-    "gold_tables": ["T1","T83","T82"]
-  },
-
-  {
-    "id": "DEV_020",
-    "split": "dev",
-    "difficulty": "simple",
-    "question": "A que poblacion está destinada.",
-    "gold_tables": null
   },
   {
     "id": "DEV_021",
     "split": "dev",
     "difficulty": "simple",
-    "question": "Tiene aportes privados? quienes?",
+    "question": "¿Qué organizaciones reciben aportes del sector privado y qué entidades realizan esos aportes?",
     "gold_tables": ["T1","T8","T14"]
   },
   {
@@ -180,7 +172,7 @@
     "id": "DEV_028",
     "split": "dev",
     "difficulty": "simple",
-    "question": "¿Cuáles son los proyectos que se encuentran activos en esta organizacion?",
+    "question": "¿Qué proyectos activos tiene cada organización relevada?",
     "gold_tables": ["T1","T83","T82"]
   },
   {
@@ -230,18 +222,11 @@
   },
   {
     "id": "DEV_038",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "simple",
     "question": "¿Qué organizaciones poseen más recursos {métrica de recurso}?",
     "gold_tables": null,
     "notes": "Ejemplos: personas trabajando, recursos materiales, presupuesto, etc."
-  },
-  {
-    "id": "DEV_039",
-    "split": "dev",
-    "difficulty": "medium",
-    "question": "¿Qué organizaciones tienen proyectos actualmente activos?",
-    "gold_tables": ["T1","T83","T82"]
   },
   {
     "id": "DEV_041",
@@ -273,7 +258,7 @@
   },
   {
     "id": "DEV_045",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Qué organizaciones con proyectos activos poseen además demandas sociales registradas?",
     "gold_tables": null
@@ -316,42 +301,42 @@
   },
   {
     "id": "DEV_051",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Cuáles son las organizaciones sociales que durante el último año recibieron donaciones provenientes de entidades aportantes y participaron en proyectos activos?",
     "gold_tables": null
   },
   {
     "id": "DEV_052",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Qué proyectos financiados por entidades privadas fueron difundidos mediante campañas públicas?",
     "gold_tables": null
   },
   {
     "id": "DEV_054",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "Cuales proyectos surgen de demandas directas de la sociedad.",
     "gold_tables": null
   },
   {
     "id": "DEV_055",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "Si hay proyectos que han recibido algún subsidio en específico.",
     "gold_tables": null
   },
   {
     "id": "DEV_058",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Qué organizaciones participaron en proyectos auditados y financiados por entidades aportantes?",
     "gold_tables":null
   },
   {
     "id": "DEV_059",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Qué demandas sociales fueron atendidas mediante proyectos financiados por organizaciones privadas?",
     "gold_tables": null
