@@ -1,8 +1,10 @@
 """Pruebas de validación y curación del dataset para SchemaPrefilter.
 
 Verifica la división de casos ambiguos (DEV_004 -> DEV_004A / DEV_004B),
-el aislamiento de casos sin tablas doradas en 'pending_review',
-la integridad de los casos no afectados y la lista exacta de casos evaluables.
+la reformulación y tablas doradas de DEV_006,
+el aislamiento de DEV_022 y de los casos sin tablas doradas en 'pending_review',
+la corrección de tablas doradas en DEV_003, DEV_033, DEV_041 y DEV_047,
+la integridad de los 32 casos no afectados y la lista exacta de casos evaluables.
 """
 
 from pathlib import Path
@@ -14,6 +16,7 @@ from backend.evaluation.dataset_loader import (
 DATASET_PATH = Path("backend/evaluation/dataset.json")
 
 CASOS_SIN_GOLD_IDS = [
+    "DEV_022",
     "DEV_038",
     "DEV_045",
     "DEV_051",
@@ -25,6 +28,13 @@ CASOS_SIN_GOLD_IDS = [
 ]
 
 CASOS_SIN_GOLD_ESPERADOS = {
+    "DEV_022": {
+        "id": "DEV_022",
+        "split": "pending_review",
+        "difficulty": "simple",
+        "question": "¿Cómo se componen los ingresos estatales?",
+        "gold_tables": None,
+    },
     "DEV_038": {
         "id": "DEV_038",
         "split": "pending_review",
@@ -107,17 +117,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
             "T82"
         ]
     },
-    "DEV_003": {
-        "id": "DEV_003",
-        "split": "dev",
-        "difficulty": "meeting",
-        "question": "¿A qué población atienden las organizaciones relevadas?",
-        "gold_tables": [
-            "T1",
-            "T21",
-            "T25"
-        ]
-    },
     "DEV_005": {
         "id": "DEV_005",
         "split": "dev",
@@ -138,15 +137,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
             "T1",
             "T8",
             "T14"
-        ]
-    },
-    "DEV_006": {
-        "id": "DEV_006",
-        "split": "dev",
-        "difficulty": "meeting",
-        "question": "¿Cómo se componen los ingresos estatales?",
-        "gold_tables": [
-            "T1"
         ]
     },
     "DEV_007": {
@@ -267,17 +257,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
             "T14"
         ]
     },
-    "DEV_022": {
-        "id": "DEV_022",
-        "split": "dev",
-        "difficulty": "simple",
-        "question": "¿Cómo se componen los ingresos estatales?",
-        "gold_tables": [
-            "T1",
-            "T11",
-            "T17"
-        ]
-    },
     "DEV_023": {
         "id": "DEV_023",
         "split": "dev",
@@ -359,17 +338,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
         ],
         "notes": "Interesa discriminar principalmente entre personal rentado y no rentado."
     },
-    "DEV_033": {
-        "id": "DEV_033",
-        "split": "dev",
-        "difficulty": "simple",
-        "question": "¿Cuál es el presupuesto/ingresos anual estimado de cada organización?",
-        "gold_tables": [
-            "T1",
-            "T11",
-            "T74"
-        ]
-    },
     "DEV_034": {
         "id": "DEV_034",
         "split": "dev",
@@ -393,16 +361,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
             "T74"
         ],
         "notes": "Consulta parametrizada por tipo de organización."
-    },
-    "DEV_041": {
-        "id": "DEV_041",
-        "split": "dev",
-        "difficulty": "medium",
-        "question": "¿Cuáles son las organizaciones relacionadas con otras organizaciones?",
-        "gold_tables": [
-            "T1",
-            "T69"
-        ]
     },
     "DEV_042": {
         "id": "DEV_042",
@@ -448,18 +406,6 @@ CASOS_NO_AFECTADOS_ESPERADOS = {
             "T13"
         ],
         "notes": "En estas notas, 'externo' se refiere a casa matriz externa."
-    },
-    "DEV_047": {
-        "id": "DEV_047",
-        "split": "dev",
-        "difficulty": "complex",
-        "question": "¿Qué organizaciones participan en proyectos y además mantienen vínculos con otras organizaciones?",
-        "gold_tables": [
-            "T1",
-            "T69",
-            "T83",
-            "T82"
-        ]
     },
     "DEV_048": {
         "id": "DEV_048",
@@ -522,7 +468,6 @@ CASOS_DEV_EVALUABLES_IDS_ESPERADOS = [
     "DEV_016",
     "DEV_017",
     "DEV_021",
-    "DEV_022",
     "DEV_023",
     "DEV_024",
     "DEV_025",
@@ -583,8 +528,61 @@ def test_should_split_dev_004_into_dev_004a_and_dev_004b_when_dataset_is_curated
     assert casos_por_id["DEV_004B"] == expected_dev_004b
 
 
+def test_should_reformulate_dev_006_with_state_budget_amounts_and_gold_tables() -> None:
+    """Verifica que DEV_006 esté reformulado para montos de presupuesto estatal y tenga gold_tables [T1, T74].
+
+    Args:
+        None.
+
+    Returns:
+        None.
+    """
+    # Arrange
+    expected_question = "¿Qué montos de presupuesto anual declaran las organizaciones relevadas provenientes de fuentes estatales, discriminados por origen?"
+    expected_gold_tables = ["T1", "T74"]
+
+    # Act
+    dataset = cargar_dataset(DATASET_PATH)
+    casos_por_id = {caso["id"]: caso for caso in dataset}
+
+    # Assert
+    assert "DEV_006" in casos_por_id, "DEV_006 debe estar presente en el dataset"
+    caso_006 = casos_por_id["DEV_006"]
+    assert caso_006["split"] == "dev", "DEV_006 debe pertenecer al split dev"
+    assert caso_006["difficulty"] == "meeting", "DEV_006 debe conservar su dificultad original meeting"
+    assert caso_006["question"] == expected_question, "DEV_006 debe tener la pregunta reformulada exacta"
+    assert sorted(caso_006["gold_tables"]) == sorted(expected_gold_tables), "DEV_006 debe tener gold_tables [T1, T74]"
+
+
+def test_should_isolate_dev_022_under_pending_review_with_null_gold() -> None:
+    """Verifica que DEV_022 esté apartado a pending_review con gold_tables null conservando metadatos.
+
+    Args:
+        None.
+
+    Returns:
+        None.
+    """
+    # Arrange
+    expected_dev_022 = {
+        "id": "DEV_022",
+        "split": "pending_review",
+        "difficulty": "simple",
+        "question": "¿Cómo se componen los ingresos estatales?",
+        "gold_tables": None,
+    }
+
+    # Act
+    dataset = cargar_dataset(DATASET_PATH)
+    casos_por_id = {caso["id"]: caso for caso in dataset}
+
+    # Assert
+    assert "DEV_022" in casos_por_id, "DEV_022 debe seguir existiendo en el dataset"
+    assert casos_por_id["DEV_022"] == expected_dev_022, "DEV_022 debe tener split pending_review y gold_tables null"
+
+
 def test_should_isolate_null_gold_cases_under_pending_review_when_dataset_is_curated() -> None:
-    """Verifica que los 8 casos sin gold_tables tengan split 'pending_review' y mantengan sus demás campos.
+    """Verifica que los 9 casos sin gold_tables tengan split 'pending_review' y mantengan sus demás campos.
 
     Args:
         None.
@@ -605,11 +603,11 @@ def test_should_isolate_null_gold_cases_under_pending_review_when_dataset_is_cur
         actual_case = casos_por_id[case_id]
         expected_case = CASOS_SIN_GOLD_ESPERADOS[case_id]
         assert actual_case["split"] == "pending_review", f"{case_id} debe tener split 'pending_review'"
-        assert actual_case == expected_case, f"{case_id} no debe alterar ningún campo aparte de 'split'"
+        assert actual_case == expected_case, f"{case_id} no debe alterar ningún campo aparte de 'split' y 'gold_tables'"
 
 
 def test_should_preserve_unaffected_cases_integrity_when_dataset_is_curated() -> None:
-    """Verifica que los 38 casos no afectados conserven id, question, gold_tables, difficulty, split y demás atributos.
+    """Verifica que los 32 casos no afectados conserven id, question, gold_tables, difficulty, split y demás atributos.
 
     Args:
         None.
@@ -631,8 +629,68 @@ def test_should_preserve_unaffected_cases_integrity_when_dataset_is_curated() ->
         assert actual_data == expected_data, f"El caso {case_id} debe permanecer estrictamente inalterado"
 
 
-def test_should_return_exact_40_evaluable_dev_cases_including_identifiers_when_filtered_by_loader() -> None:
-    """Verifica que obtener_casos_evaluables devuelva exactamente los 40 casos dev con los identificadores esperados.
+def test_should_have_curated_gold_tables_for_dev_003_033_041_047() -> None:
+    """Verifica que DEV_003, DEV_033, DEV_041 y DEV_047 tengan sus tablas doradas corregidas y atributos intactos.
+
+    Args:
+        None.
+
+    Returns:
+        None.
+    """
+    # Arrange
+    casos_esperados = {
+        "DEV_003": {
+            "id": "DEV_003",
+            "split": "dev",
+            "difficulty": "meeting",
+            "question": "¿A qué población atienden las organizaciones relevadas?",
+            "gold_tables": ["T1", "T22"],
+        },
+        "DEV_033": {
+            "id": "DEV_033",
+            "split": "dev",
+            "difficulty": "simple",
+            "question": "¿Cuál es el presupuesto/ingresos anual estimado de cada organización?",
+            "gold_tables": ["T1", "T74"],
+        },
+        "DEV_041": {
+            "id": "DEV_041",
+            "split": "dev",
+            "difficulty": "medium",
+            "question": "¿Cuáles son las organizaciones relacionadas con otras organizaciones?",
+            "gold_tables": ["T1", "T70"],
+        },
+        "DEV_047": {
+            "id": "DEV_047",
+            "split": "dev",
+            "difficulty": "complex",
+            "question": "¿Qué organizaciones participan en proyectos y además mantienen vínculos con otras organizaciones?",
+            "gold_tables": ["T1", "T70", "T83", "T82"],
+        },
+    }
+
+    # Act
+    dataset = cargar_dataset(DATASET_PATH)
+    casos_por_id = {caso["id"]: caso for caso in dataset}
+
+    # Assert
+    for case_id, expected in casos_esperados.items():
+        assert case_id in casos_por_id, f"El caso {case_id} debe existir en el dataset"
+        actual = casos_por_id[case_id]
+        assert actual["id"] == expected["id"], f"{case_id} debe tener el id esperado"
+        assert actual["split"] == expected["split"], f"{case_id} debe pertenecer a split {expected['split']}"
+        assert actual["difficulty"] == expected["difficulty"], (
+            f"{case_id} debe conservar su dificultad {expected['difficulty']}"
+        )
+        assert actual["question"] == expected["question"], f"{case_id} no debe modificar su pregunta"
+        assert sorted(actual["gold_tables"]) == sorted(expected["gold_tables"]), (
+            f"{case_id} debe tener gold_tables={expected['gold_tables']}, obtenido {actual['gold_tables']}"
+        )
+
+
+def test_should_return_exact_39_evaluable_dev_cases_including_identifiers_when_filtered_by_loader() -> None:
+    """Verifica que obtener_casos_evaluables devuelva exactamente los 39 casos dev con los identificadores esperados.
 
     Args:
         None.
@@ -649,7 +707,7 @@ def test_should_return_exact_40_evaluable_dev_cases_including_identifiers_when_f
     actual_ids = [c["id"] for c in casos_evaluables]
 
     # Assert
-    assert len(casos_evaluables) == 40, f"Se esperaban 40 casos evaluables, obtenidos {len(casos_evaluables)}"
+    assert len(casos_evaluables) == 39, f"Se esperaban 39 casos evaluables, obtenidos {len(casos_evaluables)}"
     assert actual_ids == expected_ids, "La lista e identificación de casos evaluables dev no coincide con lo esperado"
 
 

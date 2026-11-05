@@ -18,7 +18,7 @@
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿A qué población atienden las organizaciones relevadas?",
-    "gold_tables": ["T1","T21","T25"]
+    "gold_tables": ["T1", "T22"]
   },
   {
     "id": "DEV_004A",
@@ -52,8 +52,8 @@
     "id": "DEV_006",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "¿Cómo se componen los ingresos estatales?",
-    "gold_tables": ["T1"]
+    "question": "¿Qué montos de presupuesto anual declaran las organizaciones relevadas provenientes de fuentes estatales, discriminados por origen?",
+    "gold_tables": ["T1", "T74"]
   },
   {
     "id": "DEV_007",
@@ -134,10 +134,10 @@
   },
   {
     "id": "DEV_022",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "simple",
     "question": "¿Cómo se componen los ingresos estatales?",
-    "gold_tables": ["T1","T11","T17"]
+    "gold_tables": null
   },
   {
     "id": "DEV_023",
@@ -203,7 +203,7 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuál es el presupuesto/ingresos anual estimado de cada organización?",
-    "gold_tables": ["T1","T11","T74"]
+    "gold_tables": ["T1", "T74"]
   },
   {
     "id": "DEV_034",
@@ -233,7 +233,7 @@
     "split": "dev",
     "difficulty": "medium",
     "question": "¿Cuáles son las organizaciones relacionadas con otras organizaciones?",
-    "gold_tables": ["T1","T69"]
+    "gold_tables": ["T1", "T70"]
   },
   {
     "id": "DEV_042",
@@ -276,7 +276,7 @@
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué organizaciones participan en proyectos y además mantienen vínculos con otras organizaciones?",
-    "gold_tables": ["T1","T69","T83","T82"]
+    "gold_tables": ["T1", "T70", "T83", "T82"]
   },
   {
     "id": "DEV_048",

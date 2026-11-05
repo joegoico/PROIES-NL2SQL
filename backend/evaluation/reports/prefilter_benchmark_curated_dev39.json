@@ -1,0 +1,129 @@
+{
+  "metadatos": {
+    "fecha": "2026-11-04 19:33:39 UTC",
+    "split": "dev",
+    "top_k": 10,
+    "casos_evaluables": 39
+  },
+  "metricas": {
+    "fecha": "2026-11-04 19:33:39 UTC",
+    "split": "dev",
+    "top_k": 10,
+    "casos_evaluables": 39,
+    "recall_at_5": 0.84004884004884,
+    "recall_at_10": 0.9236874236874237,
+    "precision_at_5": 0.441025641025641,
+    "precision_at_10": 0.25555555555555554,
+    "complete_recovery_at_5": 0.6153846153846154,
+    "complete_recovery_at_5_pct": 61.53846153846154,
+    "complete_recovery_at_10": 0.7948717948717948,
+    "complete_recovery_at_10_pct": 79.48717948717949,
+    "tp": 97,
+    "fp": 285,
+    "fn": 10,
+    "promedio_sobrantes_por_caso": 7.3076923076923075,
+    "promedio_omitidas_por_caso": 0.2564102564102564,
+    "latencia_p50_ms": 3.1691789990873076,
+    "latencia_p95_ms": 4.904026000258455
+  },
+  "diagnosticos": [
+    {
+      "id": "DEV_004A",
+      "pregunta": "¿A qué grupos etarios están dirigidas las organizaciones relevadas?",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T84",
+          "rank": null,
+          "score": 0.0
+        },
+        {
+          "tabla": "T85",
+          "rank": 21,
+          "score": 12.0
+        }
+      ]
+    },
+    {
+      "id": "DEV_007",
+      "pregunta": "Si realizan evaluaciones y quienes las realizan.",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T1",
+          "rank": null,
+          "score": 0.0
+        },
+        {
+          "tabla": "T18",
+          "rank": null,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "id": "DEV_014",
+      "pregunta": "Cual es el rol que deberian cumplir.",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T1",
+          "rank": null,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "id": "DEV_034",
+      "pregunta": "¿Cómo se compone el presupuesto del mismo?",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T1",
+          "rank": null,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "id": "DEV_035",
+      "pregunta": "Cuales es el presupuesto promedio de {x tipo}.",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T1",
+          "rank": null,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "id": "DEV_042",
+      "pregunta": "¿Qué organizaciones reciben recursos financieros provenientes de fuentes (o aportes) externas?",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T74",
+          "rank": 15,
+          "score": 20
+        }
+      ]
+    },
+    {
+      "id": "DEV_049",
+      "pregunta": "¿Qué organizaciones trabajan en áreas vinculadas con problemas sociales y poseen proyectos activos?",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T23",
+          "rank": 32,
+          "score": 10
+        }
+      ]
+    },
+    {
+      "id": "DEV_050",
+      "pregunta": "¿Cuáles son las organizaciones que reciben aportes externos y participan en proyectos relacionados con otras organizaciones?",
+      "gold_no_recuperadas": [
+        {
+          "tabla": "T74",
+          "rank": null,
+          "score": 0.0
+        }
+      ]
+    }
+  ]
+}
