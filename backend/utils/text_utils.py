@@ -36,24 +36,41 @@ class TextUtils:
             "_por_",
             "_x_",
             "_relacionada",
+            "_org",
         )
+        self._NON_RELATION_ORG_TABLES = {
+            "trabajadores_org",
+            "forma_plan_eval_org",
+            "telefono_org",
+            "email_org",
+        }
         self.UMBRAL_SIMILITUD = 85
 
     def _es_tabla_relacion(
         self,
         nombre_tabla: str,
     ) -> bool:
-        """
-        Determina si la tabla representa una relación entre entidades
-        según convenciones de nomenclatura del esquema.
-        """
+        """Determina si la tabla representa una tabla puente o de relación entre entidades.
 
-        nombre = nombre_tabla.lower()
+        Reconoce los patrones de nomenclatura de tablas intermedias (`_por_`, `_x_`,
+        `_relacionada` y sufijo `_org` del esquema ObSoC v2.4), excluyendo explícitamente
+        las tablas de entidad o atributos directos que terminan en `_org` (`trabajadores_org`,
+        `forma_plan_eval_org`, `telefono_org`, `email_org`).
+
+        Args:
+            nombre_tabla (str): Nombre real de la tabla en el esquema.
+
+        Returns:
+            bool: `True` si corresponde a una tabla de relación/puente; `False` en caso contrario.
+        """
+        nombre = nombre_tabla.strip().lower()
+        if nombre in self._NON_RELATION_ORG_TABLES:
+            return False
 
         return any(
             patron in nombre
             for patron in self.RELATION_PATTERNS
-            )
+        )
 
 
     def normalizar_texto(self, texto: str) -> set[str]:

@@ -1,4 +1,4 @@
-"""Script de ejecución del benchmark SchemaPrefilter sobre el dataset curado de 39 casos dev.
+"""Script de ejecución del benchmark SchemaPrefilter sobre el dataset curado dev.
 
 Calcula las métricas de recuperación (Recall@5/10, Precision@5/10, Complete Recovery@5/10),
 totales de TP, FP, FN, promedios de tablas sobrantes/omitidas y latencias p50/p95,
@@ -35,6 +35,8 @@ def ejecutar_benchmark_completo(
     fallback_schema_path: Path = Path("backend/master_schema.json"),
     split: str = "dev",
     top_k: int = 10,
+    output_md_path: Path = Path("backend/evaluation/reports/prefilter_benchmark_curated_obsoc_v24.md"),
+    output_json_path: Path = Path("backend/evaluation/reports/prefilter_benchmark_curated_obsoc_v24.json"),
 ) -> dict[str, Any]:
     """Ejecuta el benchmark prefilter y recopila métricas completas de recuperación y latencia.
 
@@ -44,6 +46,8 @@ def ejecutar_benchmark_completo(
         fallback_schema_path: Ruta alternativa al esquema maestro.
         split: Subconjunto a evaluar (por defecto "dev").
         top_k: Número máximo de tablas a recuperar por caso.
+        output_md_path: Ruta de salida para el reporte en formato Markdown.
+        output_json_path: Ruta de salida para el resumen en formato JSON.
 
     Returns:
         Diccionario con métricas agregadas, diagnósticos, resultados por caso y rutas generadas.
@@ -51,10 +55,12 @@ def ejecutar_benchmark_completo(
     dataset = cargar_dataset(dataset_path)
     casos = obtener_casos_evaluables(dataset=dataset, split=split)
 
-    if len(casos) != 39:
+    if not casos:
         raise ValueError(
-            f"Se esperaban exactamente 39 casos evaluables en split '{split}', pero se obtuvieron {len(casos)}."
+            f"No se encontraron casos evaluables en split '{split}'."
         )
+
+    casos_excluidos = len(dataset) - len(casos)
 
     esquema_maestro = cargar_esquema_maestro(
         schema_path=schema_path,
@@ -145,7 +151,9 @@ def ejecutar_benchmark_completo(
         "fecha": fecha_utc,
         "split": split,
         "top_k": top_k,
+        "casos_totales_dataset": len(dataset),
         "casos_evaluables": n,
+        "casos_excluidos": casos_excluidos,
         "recall_at_5": sum(recalls_5) / n,
         "recall_at_10": sum(recalls_10) / n,
         "precision_at_5": sum(precisions_5) / n,
@@ -171,7 +179,9 @@ def ejecutar_benchmark_completo(
         f"- **Fecha:** {fecha_utc}",
         f"- **Split:** {split}",
         f"- **Top K:** {top_k}",
+        f"- **Casos totales en dataset:** {len(dataset)}",
         f"- **Casos evaluables:** {n}",
+        f"- **Casos excluidos (pending_review):** {casos_excluidos}",
         "",
         "## Resumen de Métricas",
         f"- **Recall@5:** {metricas['recall_at_5']:.4f}",
@@ -196,16 +206,18 @@ def ejecutar_benchmark_completo(
     seccion_errores = reporte_md_base.split("---", 1)[-1] if "---" in reporte_md_base else ""
     reporte_md_final = "\n".join(encabezado) + seccion_errores.strip() + "\n"
 
-    ruta_md = Path("backend/evaluation/reports/prefilter_benchmark_curated_dev39.md")
+    ruta_md = output_md_path
     guardar_reporte_markdown(contenido=reporte_md_final, ruta=ruta_md)
 
-    ruta_json = Path("backend/evaluation/reports/prefilter_benchmark_curated_dev39.json")
+    ruta_json = output_json_path
     resumen_json = {
         "metadatos": {
             "fecha": fecha_utc,
             "split": split,
             "top_k": top_k,
+            "casos_totales_dataset": len(dataset),
             "casos_evaluables": n,
+            "casos_excluidos": casos_excluidos,
         },
         "metricas": metricas,
         "diagnosticos": diagnosticos,
@@ -221,13 +233,21 @@ def ejecutar_benchmark_completo(
 
 
 def main() -> None:
-    """Punto de entrada principal para ejecutar el benchmark sobre 39 casos dev curados."""
+    """Punto de entrada principal para ejecutar el benchmark sobre los casos dev curados.
+
+    Args:
+        None.
+
+    Returns:
+        None.
+    """
     resultado = ejecutar_benchmark_completo()
     m = resultado["metricas"]
     print("==================================================")
-    print("BENCHMARK PREFILTER — NUEVA LÍNEA BASE (DEV 39)")
+    print("BENCHMARK PREFILTER — NUEVA LÍNEA BASE (OBSOC V2.4)")
     print("==================================================")
     print(f"Casos evaluados:        {m['casos_evaluables']}")
+    print(f"Casos excluidos:        {m['casos_excluidos']}")
     print(f"Recall@5:               {m['recall_at_5']:.4f}")
     print(f"Recall@10:              {m['recall_at_10']:.4f}")
     print(f"Precision@5:            {m['precision_at_5']:.4f}")

@@ -1,451 +1,295 @@
-
-COMMENT ON TABLE organizacion IS 'Tabla que almacena los datos de las organizaciones.';
-COMMENT ON COLUMN organizacion.denominacion_legal IS 'campo que almacena la denominación legal.';
-COMMENT ON COLUMN organizacion.domicilio_legal IS 'campo que almacena la dirección legal.';
-COMMENT ON COLUMN organizacion.domicilio_real IS 'campo que almacena la dirección real.';
-COMMENT ON COLUMN organizacion.e_mail IS 'campo que almacena el mail';
-COMMENT ON COLUMN organizacion.fax IS 'campo que almacena el número de fax de la organización.';
-COMMENT ON COLUMN organizacion.horarios IS 'campo que almacena los horarios de atención o funcionamiento de la organización.';
-COMMENT ON COLUMN organizacion.telefonos IS 'campo que almacena los números de teléfono de la organización, utilizados para contacto y comunicación con clientes, proveedores u otras partes interesadas.';
-COMMENT ON COLUMN organizacion.id_tipoorganizacion IS 'identificador del tipo de organización';
-COMMENT ON TABLE forma_de_difusion IS 'Tabla con el tipo de difusion';
-COMMENT ON COLUMN forma_de_difusion.id_formadifusion IS 'identificador del tipo de difusión';
-COMMENT ON COLUMN forma_de_difusion.tipo_difusion IS 'campo que almacena el tipo de difusion';
-
--- comentarios para la tabla de recursoshumnos
-COMMENT ON TABLE recursos_humanos IS 'Tabla que almacena los datos de los recursos humanos de la organización.';
-COMMENT ON COLUMN recursos_humanos.id_organizacion IS 'identificador de la organización a la que pertenecen los recursos humanos.';
-COMMENT ON COLUMN recursos_humanos.renta_menor IS 'La menor renta de la organizacion';
-COMMENT ON COLUMN recursos_humanos.renta_mayor IS 'La mayor renta de la organizacion';
-COMMENT ON COLUMN recursos_humanos.renta_promedio IS 'La renta promedio de la organizacion';
-COMMENT ON COLUMN recursos_humanos.jornada_media_semana_rentado IS 'La jornada media semanal de los empleados rentados de la organización';
-COMMENT ON COLUMN recursos_humanos.jornada_media_semana_voluntariado IS 'La jornada media semanal de los empleados voluntarios de la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_personal_contratado IS 'La cantidad de personal contratado por la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_autonomo IS 'La cantidad de personal autónomo que trabaja para la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_relacion_dependencia IS 'La cantidad de relaciones de dependencia que tiene la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_pasantias IS 'La cantidad de pasantías que ofrece la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_becas IS 'La cantidad de becas que ofrece la organización';
-COMMENT ON COLUMN recursos_humanos.cantidad_otros IS 'La cantidad de otros tipos de recursos humanos que tiene la organización';
-COMMENT ON COLUMN recursos_humanos.captacion_voluntarios IS 'informa si estan captanfo voluntarios o no';
-COMMENT ON COLUMN recursos_humanos.estrategias_captacion IS 'texto que describe la estategia de captación de voluntarios';
-
--- Comentario de Tabla: El "Mapa" para el Router
-COMMENT ON TABLE situacion_juridica IS 'Datos legales, personería jurídica y trámites de culto de organizaciones';
-
--- Comentarios de Columnas: La "Guía" para el Generador SQL
-COMMENT ON COLUMN situacion_juridica.id_organizacion IS 'ID organización (FK)';
-COMMENT ON COLUMN situacion_juridica.personeria_juridica IS 'Estado o tipo de personería';
-COMMENT ON COLUMN situacion_juridica.nombre_personeria IS 'Nombre legal registrado';
-COMMENT ON COLUMN situacion_juridica.uso_transitorio_cual IS 'Detalle si el uso es transitorio';
-COMMENT ON COLUMN situacion_juridica.en_tramite_cual IS 'Detalle si personería está en trámite';
-COMMENT ON COLUMN situacion_juridica.figura_legal IS 'Figura legal (Asociación, Fundación, etc)';
-COMMENT ON COLUMN situacion_juridica.forma_asoc_civil IS 'Modalidad específica de asociación civil';
-COMMENT ON COLUMN situacion_juridica.nropersoneria IS 'Número de personería jurídica';
-COMMENT ON COLUMN situacion_juridica.fecha_obtencion IS 'Fecha en que se otorgó personería';
-COMMENT ON COLUMN situacion_juridica.fecha_inicio_tramite IS 'Fecha inicio trámite personería';
-COMMENT ON COLUMN situacion_juridica.nroregistroculto IS 'Número de registro nacional de cultos';
-COMMENT ON COLUMN situacion_juridica.fecha_obtregistroculto IS 'Fecha obtención registro de cultos';
-
--- comentarios de forma_tenencia_propiedad
-
-COMMENT ON TABLE forma_tenencia_propiedad IS 'Catálogo de tipos de tenencia de la propiedad (Propietario, alquiler, etc.)';
-
-COMMENT ON COLUMN forma_tenencia_propiedad.id_formatenenciapropiedad IS 'ID tipo tenencia (PK)';
-COMMENT ON COLUMN forma_tenencia_propiedad.forma_tenencia_propiedad IS 'Descripción del tipo de tenencia (ej. Propio, Alquilado)';
-
--- comentarios de recursos_materiales
-COMMENT ON TABLE recursos_materiales IS 'Inventario de recursos (libros,hemeroteca, videos) y situación del inmueble por organización';
-
-COMMENT ON COLUMN recursos_materiales.id_organizacion IS 'ID organización (FK)';
-COMMENT ON COLUMN recursos_materiales.id_forma_tenenciapropiedad IS 'ID tipo tenencia (FK a forma_tenencia_propiedad)';
-COMMENT ON COLUMN recursos_materiales.uso_exclusivo_propiedad IS '¿El inmueble es de uso exclusivo? (Boolean)';
-COMMENT ON COLUMN recursos_materiales.cant_libros IS 'Cantidad de libros en biblioteca';
-COMMENT ON COLUMN recursos_materiales.cantidad_hemeroteca IS 'Cantidad de ejemplares en hemeroteca';
-COMMENT ON COLUMN recursos_materiales.cantidad_videoteca IS 'Cantidad de videos en videoteca';
-
--- Catálogo de aportantes (Estado, ONGs, etc.)
-COMMENT ON TABLE entidades_aportantes IS 'Catálogo de instituciones o entes que aportan fondos o recursos';
-COMMENT ON COLUMN entidades_aportantes.id_entidad_aportante IS 'ID entidad aportante (PK)';
-COMMENT ON COLUMN entidades_aportantes.nombre IS 'Nombre de la institución aportante';
-
--- Sector Privado
-COMMENT ON TABLE entidades_sector_privado IS 'Listado de empresas y organizaciones del sector privado relacionadas';
-COMMENT ON COLUMN entidades_sector_privado.id_entidad_sector_privado IS 'ID entidad privada (PK)';
-COMMENT ON COLUMN entidades_sector_privado.nombre IS 'Nombre de la empresa o entidad privada';
-
--- Catálogo de tipos de demandas
-COMMENT ON TABLE demandas_sociales IS 'Catálogo de tipos de necesidades o reclamos (ej. salud, educación)';
-COMMENT ON COLUMN demandas_sociales.id_demanda IS 'ID demanda social (PK)';
-COMMENT ON COLUMN demandas_sociales.tipo_demanda IS 'Descripción de la necesidad (ej. Apoyo escolar, Comedor)';
-
--- Relación N:N (Tabla intermedia)
-COMMENT ON TABLE demandas_por_organizacion IS 'Relación entre organizaciones y sus demandas sociales activas';
-COMMENT ON COLUMN demandas_por_organizacion.id_demandasocial IS 'ID demanda (FK a demandas_sociales)';
-COMMENT ON COLUMN demandas_por_organizacion.id_organizacion IS 'ID organización (FK)';
-
--- Comentarios de recursos financieros
-COMMENT ON TABLE recursos_financieros IS 'Gestión del presupuesto y porcentajes de origen de fondos (propios, estado, otros)';
-COMMENT ON COLUMN recursos_financieros.id_organizacion IS 'ID organización (FK)';
-COMMENT ON COLUMN recursos_financieros.administracion_presupuesto IS 'Si la organización administra un presupuesto anual (Boolean como texto)';
-COMMENT ON COLUMN recursos_financieros.porcentaje_recursos_autogenerados IS 'Porcentaje de fondos propios o autogenerados';
-COMMENT ON COLUMN recursos_financieros.porcentaje_aportes_estatales IS 'Porcentaje de fondos provenientes del Estado';
-COMMENT ON COLUMN recursos_financieros.porcentaje_otros_aportes IS 'Porcentaje de fondos de otros orígenes';
-
--- Comentarios de causas de no recepción de fondos externos
-
-COMMENT ON TABLE recurso_financiero_no_recibido_externo_causas IS 'Motivos o causas por los que la organización no recibe fondos externos';
-COMMENT ON COLUMN recurso_financiero_no_recibido_externo_causas.id_causanorecext IS 'ID motivo no recepción (FK a causas externas)';
-
--- Otros Aportantes
-COMMENT ON TABLE recursos_finacieros_otros_fines IS 'Uso de fondos de aportantes externos y sus fines específicos';
-COMMENT ON COLUMN recursos_finacieros_otros_fines.id_entidad_aportante IS 'ID aportante (FK a entidadesaportantes)';
-COMMENT ON COLUMN recursos_finacieros_otros_fines.id_fin_recurso_financiero IS 'ID destino/uso del dinero (FK)';
-
--- Sector Privado
-COMMENT ON TABLE recursos_finacieros_privados_fines IS 'Uso de fondos de empresas privadas y sus fines específicos';
-COMMENT ON COLUMN recursos_finacieros_privados_fines.id_entidad_sector_privado IS 'ID empresa (FK a entidadessectorprivado)';
-COMMENT ON COLUMN recursos_finacieros_privados_fines.id_fin_recurso_financiero IS 'ID destino/uso del dinero (FK)';
-
--- Organismos Internacionales
-COMMENT ON TABLE organismos_internacionales IS 'Catálogo de entes internacionales (ONU, OEA, etc.)';
-COMMENT ON TABLE recursos_finacieros_organismos_internacionales_fines IS 'Uso de fondos de organismos internacionales y sus fines específicos';
-COMMENT ON COLUMN recursos_finacieros_organismos_internacionales_fines.id_organismo_internacional IS 'ID ente internacional (FK)';
-
--- Estado
-COMMENT ON TABLE recursos_finacieros_estado_fines IS 'Uso de fondos públicos (Estado) y sus fines específicos';
-COMMENT ON COLUMN recursos_finacieros_estado_fines.id_recurso_financiero_estado IS 'ID tipo de recurso estatal (FK)';
-COMMENT ON COLUMN recursos_finacieros_estado_fines.id_dependencia_estado IS 'ID dependencia gubernamental (FK)';
-
--- Catálogo de actores
-COMMENT ON TABLE actores IS 'Catálogo de actores sociales, individuos o instituciones participantes';
-COMMENT ON COLUMN actores.id_actor IS 'ID del actor (PK)';
-COMMENT ON COLUMN actores.nombreactor IS 'Nombre o descripción del actor participante';
-
--- Relación N:N - Evaluación
-COMMENT ON TABLE actores_evaluacion_x_organizacion IS 'Relación de actores que participan en la evaluación de la organización';
-COMMENT ON COLUMN actores_evaluacion_x_organizacion.id_actor IS 'ID actor (FK a actores)';
-COMMENT ON COLUMN actores_evaluacion_x_organizacion.id_organizacion IS 'ID organización (FK)';
-
--- Relación N:N - Planificación
-COMMENT ON TABLE actores_planificacion_por_organizacion IS 'Relación de actores que participan en la planificación de la organización';
-COMMENT ON COLUMN actores_planificacion_por_organizacion.id_actor IS 'ID actor (FK a actores)';
-COMMENT ON COLUMN actores_planificacion_por_organizacion.id_organizacion IS 'ID organización (FK)';
-
--- Catálogo de Alcance
-COMMENT ON TABLE alcance_de_difusion IS 'Catálogo de niveles de alcance de comunicación (ej. Local, Provincial, Nacional)';
-COMMENT ON COLUMN alcance_de_difusion.id_alcance IS 'ID alcance (PK)';
-COMMENT ON COLUMN alcance_de_difusion.nombre_alcance IS 'Nombre del nivel de cobertura o alcance';
-
--- TABLA: organizacion_interna (Ajustada a datos reales)
-COMMENT ON TABLE organizacion_interna IS 'Misión, toma de decisiones, población objetivo y métodos de trabajo de la institución';
-
-COMMENT ON COLUMN organizacion_interna.objetivos IS 'Misión y metas (incluye hambre, salud, educación, defensa profesional)';
-COMMENT ON COLUMN organizacion_interna.barrios IS 'Nombres de barrios, calles o límites geográficos específicos';
-COMMENT ON COLUMN organizacion_interna.zona_accionar IS 'Categoría de ubicación: Urbana, Periurbana, Rural';
-COMMENT ON COLUMN organizacion_interna.tipo_poblacion IS 'Clase social, oficio o condición (ej: pobres, farmacéuticos, jubilados)';
-COMMENT ON COLUMN organizacion_interna.organigrama IS 'Cómo se toman las decisiones y quién tiene el mando';
-COMMENT ON COLUMN organizacion_interna.documentos_escritos IS '¿Tienen manuales o estatutos? (SI/NO)';
-COMMENT ON COLUMN organizacion_interna.planificacion IS '¿Existe planeamiento? (SI/NO/A VECES)';
-COMMENT ON COLUMN organizacion_interna.espescen_planif IS 'Frecuencia o método de planificación (Sistemáticos/Eventuales)';
-COMMENT ON COLUMN organizacion_interna.espesceneval IS 'Frecuencia o método de evaluación (Sistemáticos/Eventuales)';
-COMMENT ON COLUMN organizacion_interna.publicaciones IS 'Revistas (Voces, Trípticos), programas de radio o afiches';
-COMMENT ON COLUMN organizacion_interna.demandas_sociales IS 'Necesidades, reclamos o pedidos que recibe de la comunidad';
-COMMENT ON COLUMN organizacion_interna.como_responde_la_institucion IS 'Acciones ante pedidos (derivaciones, trámites, proyectos, asesoría legal)';
-COMMENT ON COLUMN organizacion_interna.capacidad_formular_propuestas IS 'Proyectos específicos realizados (ej: ordenanzas, autonomía PAMI)';
-COMMENT ON COLUMN organizacion_interna.pagina_web IS 'URL o sitio web (ej: www.instituto...)';
-
--- Catálogo de áreas
-COMMENT ON TABLE area_tematica IS 'Catálogo de rubros o sectores de trabajo (Salud, Vivienda, Educación, etc.)';
-COMMENT ON COLUMN area_tematica.nombr_earea IS 'Nombre del sector o tema de intervención';
-
--- Relación N:N con Prioridad
-COMMENT ON TABLE area_tematica_por_organizacion IS 'Áreas temáticas atendidas por cada organización con orden de importancia';
-COMMENT ON COLUMN area_tematica_por_organizacion.id_areatematica IS 'ID del área (FK a area_tematica)';
-COMMENT ON COLUMN area_tematica_por_organizacion.prioridad IS 'Orden de importancia (1: área principal, 2+: secundarias)';
-
--- Relación Alcance
-COMMENT ON TABLE alcance_accionar_por_organizacion IS 'Niveles de alcance geográfico o social de la organización y su prioridad';
-COMMENT ON COLUMN alcance_accionar_por_organizacion.prioridad IS 'Importancia del alcance (1: alcance primario)';
-
--- Opiniones sobre el Rol
-COMMENT ON TABLE autodiagnostico IS 'Opiniones de la organización sobre el rol de las ONGs y su relación con el Estado';
-COMMENT ON COLUMN autodiagnostico.opinion_rol_organizaciones IS 'Visión actual: qué rol cumplen hoy las ONGs (ej. reemplazo del Estado)';
-COMMENT ON COLUMN autodiagnostico.opinion_rol_deberian_cumplir IS 'Visión ideal: qué rol deberían cumplir en el futuro';
-
--- Dificultades identificadas
-COMMENT ON TABLE autodiagnostico_dificultades IS 'Problemas o obstáculos que la organización identifica en su gestión diaria';
-COMMENT ON COLUMN autodiagnostico_dificultades.id_dificultad IS 'ID de la dificultad (FK al catálogo de dificultades)';
-COMMENT ON COLUMN autodiagnostico_dificultades.prioridad IS 'Gravedad o importancia del problema identificado';
-
--- Roles ideales
-COMMENT ON TABLE autodiagnostico_rol_deberian_cumplir IS 'Relación de roles que la organización considera que DEBERÍA cumplir en la sociedad';
-COMMENT ON COLUMN autodiagnostico_rol_deberian_cumplir.id_rolorganizacion IS 'ID del rol ideal (FK al catálogo de roles)';
-
--- Roles actuales
-COMMENT ON TABLE autodiagnostico_rol_organizaciones IS 'Relación de roles que la organización considera que CUMPLE actualmente';
-COMMENT ON COLUMN autodiagnostico_rol_organizaciones.id_rolorganizacion IS 'ID del rol actual (FK al catálogo de roles)';
-
--- Catálogo de temas
-COMMENT ON TABLE capacitacion_tema IS 'Catálogo de temas de formación (Educación, Laboral, Espiritualidad, etc.)';
-COMMENT ON COLUMN capacitacion_tema.capacitacion_tema IS 'Nombre del tema de capacitación';
-
--- Relación con Organizaciones
-COMMENT ON TABLE capacitacion_tema_por_organizacion IS 'Temas de capacitación específicos que brinda o recibe cada organización';
-
--- Catálogo de Contenido (QUÉ se anota)
-COMMENT ON TABLE codigos_contenido_registro IS 'Catálogo de tipos de datos registrados (Reuniones, Datos Personales, Producción, etc.)';
-COMMENT ON COLUMN codigos_contenido_registro.nombre_codigo IS 'Descripción de la información que se registra';
-
--- Relación Compleja (Organización + Contenido + Forma)
-COMMENT ON TABLE codigo_por_forma_registro_por_organizacion IS 'Vincula qué información registra la organización y el método/forma de registro usado';
-COMMENT ON COLUMN codigo_por_forma_registro_por_organizacion.id_codigocontenido IS 'ID del contenido (FK a codigos_contenido_registro)';
-COMMENT ON COLUMN codigo_por_forma_registro_por_organizacion.id_formaregistro IS 'ID de la forma/soporte de registro (FK)';
-COMMENT ON COLUMN codigo_por_forma_registro_por_organizacion.prioridad IS 'Orden de importancia del método de registro';
-
--- Catálogo de Formas de Demanda
-COMMENT ON TABLE como_efectuan_demandas IS 'Catálogo de modalidades en que la comunidad realiza pedidos (Individual, Colectivo, etc.)';
-COMMENT ON COLUMN como_efectuan_demandas.nombrecomo IS 'Descripción de la modalidad de la demanda';
-
--- Relación N:N Demandas
-COMMENT ON TABLE como_efectuan_demandas_por_organizacion IS 'Relación entre organizaciones y las vías por las que reciben pedidos de la comunidad';
-COMMENT ON COLUMN como_efectuan_demandas_por_organizacion.id_comoefectuandem IS 'ID modalidad de demanda (FK como_efectuan_demandas)';
-
--- Catálogo de Empleo
-COMMENT ON TABLE condiciones_contratacion IS 'Catálogo de tipos de vínculo laboral o contratación (Becas, Dependencia, Pasantías)';
-COMMENT ON COLUMN condiciones_contratacion.condiciones_contratacion IS 'Descripción de condición de contratación del personal';
-
--- Dependencias del Estado
-COMMENT ON TABLE dependencia_estado IS 'Entes gubernamentales relacionados y su jurisdicción (Nacional, Provincial, Municipal)';
-COMMENT ON COLUMN dependencia_estado.nombre IS 'Nombre del organismo o dependencia estatal';
-COMMENT ON COLUMN dependencia_estado.nivel IS 'Nivel de gobierno: Nacional, Provincial o Municipal';
-
--- Catálogo de Problemas
-COMMENT ON TABLE dificultades IS 'Catálogo de obstáculos o limitaciones identificadas (Sobredemanda, falta de recursos, etc.)';
-COMMENT ON COLUMN dificultades.dificultad IS 'Descripción de la dificultad o problema institucional';
-
--- Metadata de la encuesta
-COMMENT ON TABLE entrevista IS 'Datos técnicos de la entrevista realizada: entrevistado, cargo, fecha y duración';
-COMMENT ON COLUMN entrevista.id_organizacion IS 'ID organización (FK/PK)';
-COMMENT ON COLUMN entrevista.id_entrevistador IS 'ID del encuestador (FK a entrevistador)';
-COMMENT ON COLUMN entrevista.nombre_entrevistado IS 'Nombre completo del entrevistado';
-COMMENT ON COLUMN entrevista.cargo_entrevistado IS 'Puesto o función del entrevistado (ej. Director, Secretario)';
-COMMENT ON COLUMN entrevista.antiguedad_entrevistado IS 'Tiempo que lleva el entrevistado en la institución';
-COMMENT ON COLUMN entrevista.fecha_entrevista IS 'Fecha exacta del encuentro';
-COMMENT ON COLUMN entrevista.hs_entrevista IS 'Duración de la entrevista (ej. 1:30 hs)';
-
--- Catálogo de encuestadores
-COMMENT ON TABLE entrevistador IS 'Catálogo de personas encargadas de realizar las entrevistas';
-
--- Recursos físicos
-COMMENT ON TABLE equipamiento IS 'Catálogo de recursos materiales disponibles (PC, Internet, Vehículos, etc.)';
-COMMENT ON COLUMN equipamiento.nombre_equipamiento IS 'Nombre del recurso o herramienta técnica';
-
--- Estructura de mando
-COMMENT ON TABLE forma_de_organizacion IS 'Catálogo de estilos de jerarquía (Comisiones, Grupos de trabajo, etc.)';
-COMMENT ON COLUMN forma_de_organizacion.nombre IS 'Descripción de la forma de organización interna';
-
--- Soporte de información
-COMMENT ON TABLE formas_de_registro IS 'Catálogo de soportes usados para documentar tareas (Actas, Informes, Videos)';
-
--- Raíces de la organización
-COMMENT ON TABLE historia IS 'Crónica histórica: fecha de fundación, fundadores, objetivos iniciales y contexto político';
-COMMENT ON COLUMN historia.anioorigen IS 'Año de creación o fundación de la institución';
-COMMENT ON COLUMN historia.origen IS 'Naturaleza del origen (ej. Laico, Religioso)';
-COMMENT ON COLUMN historia.id_religion IS 'ID de la religión vinculada (FK)';
-COMMENT ON COLUMN historia.fundadores IS 'Nombres de las personas que crearon la organización';
-COMMENT ON COLUMN historia.resumenfundadores IS 'Perfil o motivación de los fundadores (ej. afectados por problemas comunes)';
-COMMENT ON COLUMN historia.objetivos_fundacionales IS 'Metas originales al momento de la creación';
-COMMENT ON COLUMN historia.resenia_accion IS 'Reseña histórica de actividades y significado del nombre (ej. Chapaleofú)';
-COMMENT ON COLUMN historia.resumen_resenia IS 'Contexto histórico o político del origen (ej. Pos-peronismo, desempleo)';
-
--- Catálogo de Identidad
-COMMENT ON TABLE identidad IS 'Catálogo de tipos de entidad por su identidad (Biblioteca, Cooperativa, Centro Comunitario)';
-COMMENT ON COLUMN identidad.nombreidentidad IS 'Nombre del tipo de identidad institucional';
-
--- Relación N:N
-COMMENT ON TABLE identidad_x_organizacion IS 'Vincula a la organización con su identidad o tipo de entidad social';
-
--- Catálogo de Frecuencia
-COMMENT ON TABLE frecuencia_capacitacion IS 'Catálogo de periodicidad de capacitaciones (Anual, Semestral, etc.)';
-COMMENT ON COLUMN frecuencia_capacitacion.tipo IS 'Descripción de la frecuencia (ej. Trimestral)';
-
--- Catálogo de Modalidad
-COMMENT ON TABLE modalidad_de_capacitacion IS 'Catálogo de formatos de enseñanza (Charlas, Cursos, Talleres)';
-
--- Relación Compleja de Capacitación
-COMMENT ON TABLE modalidad_capacitacion_por_organizacion IS 'Detalle de formación: frecuencia, modalidad y si es trabajo rentado o voluntario';
-COMMENT ON COLUMN modalidad_capacitacion_por_organizacion.id_frecuencia IS 'ID frecuencia (FK a frecuencia_capacitacion)';
-COMMENT ON COLUMN modalidad_capacitacion_por_organizacion.rentado IS 'Booleano: ¿La capacitación es paga/rentada?';
-COMMENT ON COLUMN modalidad_capacitacion_por_organizacion.voluntario IS 'Booleano: ¿La capacitación es voluntaria/ad honorem?';
-
--- Catálogo de Modos de Acción
-COMMENT ON TABLE modo_accionar IS 'Catálogo de formas de intervención (capacitación, asistencia directa, subsidios)';
-COMMENT ON COLUMN modo_accionar.nombre_modo IS 'Descripción del modo de acción (ej. Asistencia Financiera, Becas)';
-
--- Relación N:N con Prioridad
-COMMENT ON TABLE modo_accionar_por_organizacion IS 'Modalidades de acción de cada organización y su orden de importancia';
-COMMENT ON COLUMN modo_accionar_por_organizacion.prioridad IS 'Prioridad del modo de accionar (1: principal)';
-
--- Catálogo de Tiempos/Frecuencias
-COMMENT ON TABLE momento_planificacion_evaluacion IS 'Catálogo de frecuencias temporales (Anual, Semestral, Trimestral)';
-COMMENT ON COLUMN momento_planificacion_evaluacion.tipo IS 'Descripción del ciclo temporal';
-
--- Relaciones N:N de Ciclos
-COMMENT ON TABLE momento_evaluacion_por_organizacion IS 'Vincula organizaciones con sus periodos o frecuencias de evaluación';
-COMMENT ON TABLE momento_planificacion_por_organizacion IS 'Vincula organizaciones con sus periodos o frecuencias de planificación';
-
--- Catálogo de Motivos de Alianza
-COMMENT ON TABLE vinculacion_motivos IS 'Catálogo de razones para aliarse con otras instituciones (Convenios, Derivación de casos)';
-COMMENT ON COLUMN vinculacion_motivos.descripcion IS 'Descripción del motivo de la vinculación';
-
--- Red de contactos entre instituciones
-COMMENT ON TABLE vinculacion_organismos_sociales IS 'Red de alianzas: vincula organizaciones relevadas con otras entidades y sus acuerdos';
-COMMENT ON COLUMN vinculacion_organismos_sociales.id_organizacion_relevada IS 'ID de la organización del censo (FK)';
-COMMENT ON COLUMN vinculacion_organismos_sociales.id_organizacion_vinculada IS 'ID de la otra entidad con la que se relaciona (FK)';
-COMMENT ON COLUMN vinculacion_organismos_sociales.misma_tematica IS 'Booleano: ¿Trabajan en el mismo tema o rubro?';
-COMMENT ON COLUMN vinculacion_organismos_sociales.acuerdos_formales IS 'Detalle de convenios o acuerdos escritos (ej. SI, FORMALES)';
-
--- Resumen de Misión
-COMMENT ON TABLE resumen_objetivo_organizacion_interna_por_organizacion IS 'Etiquetas de resumen de objetivos (Promoción, Asistencia, Reclamo)';
-COMMENT ON COLUMN resumen_objetivo_organizacion_interna_por_organizacion.nombre_resumen_objetivos IS 'Categoría del objetivo (ej. Reivindicación, Servicio)';
-
--- Catálogo de entes reguladores
-COMMENT ON TABLE organismo IS 'Catálogo de entes oficiales de registro (Personería Jurídica, Mutuales, etc.)';
-COMMENT ON COLUMN organismo.nombre_organismo IS 'Nombre del ente (ej. Inspección General de Justicia)';
-
--- Estado de inscripción y balances
-COMMENT ON TABLE organismo_en_el_que_esta_registrado IS 'Estado legal: fechas de registro, últimos balances presentados y supervisiones';
-COMMENT ON COLUMN organismo_en_el_que_esta_registrado.fecha_registro IS 'Fecha de inscripción inicial en el organismo';
-COMMENT ON COLUMN organismo_en_el_que_esta_registrado.fecha_ultima_presentacion_mem_y_balance IS 'Fecha de la última memoria y balance presentado';
-COMMENT ON COLUMN organismo_en_el_que_esta_registrado.anio_ultima_supervision IS 'Año en que el organismo realizó la última auditoría/supervisión';
-
--- Percepción de la política
-COMMENT ON TABLE opinion_politica_social IS 'Catálogo de opiniones subjetivas sobre la política social actual';
-COMMENT ON COLUMN opinion_politica_social.opinion IS 'Calificación de la política (ej. Corrupta, Normal, Desconoce)';
-
--- Detalle del personal (Recursos Humanos)
-COMMENT ON TABLE recursos_humanos_detalle IS 'Información detallada de cada integrante: cargo, educación, sueldo, carga horaria y demografía';
-COMMENT ON COLUMN recursos_humanos_detalle.id_organizacion IS 'ID organización (FK)';
-COMMENT ON COLUMN recursos_humanos_detalle.funciones IS 'Cargo o rol específico (ej. Directivos, Maestranza, Técnicos)';
-COMMENT ON COLUMN recursos_humanos_detalle.nivel_educativo IS 'Nivel de instrucción (Primario, Secundario, Universitario)';
-COMMENT ON COLUMN recursos_humanos_detalle.profesion IS 'Título o profesión específica del integrante';
-COMMENT ON COLUMN recursos_humanos_detalle.rentado IS 'Indica si percibe salario (SÍ/NO)';
-COMMENT ON COLUMN recursos_humanos_detalle.id_origenrenta IS 'ID origen de fondos para el sueldo (FK a recursos_humanos_origen_renta)';
-COMMENT ON COLUMN recursos_humanos_detalle.monto IS 'Rango salarial o monto percibido';
-COMMENT ON COLUMN recursos_humanos_detalle.horas_por_semana IS 'Carga horaria semanal dedicada a la organización';
-COMMENT ON COLUMN recursos_humanos_detalle.sexo IS 'Género del integrante (M/F)';
-COMMENT ON COLUMN recursos_humanos_detalle.edad IS 'Edad del integrante';
-
--- Origen de los sueldos
-COMMENT ON TABLE recursos_humanos_origen_renta IS 'Catálogo de fuentes de financiamiento para salarios (Estado, Fondos Propios, Pasantías)';
-COMMENT ON COLUMN recursos_humanos_origen_renta.descripcion IS 'Descripción de la fuente de pago (ej. Plan de Empleo, Propia ONG)';
-
--- Relación N:N Equipamiento
-COMMENT ON TABLE recursos_materiales_equipamiento IS 'Vincula a la organización con los recursos técnicos y herramientas que posee';
-
--- Catálogo de Religiones
-COMMENT ON TABLE religion IS 'Catálogo de credos o religiones (ej. Catolicismo, Judaísmo, Laico)';
-
--- Resumen de metas de creación
-COMMENT ON TABLE resumen_objetivos_fundacionales_por_organizacion IS 'Etiquetas de objetivos iniciales al momento de fundación (ej. Reivindicación, Servicio)';
--- Catálogo de Roles
-COMMENT ON TABLE rol_organizaciones IS 'Catálogo de percepciones sobre la función de las ONGs frente al Estado (Suplir, Denunciar, etc.)';
-COMMENT ON COLUMN rol_organizaciones.rol_organizacion IS 'Descripción del rol (ej. Interpelar al Estado, Contener población)';
-
--- Supervisión Técnica
-COMMENT ON TABLE supervisor IS 'Catálogo de supervisores responsables de controlar la calidad del relevamiento';
--- Tipos de organizaciones externas
-COMMENT ON TABLE tipo_organizacion_relacionada IS 'Catálogo de naturalezas de entes vinculados (Estatal, Gremio, Fundación)';
-
--- Vínculo detallado con el Estado
-COMMENT ON TABLE vinculacion_estado_detalle IS 'Detalle de gestiones específicas ante el Estado (subsidios, trámites, proyectos)';
-COMMENT ON COLUMN vinculacion_estado_detalle.motivos IS 'Texto libre con el detalle del trámite (ej. pases de transporte, certificados discapacidad)';
-
--- Vínculo con otras organizaciones (no estatales)
-COMMENT ON TABLE vinculacion_otras_organizaciones IS 'Relación con otras ONGs o entidades privadas y existencia de acuerdos formales';
-COMMENT ON COLUMN vinculacion_otras_organizaciones.misma_matematica IS 'Booleano: ¿Comparten el mismo rubro de trabajo?';
-
--- Opinión sobre política social
-COMMENT ON TABLE vision_realidad_opinion_politica_social IS 'Relación entre la organización y su postura sobre la política social actual';
-
--- Análisis de problemas sociales
-COMMENT ON TABLE vision_problemas_causas IS 'Diagnóstico cualitativo: identificación de problemas sociales (Inseguridad, Salud) y sus causas';
-COMMENT ON COLUMN vision_problemas_causas.problema IS 'Nombre del problema social identificado (ej. Educación)';
-COMMENT ON COLUMN vision_problemas_causas.causa IS 'Explicación subjetiva de por qué ocurre ese problema';
-
-COMMENT ON TABLE vision_realidad IS 'Opiniones subjetivas sobre política social local, situación de la infancia y trabajo infantil';
-COMMENT ON COLUMN vision_realidad.opinion_politica_social_local IS 'Visión sobre la gestión política social en el municipio (ej. Tandil, IMT)';
-COMMENT ON COLUMN vision_realidad.opinion_infancia_juventud IS 'Opinión sobre la realidad de niños y adolescentes (ej. rebeldía, contención)';
-COMMENT ON COLUMN vision_realidad.opinion_trabajo_infantil IS 'Postura y percepción sobre el trabajo infantil a nivel local';
-
-COMMENT ON TABLE recursos_finacieros_presupuesto IS 'Montos monetarios del presupuesto anual desglosados por origen de fondos';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.anio IS 'Año correspondiente al presupuesto (usar 0 si es dato general)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.propia IS 'Monto de fondos propios o autogenerados (numeric)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.estado_nacional IS 'Monto recibido del Estado Nacional (numeric)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.estado_provincial IS 'Monto recibido del Estado Provincial (numeric)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.estado_municipal IS 'Monto recibido del Municipio (numeric)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.sector_privado IS 'Monto recibido de empresas o sector privado (numeric)';
-COMMENT ON COLUMN recursos_finacieros_presupuesto.organismos_internacionales IS 'Monto recibido de entes internacionales (numeric)';
-
--- Formas de autogeneración
-COMMENT ON TABLE recursos_finacieros_autogenerados_formas IS 'Catálogo de métodos de recaudación propia (Rifas, Cuotas, Aranceles)';
-COMMENT ON TABLE recursos_finacieros_autogenerados_fines IS 'Relación entre organizaciones y sus métodos de generación de recursos propios';
-
--- Causas de no recepción
-COMMENT ON TABLE recursos_finacieros_causas_no_recibidos_externos IS 'Catálogo de motivos por los que no se reciben fondos externos (Desconocimiento, Inaccesibilidad)';
-
--- Tipos de ayuda estatal y Fines
-COMMENT ON TABLE recursos_finacieros_estado_tipos IS 'Catálogo de tipos de recursos estatales (Becas, Subsidios)';
-COMMENT ON TABLE recursos_finacieros_fines IS 'Catálogo de destinos del dinero (Equipamiento, Construcción, Inmuebles)';
-
--- Perfil de los demandantes
-COMMENT ON TABLE quienes_efectuan_demandas IS 'Catálogo de quiénes solicitan ayuda (Destinatarios, Vecinos, Agentes)';
-COMMENT ON COLUMN quienes_efectuan_demandas.nombre_quienes IS 'Descripción del grupo que efectúa la demanda (ej. Familiares)';
-
-COMMENT ON TABLE quienes_efectuan_demandas_por_organizacion IS 'Relación entre organizaciones y los perfiles de personas que les realizan pedidos';
-
--- Gestión de Proyectos
-COMMENT ON TABLE proyectos IS 'Detalle de programas y áreas de trabajo: descripción, fechas, población y estado actual';
-COMMENT ON COLUMN proyectos.descripcion IS 'Nombre o descripción de la actividad (ej. Área educativa, Espectáculos)';
-COMMENT ON COLUMN proyectos.numero_poblacion_atendida IS 'Cantidad de personas beneficiadas por el proyecto';
-COMMENT ON COLUMN proyectos.fecha_inicio IS 'Fecha de comienzo del proyecto';
-COMMENT ON COLUMN proyectos.estado IS 'Situación del proyecto (ej. ACTIVO, FINALIZADO)';
-
-COMMENT ON TABLE proyecto_por_organizacion_relacionada IS 'Vinculación de proyectos con otras instituciones colaboradoras';
-
--- Rangos Etarios
-COMMENT ON TABLE perfil_edad IS 'Catálogo de rangos de edad de la población (Niños, Adolescentes, Jóvenes)';
-COMMENT ON COLUMN perfil_edad.perfil_edad IS 'Nombre del grupo etario atendido';
-
-COMMENT ON TABLE perfil_edad_por_organizacion IS 'Vincula organizaciones con las edades de las personas a las que ayudan y su prioridad';
-
--- Problemáticas Sociales
-COMMENT ON TABLE problemas_sociedad IS 'Catálogo de problemas que la organización busca resolver (Pobreza, Trabajo infantil, Violencia)';
-COMMENT ON COLUMN problemas_sociedad.problema_sociedad IS 'Descripción de la problemática (ej. Falta de trabajo)';
-
-COMMENT ON TABLE problema_sociedad_por_organizacion IS 'Relación entre organizaciones y los problemas sociales que intentan mitigar y su prioridad';
-
--- Vínculos Institucionales y Políticos
-COMMENT ON TABLE vinculacion IS 'Detalle de conexiones con el Estado, partidos políticos, programas sociales y participación en redes o foros';
-COMMENT ON COLUMN vinculacion.id_organizacion IS 'ID organización (FK/PK)';
-COMMENT ON COLUMN vinculacion.vinculacion_instancias_estatales IS '¿Posee relación con niveles del Estado? (SI/NO)';
-COMMENT ON COLUMN vinculacion.acuerdos_convenios IS 'Detalle de acuerdos o convenios vigentes';
-COMMENT ON COLUMN vinculacion.redes_foros IS '¿Participa en redes, federaciones o foros? (Boolean)';
-COMMENT ON COLUMN vinculacion.funcionarios_politicos IS 'Relación o contacto con funcionarios políticos';
-COMMENT ON COLUMN vinculacion.proyectos_partidos_politicos IS '¿Participa en proyectos de partidos políticos? (Boolean)';
-COMMENT ON COLUMN vinculacion.implementacion_programas_sociales IS '¿Ejecuta programas sociales públicos? (SI/NO)';
-COMMENT ON COLUMN vinculacion.cual_programa_social IS 'Nombre del programa social (ej. Plan Trabajar)';
-COMMENT ON COLUMN vinculacion.evaluacion_programa_social IS 'Opinión o evaluación sobre el impacto de los programas sociales en la organización';
-COMMENT ON COLUMN vinculacion.cuales_redes_foros IS 'Nombres de las redes o foros donde participa (ej. FEHGRA, IMT, Asociaciones)';
-
--- Tipología de estructura
-COMMENT ON TABLE organizacion_tipo IS 'Clasificación de la organización según su dependencia jerárquica y si tiene otras sedes a cargo';
-COMMENT ON COLUMN organizacion_tipo.descripcion IS 'Nombre del tipo organizativo (ej. Tipo 1, Tipo 2)';
-COMMENT ON COLUMN organizacion_tipo.dependencia_casa_matriz_local IS '¿Depende de una sede central en la misma localidad? (Boolean)';
-COMMENT ON COLUMN organizacion_tipo.dependencia_casa_matriz_externa IS '¿Depende de una sede central externa/nacional/extranjera? (Boolean)';
-COMMENT ON COLUMN organizacion_tipo.organizaciones_a_cargo IS '¿Esta organización tiene otras entidades bajo su mando? (Boolean)';
-
--- Catálogo de Sedes Centrales
-COMMENT ON TABLE organizacion_casa_matriz_externa IS 'Catálogo de sedes centrales, federaciones o ministerios nacionales de los que depende la organización';
-COMMENT ON COLUMN organizacion_casa_matriz_externa.nombre IS 'Nombre de la casa matriz o ente superior (ej. Ministerio de Defensa, Federación)';
-COMMENT ON COLUMN organizacion_casa_matriz_externa.nivel IS 'Ámbito de la casa matriz (Nacional, Internacional, etc.)';
+-- Created by Redgate Data Modeler (https://datamodeler.redgate-platform.com)
+-- Last modification date: 2026-09-04 19:31:49.017
+
+COMMENT ON COLUMN ACTIVIDAD.descripcion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.4. Proyectos/Actividades/Acciones principales que realiza la organización y número de participantes/Proyectos/ /líneas de acción/ Actividades';
+COMMENT ON COLUMN ACTIVIDAD.cant_participantes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.4. Proyectos/Actividades/Acciones principales que realiza la organización y número de participantes/Nº estimado de población  participante';
+
+COMMENT ON COLUMN ALFABETIZACION.conformacion_equipo IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.1. ¿Cómo está conformado el equipo en ésta área?';
+COMMENT ON COLUMN ALFABETIZACION.cant_ninies_part IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.2. ¿Qué cantidad de niñes participan?';
+COMMENT ON COLUMN ALFABETIZACION.escuelas_part IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.3. ¿De qué escuelas?';
+COMMENT ON COLUMN ALFABETIZACION.artic_escuelas_part IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.4 ¿Hay articulación con las instituciones educativas?';
+COMMENT ON COLUMN ALFABETIZACION.modalidad_trabajo_recursos IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.5. ¿Qué modalidad de trabajo utiliza y de qué recursos dispone?';
+COMMENT ON COLUMN ALFABETIZACION.demanda IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.6. ¿Qué tipo de demandas reciben en la organización?';
+
+
+COMMENT ON COLUMN APORTE_ESTATAL.origen IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Proveniente del Estado
+Opciones: N (Nacional), P (Provincial), M (Municipal)';
+COMMENT ON COLUMN APORTE_ESTATAL.forma IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Forma
+La forma del aporte puede ser ''''Becas'''', ''''Subsidios'''', ''''Otro'''' codificado como B, S, O';
+COMMENT ON COLUMN APORTE_ESTATAL.otra_forma IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Cuál otra forma de aporte?';
+COMMENT ON COLUMN APORTE_ESTATAL.frecuencia IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/¿Con qué frecuencia?
+La frecuencia puede ser'''' Anual'''',  ''''Semestral'''',  ''''Mensual'''',  ''''Semanal'''',  ''''Única vez'''' codificado como A, S, M, E, U';
+COMMENT ON COLUMN APORTE_ESTATAL.cant_aporte IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Indicar cantidad (de becas, subsidios, otros aportes)';
+
+COMMENT ON COLUMN AREA_ORG.id_area IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.4. Área(s) temática(s)';
+COMMENT ON COLUMN AREA_ORG.otra_area IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.4.1. ¿Cual/es es/son la/s otra/s area/s temática/s?';
+
+COMMENT ON COLUMN CAPACITACION_ORG.id_capacitacion IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/¿En qué áreas temáticas de CAPACITACIÓN tendría interés la organización?';
+COMMENT ON COLUMN CAPACITACION_ORG.otra_capacitacion IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/¿Cual otra/s área/s temática/s está interesada la organización? Detalle';
+
+COMMENT ON COLUMN DEMANDAS_SOCIALES.cuales IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.1. ¿Cuáles son las principales demandas sociales que se realizan a la/en la organización?';
+COMMENT ON COLUMN DEMANDAS_SOCIALES.quienes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.2. ¿Quiénes usualmente las efectúan?';
+COMMENT ON COLUMN DEMANDAS_SOCIALES.como IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.3. ¿Cómo las efectúan?';
+COMMENT ON COLUMN DEMANDAS_SOCIALES.respuesta IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.4. ¿Cómo responde la organización a las mismas?';
+
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.descripcion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Descripción de propuesta para niñez
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Descripción de propuesta para adolescentes/jóvenes';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.edades IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Edades
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Edades';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.cant_participantes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Cantidad de participantes
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Cantidad de participantes';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.dias_horarios IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Días y Horarios
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Días y Horarios';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.inicio_funcion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Desde cuando funciona?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Desde cuando funciona?';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.sexo_coordinador IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Sexo coordinador/a
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Sexo coordinador/a
+Opciones: F (Femenino), M (Masculino) y O (Otrxs)';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.otro_sexo IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Cual?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Cuál?';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.formacion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Formación
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Formación';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.edad_coordinador IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Edad
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Edad';
+COMMENT ON COLUMN DETALLE_PROPUESTA_NINIEZ_JUVENTUD.suma_org IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/¿Cómo se sumó a la Organización?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/¿Cómo se sumó a la Organización?';
+
+COMMENT ON COLUMN DIFICULTAD_ORG.id_organizacion IS '10. AUTODIAGNÓSTICO/10.1.1. ¿Cuál es la dificultad MÁS relevante que encuentra en su trabajo?
+10. AUTODIAGNÓSTICO/10.1.2 ¿Cuál/es otra/s dificultad/es encuentra en su trabajo,  además de la anterior?';
+COMMENT ON COLUMN DIFICULTAD_ORG.otra_dificultad IS '10. AUTODIAGNÓSTICO/¡A qué otra dificultad se refiere?
+10. AUTODIAGNÓSTICO/¿Cual/es otra/s dificultad/es encuentra en su trabajo?';
+
+COMMENT ON COLUMN DIRECCION.id_ciudad IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Ciudad';
+COMMENT ON COLUMN DIRECCION.calle IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Calle';
+COMMENT ON COLUMN DIRECCION.numero IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Número/Puerta';
+COMMENT ON COLUMN DIRECCION.piso IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Piso';
+COMMENT ON COLUMN DIRECCION.domicilio_legal IS 'Indica si es el domicilio legal de la organización';
+
+COMMENT ON COLUMN EJE_ORG.id_eje IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.5. Ejes de Acción';
+COMMENT ON COLUMN EJE_ORG.otro_eje IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.5.1. ¿Cual/es es/son el/los otro/s eje/s de acción/es?';
+
+COMMENT ON COLUMN EMAIL_ORG.email IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/E-mail';
+
+
+COMMENT ON COLUMN ENTREVISTA.fecha_entrevista IS 'Datos Generales/Fecha de realización de la entrevista';
+COMMENT ON COLUMN ENTREVISTA.nombre_entrevistador IS 'Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Nombre Entrevistador/a';
+COMMENT ON COLUMN ENTREVISTA.apellido_entrevistador IS 'Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Apellido Entrevistador/a';
+COMMENT ON COLUMN ENTREVISTA.nombre_supervisor IS 'Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Nombre Supervisor/a';
+COMMENT ON COLUMN ENTREVISTA.apellido_supervisor IS 'Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Apellido Supervisor/a';
+COMMENT ON COLUMN ENTREVISTA.id_ciudad IS 'Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Ciudad';
+COMMENT ON COLUMN ENTREVISTA.index_entrevista IS '_index';
+COMMENT ON COLUMN ENTREVISTA.nombre_archivo IS 'Nombre del archivo que se utilizo para importar los datos de esta entrevista';
+COMMENT ON COLUMN ENTREVISTA.hoja_registro IS 'HOJA DE REGISTRO (A completar por censista/supervisor/a)';
+
+COMMENT ON COLUMN EQUIPAMIENTO_ORG.id_equipamiento IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/Tipo de equipamiento';
+
+
+COMMENT ON COLUMN ESPACIO_CUIDADO.edades IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Edades de quienes concurren';
+COMMENT ON COLUMN ESPACIO_CUIDADO.a_cargo IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/¿A cargo de quien está el espacio?';
+COMMENT ON COLUMN ESPACIO_CUIDADO.formacion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Formación';
+COMMENT ON COLUMN ESPACIO_CUIDADO.cantidad_ninies IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Cantidad de niñes';
+COMMENT ON COLUMN ESPACIO_CUIDADO.propuesta IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/¿En qué consiste la propuesta?';
+
+COMMENT ON COLUMN ESPACIO_FORMACION.descripcion_espacio IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/Espacio de capacitación/formación';
+COMMENT ON COLUMN ESPACIO_FORMACION.quien_organiza IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/¿Quién organiza?
+Opciones: PO (La propia organización), OO (Otra/s organización/es), IG (Iglesia), UN (Universidad), ES (Escuela), IT (Institutos Terciarios), SI (Sindicatos), PP (Partidos Políticos), GO (Instancias de Gobierno(Municipio, Provincia, Nación)), OT (Otros)
+';
+COMMENT ON COLUMN ESPACIO_FORMACION.quien_participa IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/¿Quienes participan?';
+
+COMMENT ON COLUMN EXPECTATIVA_ORG.id_expectativa IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/11.1.1. Respecto de la UNICEN. ¿Cuál es su PRINCIPAL expectativa como organización?
+11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/11.1.2. Respecto de la UNICEN. ¿Cuál/es otras expectativa tiene como organización, aparte de la anterior?';
+COMMENT ON COLUMN EXPECTATIVA_ORG.detalle_espectativa IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/¿Cual otra/s expectativa/s tienen como organización? Detalle';
+
+COMMENT ON COLUMN FORMA_DOCUMENTACION_PLAN_EVAL_ORG.id_forma_documentacion_plan_eval IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.3. De qué forma lo hace?';
+COMMENT ON COLUMN FORMA_DOCUMENTACION_PLAN_EVAL_ORG.otra_forma_doc IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/Cuál/es es/son la/s otra/s forma/s de registrar las tareas que desarrolla?';
+
+COMMENT ON COLUMN FORMA_PLAN_EVAL_ORG.organigrama IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.8. Organigrama de la organización/6.8.1. Cómo están organizados, ¿cómo dividen la tarea? ¿cómo toman las decisiones?';
+COMMENT ON COLUMN FORMA_PLAN_EVAL_ORG.documentacion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.1. ¿Cuenta la organización con documento escrito y/o de proyectos de la misma?';
+COMMENT ON COLUMN FORMA_PLAN_EVAL_ORG.registro IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.2. ¿La organización registra la tarea que desarrolla utilizando formas de registro?';
+COMMENT ON COLUMN FORMA_PLAN_EVAL_ORG.planificacion_accionar IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.1. ¿La organización suelen planificar su accionar?';
+COMMENT ON COLUMN FORMA_PLAN_EVAL_ORG.evaluacion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.1. ¿Suelen evaluar el trabajo de la organización?';
+
+COMMENT ON COLUMN FUNDADOR.nombre_fundador IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.3. ¿Cuáles fueron sus “fundadores/as”?/Nombre y Apellido del Referente/Fundador/a';
+COMMENT ON COLUMN FUNDADOR.caracteristica IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.3. ¿Cuáles fueron sus “fundadores/as”?/Características del Referente/Fundador/a: (indicar cualquier dato o característica que nos permita conocer el perfil. Por ejemplo: vecino/a del barrio, trabajador/a metalúrgico, de la salud, de la educación…, etc.)';
+
+COMMENT ON COLUMN GENERACION_FONDO_ORG.id_generacion_fondo IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/7.2.1. Formas de generación de Fondos Propios';
+COMMENT ON COLUMN GENERACION_FONDO_ORG.otros_fondos IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Detalle las otras estrategias de generación de fondos propios';
+
+COMMENT ON COLUMN GENERO_ORG.id_genero IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3.2. Según identidad(es) de género(s) quienes participan de la organización?';
+
+
+COMMENT ON COLUMN IDENTIDAD_ORG.id_identidad IS '5. IDENTIDAD DE LA ORGANIZACIÓN/Seleccione  a cual/es identidad/es pertenece (puede seleccionar más de uno)';
+COMMENT ON COLUMN IDENTIDAD_ORG.otro_tipo IS '5. IDENTIDAD DE LA ORGANIZACIÓN/Detallar descripción de "Otra Organización"';
+
+
+COMMENT ON COLUMN JOVENES_MEMORIA.anio_participacion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Año de participación';
+COMMENT ON COLUMN JOVENES_MEMORIA.cant_participantes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Cantidad de Jóvenes que  participaron';
+COMMENT ON COLUMN JOVENES_MEMORIA.temas IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Temas';
+
+
+COMMENT ON COLUMN MEDIO_DIFUSION_ORG.id_medio IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Forma';
+COMMENT ON COLUMN MEDIO_DIFUSION_ORG.descripcion_medio IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Cuales medios de comunicación?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Nombre de la/s publicación/es
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/URL de la Pagina web
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Facebook
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Instagram
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Twitter
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Cuales otros medios de comunicación?';
+
+
+COMMENT ON COLUMN OBJETIVO_INTERNO.nombre_objetivo IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1. Objetivos de la Organización/6.1.1 Objetivo actual de la organización';
+COMMENT ON COLUMN OBJETIVO_INTERNO.descripcion_objetivo IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1. Objetivos de la Organización/6.1.2. Describir sintéticamente a qué se dedica tu organización según el objetivo anterior (el campo de acción)';
+
+
+COMMENT ON COLUMN ORGANIZACION.org_id_documento IS 'Id que corresponde a la organización en el documento que se utilizo para importar la información.';
+COMMENT ON COLUMN ORGANIZACION.nombre_completo IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Nombre completo';
+COMMENT ON COLUMN ORGANIZACION.sigla IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Sigla de la Organización (si la tuviera)';
+COMMENT ON COLUMN ORGANIZACION.dias_horarios IS '1.DATOS FORMALES DE LA ORGANIZACIÓN/Días y Horarios en que funciona';
+COMMENT ON COLUMN ORGANIZACION.edo_situcion_juridica IS '3. SITUACIÓN JURÍDICA/3.1. ¿Cuenta con personería Jurídica?
+Opciones:  S (SI), N (NO), T  (En trámite) y O (Otra situación) ';
+COMMENT ON COLUMN ORGANIZACION.nro_personeria IS '3. SITUACIÓN JURÍDICA/3.1.1. Número de Personería Jurídica';
+COMMENT ON COLUMN ORGANIZACION.nombre_personeria IS '3. SITUACIÓN JURÍDICA/3.1.1. Nombre de la Personería Jurídica';
+COMMENT ON COLUMN ORGANIZACION.figura_legal IS '3. SITUACIÓN JURÍDICA/3.1.2. ¿Con qué figura legal cuenta su organización? Clasificación jurídico-legal
+Opciones: A (Asociación Civil), F (Fundación), M (Mutual) y C (Cooperativa)';
+COMMENT ON COLUMN ORGANIZACION.forma IS '3. SITUACIÓN JURÍDICA/3.1.3. ¿Cuál de las siguientes formas de Asociación Civil adquiere?
+Opciones: CA (Cámara), FE (Federación), CO (Confederación) y AS (Asociación)';
+COMMENT ON COLUMN ORGANIZACION.tramite IS '3. SITUACIÓN JURÍDICA/3.1.4. ¿De qué figura legal posee el Trámite de Personería Jurídica?';
+COMMENT ON COLUMN ORGANIZACION.anio_origen IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.1. Año de Origen';
+COMMENT ON COLUMN ORGANIZACION.origen IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2. Origen relacionado a inspiraciones
+Opciones: L (laico) y R (religioso)';
+COMMENT ON COLUMN ORGANIZACION.origen_religioso IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2.1. ¿De qué religión se trata?
+Opciones: C (Católica), P (Protestante), J (Judía) y O (Otra)';
+COMMENT ON COLUMN ORGANIZACION.otro_origen_religioso IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2.1.1. ¿Cuál otra religión?';
+COMMENT ON COLUMN ORGANIZACION.objetivos_fundacionales IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.4. ¿Cuáles fueron los objetivos fundacionales que dieron nacimiento a la organización?';
+COMMENT ON COLUMN ORGANIZACION.resenia_historica IS '4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.5. Breve reseña de la acción: Qué causas le dieron origen, ¿cómo comenzaron, referencias al contexto socio-económico-político que le dio origen, identificación de hechos históricos significativos del momento?';
+COMMENT ON COLUMN ORGANIZACION.nro_participantes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.3. Número total de participantes de la organización (puede ser aproximado)';
+COMMENT ON COLUMN ORGANIZACION.alcance_1 IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Alcance principal
+Opciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)';
+COMMENT ON COLUMN ORGANIZACION.alcance_2 IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Segundo alcance
+Opciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)';
+COMMENT ON COLUMN ORGANIZACION.alcance_3 IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Tercer alcance
+Opciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)';
+COMMENT ON COLUMN ORGANIZACION.barrios IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/6.2.1. Como ha seleccionado Alcance BARRIAL, mencionar los barrios o zona comprendida';
+COMMENT ON COLUMN ORGANIZACION.poblacion_participante IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3. Describa en general las características de la población que participa en la organización';
+COMMENT ON COLUMN ORGANIZACION.acciones_pandemia IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.6. ¿La organización ha desarrollando alguna iniciativa para abordar la situación social y sanitaria en el contexto de la pandemia? Indicar las acciones que se desarrollaban, o las acciones nuevas que han emprendido. Registro cualitativo';
+COMMENT ON COLUMN ORGANIZACION.posee_murga IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.5. ¿Tiene o es una murga la organización?';
+COMMENT ON COLUMN ORGANIZACION.relato_murga IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/Relato de la experiencia (desde cuándo, cantidad de integrantes, temas que trabajan, formas de organizarse)';
+COMMENT ON COLUMN ORGANIZACION.espacios_cuidado IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿La organización ha desarrollado espacios de cuidado regulares de niñes?';
+COMMENT ON COLUMN ORGANIZACION.planea_espacios_cuidado IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿Tienen previsto desarrollarlos?';
+COMMENT ON COLUMN ORGANIZACION.considera_necesarios_esp_cuid IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿Consideran que sería necesario hacerlo? ¿Por qué?';
+COMMENT ON COLUMN ORGANIZACION.formacion_integrantes IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/6.12.1. ¿Implementa formas de capacitación/formación de sus integrantes?';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_fondos_propios IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Fondos propios (%)';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_municipales IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Municipal (%)';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_provinciales IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Provincial (%)';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_nacionales IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Nacional (%)';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_internacionales IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Organismo internacional (%)';
+COMMENT ON COLUMN ORGANIZACION.rec_financ_empresas IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Empresas (%)';
+COMMENT ON COLUMN ORGANIZACION.descripcion_financ_empresa IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Detallar si indicó % de Organismo internacional y/o empresa';
+COMMENT ON COLUMN ORGANIZACION.tenencia_propiedad IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/7.3.2. Forma de tenencia de la propiedad en la cual funciona la organización (domicilio que se está relevando)
+La tenencia de la propiedad puede ser CE (En propiedad c/ escritura), FC (Fiscal en comodato), CI (Espacio cedido por un particular de modo informal), SE (En propiedad s/escritura), PC (Privado en comodato), EP (Espacio en préstamo dentro de otra institución), EA (En alquiler), ET (Toma de un espacio físico) y OT (Otra).';
+COMMENT ON COLUMN ORGANIZACION.uso_tenencia IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/Uso
+La tenencia puede ser Exclusiva o Compartida, se codifica como ''''E'''' o ''''C''''';
+COMMENT ON COLUMN ORGANIZACION.vinculo_otra_org IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1. ¿Se vincula con instancias estatales?';
+COMMENT ON COLUMN ORGANIZACION.cuales_organizaciones IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.3. En particular, ¿ha realizado actividades conjuntas con algunas de las siguientes organizaciones?/Cuales';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_redes IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Inserción en redes';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_foros IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Foros';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_mesa_barrial IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa barrial';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_mesa_emergencia IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa de emergencia';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_mesa_tematica IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa temática';
+COMMENT ON COLUMN ORGANIZACION.integra_esp_consejos IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Consejos';
+COMMENT ON COLUMN ORGANIZACION.modificacion_otras_org IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.5. Contexto Pandemia/¿En el contexto de la PANDEMIA como se modificaron las relaciones con las otras organizaciones?';
+COMMENT ON COLUMN ORGANIZACION.eval_accionar_municipal IS '9. VISIÓN O LECTURA DE LA REALIDAD/9.2. Accionar Municipal/¿Cómo evalúa el accionar municipal en relación a esos problemas?';
+COMMENT ON COLUMN ORGANIZACION.trabajo_infantil IS '9. VISIÓN O LECTURA DE LA REALIDAD/9.3./¿Han observado la existencia de situaciones de trabajo infantil en EL AREA DE ACCIÓN DE la organización? ';
+COMMENT ON COLUMN ORGANIZACION.situacion_trabajo_infantil IS '9. VISIÓN O LECTURA DE LA REALIDAD/9.3./Precise la situación';
+COMMENT ON COLUMN ORGANIZACION.opinion_rol_org IS '10. AUTODIAGNÓSTICO/10.2. Según su opinión qué rol están cumpliendo las Organizaciones de la sociedad civil en el escenario político social actual?';
+COMMENT ON COLUMN ORGANIZACION.opinion_rol_ideal_org IS '10. AUTODIAGNÓSTICO/10.3 ¿Cuál cree que deberían cumplir?';
+COMMENT ON COLUMN ORGANIZACION.detalles_expectativa_org IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/Ampliar respuesta sobre espectativas si es necesario';
+COMMENT ON COLUMN ORGANIZACION.detalles_capacitaciones IS '11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/Ampliar respuesta sobre área temática si es necesario';
+
+
+COMMENT ON TABLE ORG_RELACIONADA IS ' Organización/es con las que se relaciona';
+COMMENT ON COLUMN ORG_RELACIONADA.tipo IS 'Indica el tipo de relación con la organización. M - Org. Madre o H - Org. Hija.';
+COMMENT ON COLUMN ORG_RELACIONADA.nombre_organizacion IS '2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Nombre Organización
+2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Nombre Organización';
+COMMENT ON COLUMN ORG_RELACIONADA.ubicacion IS '2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Ubicación
+2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Ubicación';
+COMMENT ON COLUMN ORG_RELACIONADA.referente IS '2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Referente
+2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Referente';
+COMMENT ON COLUMN ORG_RELACIONADA.alcance IS '2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Alcance
+2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Alcance
+Opciones: L (local), R (regional), N (nacional) e I (internacional)';
+
+
+COMMENT ON COLUMN PARTICIPANTE_ORG.id_participante IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3.1. Según edad quienes participan de la organización?';
+
+
+COMMENT ON COLUMN PARTICIPANTE_PLAN_EVAL_ORG.id_participante_plan_eval IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.3. ¿Quiénes participan?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.3. ¿Quiénes participan?';
+COMMENT ON COLUMN PARTICIPANTE_PLAN_EVAL_ORG.tipo IS 'El tipo es E (evaluacion) o P (planificacion)';
+COMMENT ON COLUMN PARTICIPANTE_PLAN_EVAL_ORG.otro_participante IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/Quienes?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/Quienes?';
+
+
+COMMENT ON COLUMN PERIODO_PLAN_EVAL_ORG.id_periodo_plan_eval IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.2. ¿En qué MOMENTOS se planifica?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.2. ¿En qué MOMENTOS se evalúa?';
+COMMENT ON COLUMN PERIODO_PLAN_EVAL_ORG.tipo IS 'E - evaluacion
+P - planificacion';
+
+
+COMMENT ON COLUMN PROBLEMATICA.descripcion_problema IS '9. VISIÓN O LECTURA DE LA REALIDAD/9.1. Enuncie en orden de prioridad los problemas que la organización identifica como prioritarios en nuestra ciudad/Problema';
+COMMENT ON COLUMN PROBLEMATICA.causa IS '9. VISIÓN O LECTURA DE LA REALIDAD/9.1. Enuncie en orden de prioridad los problemas que la organización identifica como prioritarios en nuestra ciudad/Causa';
+
+
+COMMENT ON COLUMN PROPUESTA_NINIEZ_JUVENTUD.tipo_propuesta IS 'Indica el tipo de propuesta que puede ser N (Niniez) o J (Adolescentes/Jóvenes)';
+COMMENT ON COLUMN PROPUESTA_NINIEZ_JUVENTUD.como_surge IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.1. ¿Cómo surgen estas propuestas?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.1. ¿Cómo surgen estas propuestas?';
+COMMENT ON COLUMN PROPUESTA_NINIEZ_JUVENTUD.como_funciona IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.2. ¿Cómo funcionan?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.2. ¿Cómo funcionan?';
+COMMENT ON COLUMN PROPUESTA_NINIEZ_JUVENTUD.opinion IS '6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.3. ¿Qué opinas vos que significan las propuestas para las/los participantes?
+6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.3. ¿Qué opinas vos que significan las propuestas para las/los participantes?';
+
+
+COMMENT ON COLUMN REF_ENTREVISTADO.nombre_entrevistado IS 'Datos Generales/2. Datos Entrevistado/a/repetir_persona/Nombre Referente Entrevistado/a';
+COMMENT ON COLUMN REF_ENTREVISTADO.apellido_entrevistado IS 'Datos Generales/2. Datos Entrevistado/a/repetir_persona/Apellido Referente Entrevistado/a';
+COMMENT ON COLUMN REF_ENTREVISTADO.cargo_entrevistado IS 'Datos Generales/2. Datos Entrevistado/a/repetir_persona/Cargo que desempeña en la organización';
+COMMENT ON COLUMN REF_ENTREVISTADO.antiguedad IS 'Datos Generales/2. Datos Entrevistado/a/repetir_persona/Antigüedad en la misma';
+
+COMMENT ON COLUMN TIPO_ORGANIZACION_ORG.id_tipo_organizacion IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.3. En particular, ¿ha realizado actividades conjuntas con algunas de las siguientes organizaciones?/Tipo  de Organización';
+
+COMMENT ON COLUMN TRABAJADORES_ORG.miembros_trabajando IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/Mencione cuántos miembros de la organización trabajan cotidianamente o al menos un día por semana en ella: (cantidad integrantes)';
+COMMENT ON COLUMN TRABAJADORES_ORG.mujeres_rent IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Mujeres Rentadas';
+COMMENT ON COLUMN TRABAJADORES_ORG.varones_rent IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Varones Rentados';
+COMMENT ON COLUMN TRABAJADORES_ORG.otros_rent IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Otrxs Integrantes Rentadxs';
+COMMENT ON COLUMN TRABAJADORES_ORG.mujeres_vol IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Voluntarias Mujeres';
+COMMENT ON COLUMN TRABAJADORES_ORG.varones_vol IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Voluntarios Varones';
+COMMENT ON COLUMN TRABAJADORES_ORG.otros_vol IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Otrxs Integrantes Voluntarixs';
+COMMENT ON COLUMN TRABAJADORES_ORG.dias_trabajo_rent IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes rentadxs/Cantidad de días semanales de trabajo, en promedio';
+COMMENT ON COLUMN TRABAJADORES_ORG.horas_trabajo_rent IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes rentadxs/Cantidad de hs de trabajo por día, en promedio';
+COMMENT ON COLUMN TRABAJADORES_ORG.dias_trabajo_vol IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes voluntarixs/Cantidad de días semanales de trabajo, en promedio';
+COMMENT ON COLUMN TRABAJADORES_ORG.horas_trabajo_vol IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes voluntarixs/Cantidad de hs de trabajo, en promedio';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_trabajadores_smvm_1 IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/¿Cuántos trabajadores cobran hasta 1 SMVM?';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_trabajadores_smvm_2 IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/¿Cuántos trabajadores cobran entre 1 y 2 SMVM?';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_trabajadores_smvm_3 IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/Más de 2 SMVM';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_cond_contr_relac_dep IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Personal en relación de dependencia';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_cond_contr_subsidio IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Subsidios/Planes sociales /salario social complementario';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_cond_contr_monotributo IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Monotributo/ Monotributo social';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_cond_contr_pasantia IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Pasantías';
+COMMENT ON COLUMN TRABAJADORES_ORG.cant_cond_contr_otros IS '7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Otros';
+
+COMMENT ON COLUMN VINCULO_ORGANIZACION.nombre_organizacion IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Organización social';
+COMMENT ON COLUMN VINCULO_ORGANIZACION.motivo IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Motivo(s)';
+COMMENT ON COLUMN VINCULO_ORGANIZACION.actividades IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Actividad(es)';
+
+COMMENT ON COLUMN VINCULO_ORGANIZACION_ESTATAL.tipo_vinculo_est IS 'Los valores posibles sería Municipal, Provincial o  Nacional codificado como M, P, N';
+COMMENT ON COLUMN VINCULO_ORGANIZACION_ESTATAL.detalle_dependencias IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/Motivos de vinculación
+';
+COMMENT ON COLUMN VINCULO_ORGANIZACION_ESTATAL.motivo_vinculacion IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/Motivo de Vinculación
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/Motivos de vinculación
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)
+';
+COMMENT ON COLUMN VINCULO_ORGANIZACION_ESTATAL.relacion_pandemia IS '8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...
+8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...
+Los valores posibles son ''''Se mantuvo igual'''', ''''Se fortaleció'''', ''''Se debilitó'''' codificado como I, F, D';

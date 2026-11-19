@@ -1,712 +1,498 @@
 {
     "T1": {
         "nombre_real": "organizacion",
-        "descripcion_tabla": "Tabla que almacena los datos de las organizaciones.",
+        "descripcion_tabla": "",
         "columnas": {
-            "denominacion_legal": "campo que almacena la denominación legal.",
-            "domicilio_legal": "campo que almacena la dirección legal.",
-            "domicilio_real": "campo que almacena la dirección real.",
-            "e_mail": "campo que almacena el mail",
-            "fax": "campo que almacena el número de fax de la organización.",
-            "horarios": "campo que almacena los horarios de atención o funcionamiento de la organización.",
-            "telefonos": "campo que almacena los números de teléfono de la organización, utilizados para contacto y comunicación con clientes, proveedores u otras partes interesadas.",
-            "id_tipoorganizacion": "identificador del tipo de organización"
+            "org_id_documento": "Id que corresponde a la organización en el documento que se utilizo para importar la información.",
+            "nombre_completo": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Nombre completo",
+            "sigla": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Sigla de la Organización (si la tuviera)",
+            "dias_horarios": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Días y Horarios en que funciona",
+            "edo_situcion_juridica": "3. SITUACIÓN JURÍDICA/3.1. ¿Cuenta con personería Jurídica?\nOpciones:  S (SI), N (NO), T  (En trámite) y O (Otra situación)",
+            "nro_personeria": "3. SITUACIÓN JURÍDICA/3.1.1. Número de Personería Jurídica",
+            "nombre_personeria": "3. SITUACIÓN JURÍDICA/3.1.1. Nombre de la Personería Jurídica",
+            "figura_legal": "3. SITUACIÓN JURÍDICA/3.1.2. ¿Con qué figura legal cuenta su organización? Clasificación jurídico-legal\nOpciones: A (Asociación Civil), F (Fundación), M (Mutual) y C (Cooperativa)",
+            "forma": "3. SITUACIÓN JURÍDICA/3.1.3. ¿Cuál de las siguientes formas de Asociación Civil adquiere?\nOpciones: CA (Cámara), FE (Federación), CO (Confederación) y AS (Asociación)",
+            "tramite": "3. SITUACIÓN JURÍDICA/3.1.4. ¿De qué figura legal posee el Trámite de Personería Jurídica?",
+            "anio_origen": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.1. Año de Origen",
+            "origen": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2. Origen relacionado a inspiraciones\nOpciones: L (laico) y R (religioso)",
+            "origen_religioso": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2.1. ¿De qué religión se trata?\nOpciones: C (Católica), P (Protestante), J (Judía) y O (Otra)",
+            "otro_origen_religioso": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.2.1.1. ¿Cuál otra religión?",
+            "objetivos_fundacionales": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.4. ¿Cuáles fueron los objetivos fundacionales que dieron nacimiento a la organización?",
+            "resenia_historica": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.5. Breve reseña de la acción: Qué causas le dieron origen, ¿cómo comenzaron, referencias al contexto socio-económico-político que le dio origen, identificación de hechos históricos significativos del momento?",
+            "nro_participantes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.3. Número total de participantes de la organización (puede ser aproximado)",
+            "alcance_1": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Alcance principal\nOpciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)",
+            "alcance_2": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Segundo alcance\nOpciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)",
+            "alcance_3": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/Tercer alcance\nOpciones: B (Barrial), M (Municipal/Local), N (Nacional) e I (Internacional)",
+            "barrios": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.2. Alcance de su accionar/6.2.1. Como ha seleccionado Alcance BARRIAL, mencionar los barrios o zona comprendida",
+            "poblacion_participante": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3. Describa en general las características de la población que participa en la organización",
+            "acciones_pandemia": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.6. ¿La organización ha desarrollando alguna iniciativa para abordar la situación social y sanitaria en el contexto de la pandemia? Indicar las acciones que se desarrollaban, o las acciones nuevas que han emprendido. Registro cualitativo",
+            "posee_murga": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.5. ¿Tiene o es una murga la organización?",
+            "relato_murga": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/Relato de la experiencia (desde cuándo, cantidad de integrantes, temas que trabajan, formas de organizarse)",
+            "espacios_cuidado": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿La organización ha desarrollado espacios de cuidado regulares de niñes?",
+            "planea_espacios_cuidado": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿Tienen previsto desarrollarlos?",
+            "considera_necesarios_esp_cuid": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/¿Consideran que sería necesario hacerlo? ¿Por qué?",
+            "formacion_integrantes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/6.12.1. ¿Implementa formas de capacitación/formación de sus integrantes?",
+            "rec_financ_fondos_propios": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Fondos propios (%)",
+            "rec_financ_municipales": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Municipal (%)",
+            "rec_financ_provinciales": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Provincial (%)",
+            "rec_financ_nacionales": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Estado Nacional (%)",
+            "rec_financ_internacionales": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Organismo internacional (%)",
+            "rec_financ_empresas": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Empresas (%)",
+            "descripcion_financ_empresa": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Detallar si indicó % de Organismo internacional y/o empresa",
+            "tenencia_propiedad": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/7.3.2. Forma de tenencia de la propiedad en la cual funciona la organización (domicilio que se está relevando)\nLa tenencia de la propiedad puede ser CE (En propiedad c/ escritura), FC (Fiscal en comodato), CI (Espacio cedido por un particular de modo informal), SE (En propiedad s/escritura), PC (Privado en comodato), EP (Espacio en préstamo dentro de otra institución), EA (En alquiler), ET (Toma de un espacio físico) y OT (Otra).",
+            "uso_tenencia": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/Uso\nLa tenencia puede ser Exclusiva o Compartida, se codifica como ''E'' o ''C''",
+            "vinculo_otra_org": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1. ¿Se vincula con instancias estatales?",
+            "cuales_organizaciones": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.3. En particular, ¿ha realizado actividades conjuntas con algunas de las siguientes organizaciones?/Cuales",
+            "integra_esp_redes": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Inserción en redes",
+            "integra_esp_foros": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Foros",
+            "integra_esp_mesa_barrial": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa barrial",
+            "integra_esp_mesa_emergencia": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa de emergencia",
+            "integra_esp_mesa_tematica": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Mesa temática",
+            "integra_esp_consejos": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.4. ¿Su organización integra espacios colectivos?/Trama_asociativa/Consejos",
+            "modificacion_otras_org": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.5. Contexto Pandemia/¿En el contexto de la PANDEMIA como se modificaron las relaciones con las otras organizaciones?",
+            "eval_accionar_municipal": "9. VISIÓN O LECTURA DE LA REALIDAD/9.2. Accionar Municipal/¿Cómo evalúa el accionar municipal en relación a esos problemas?",
+            "trabajo_infantil": "9. VISIÓN O LECTURA DE LA REALIDAD/9.3./¿Han observado la existencia de situaciones de trabajo infantil en EL AREA DE ACCIÓN DE la organización?",
+            "situacion_trabajo_infantil": "9. VISIÓN O LECTURA DE LA REALIDAD/9.3./Precise la situación",
+            "opinion_rol_org": "10. AUTODIAGNÓSTICO/10.2. Según su opinión qué rol están cumpliendo las Organizaciones de la sociedad civil en el escenario político social actual?",
+            "opinion_rol_ideal_org": "10. AUTODIAGNÓSTICO/10.3 ¿Cuál cree que deberían cumplir?",
+            "detalles_expectativa_org": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/Ampliar respuesta sobre espectativas si es necesario",
+            "detalles_capacitaciones": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/Ampliar respuesta sobre área temática si es necesario"
         }
     },
     "T2": {
-        "nombre_real": "forma_de_difusion",
-        "descripcion_tabla": "Tabla con el tipo de difusion",
+        "nombre_real": "actividad",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_formadifusion": "identificador del tipo de difusión",
-            "tipo_difusion": "campo que almacena el tipo de difusion"
+            "descripcion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.4. Proyectos/Actividades/Acciones principales que realiza la organización y número de participantes/Proyectos/ /líneas de acción/ Actividades",
+            "cant_participantes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1.4. Proyectos/Actividades/Acciones principales que realiza la organización y número de participantes/Nº estimado de población  participante"
         }
     },
     "T3": {
-        "nombre_real": "recursos_humanos",
-        "descripcion_tabla": "Tabla que almacena los datos de los recursos humanos de la organización.",
+        "nombre_real": "alfabetizacion",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_organizacion": "identificador de la organización a la que pertenecen los recursos humanos.",
-            "renta_menor": "La menor renta de la organizacion",
-            "renta_mayor": "La mayor renta de la organizacion",
-            "renta_promedio": "La renta promedio de la organizacion",
-            "jornada_media_semana_rentado": "La jornada media semanal de los empleados rentados de la organización",
-            "jornada_media_semana_voluntariado": "La jornada media semanal de los empleados voluntarios de la organización",
-            "cantidad_personal_contratado": "La cantidad de personal contratado por la organización",
-            "cantidad_autonomo": "La cantidad de personal autónomo que trabaja para la organización",
-            "cantidad_relacion_dependencia": "La cantidad de relaciones de dependencia que tiene la organización",
-            "cantidad_pasantias": "La cantidad de pasantías que ofrece la organización",
-            "cantidad_becas": "La cantidad de becas que ofrece la organización",
-            "cantidad_otros": "La cantidad de otros tipos de recursos humanos que tiene la organización",
-            "captacion_voluntarios": "informa si estan captanfo voluntarios o no",
-            "estrategias_captacion": "texto que describe la estategia de captación de voluntarios"
+            "conformacion_equipo": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.1. ¿Cómo está conformado el equipo en ésta área?",
+            "cant_ninies_part": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.2. ¿Qué cantidad de niñes participan?",
+            "escuelas_part": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.3. ¿De qué escuelas?",
+            "artic_escuelas_part": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.4 ¿Hay articulación con las instituciones educativas?",
+            "modalidad_trabajo_recursos": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.5. ¿Qué modalidad de trabajo utiliza y de qué recursos dispone?",
+            "demanda": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.3. Detalles de accionar para Alfabetización/Apoyo escolar/Biblioteca/Educación Popular/6.7.3.6. ¿Qué tipo de demandas reciben en la organización?"
         }
     },
     "T4": {
-        "nombre_real": "situacion_juridica",
-        "descripcion_tabla": "Datos legales, personería jurídica y trámites de culto de organizaciones",
+        "nombre_real": "aporte_estatal",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_organizacion": "ID organización (FK)",
-            "personeria_juridica": "Estado o tipo de personería",
-            "nombre_personeria": "Nombre legal registrado",
-            "uso_transitorio_cual": "Detalle si el uso es transitorio",
-            "en_tramite_cual": "Detalle si personería está en trámite",
-            "figura_legal": "Figura legal (Asociación, Fundación, etc)",
-            "forma_asoc_civil": "Modalidad específica de asociación civil",
-            "nropersoneria": "Número de personería jurídica",
-            "fecha_obtencion": "Fecha en que se otorgó personería",
-            "fecha_inicio_tramite": "Fecha inicio trámite personería",
-            "nroregistroculto": "Número de registro nacional de cultos",
-            "fecha_obtregistroculto": "Fecha obtención registro de cultos"
+            "origen": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Proveniente del Estado\nOpciones: N (Nacional), P (Provincial), M (Municipal)",
+            "forma": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Forma\nLa forma del aporte puede ser ''Becas'', ''Subsidios'', ''Otro'' codificado como B, S, O",
+            "otra_forma": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Cuál otra forma de aporte?",
+            "frecuencia": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/¿Con qué frecuencia?\nLa frecuencia puede ser'' Anual'',  ''Semestral'',  ''Mensual'',  ''Semanal'',  ''Única vez'' codificado como A, S, M, E, U",
+            "cant_aporte": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2.2. Aportes Estatales/Indicar cantidad (de becas, subsidios, otros aportes)"
         }
     },
     "T5": {
-        "nombre_real": "forma_tenencia_propiedad",
-        "descripcion_tabla": "Catálogo de tipos de tenencia de la propiedad (Propietario, alquiler, etc.)",
-        "columnas": {
-            "id_formatenenciapropiedad": "ID tipo tenencia (PK)",
-            "forma_tenencia_propiedad": "Descripción del tipo de tenencia (ej. Propio, Alquilado)"
-        }
+        "nombre_real": "area",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T6": {
-        "nombre_real": "recursos_materiales",
-        "descripcion_tabla": "Inventario de recursos (libros,hemeroteca, videos) y situación del inmueble por organización",
+        "nombre_real": "area_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_organizacion": "ID organización (FK)",
-            "id_forma_tenenciapropiedad": "ID tipo tenencia (FK a forma_tenencia_propiedad)",
-            "uso_exclusivo_propiedad": "¿El inmueble es de uso exclusivo? (Boolean)",
-            "cant_libros": "Cantidad de libros en biblioteca",
-            "cantidad_hemeroteca": "Cantidad de ejemplares en hemeroteca",
-            "cantidad_videoteca": "Cantidad de videos en videoteca"
+            "id_area": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.4. Área(s) temática(s)",
+            "otra_area": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.4.1. ¿Cual/es es/son la/s otra/s area/s temática/s?"
         }
     },
     "T7": {
-        "nombre_real": "entidades_aportantes",
-        "descripcion_tabla": "Catálogo de instituciones o entes que aportan fondos o recursos",
-        "columnas": {
-            "id_entidad_aportante": "ID entidad aportante (PK)",
-            "nombre": "Nombre de la institución aportante"
-        }
+        "nombre_real": "capacitacion",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T8": {
-        "nombre_real": "entidades_sector_privado",
-        "descripcion_tabla": "Listado de empresas y organizaciones del sector privado relacionadas",
+        "nombre_real": "capacitacion_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_entidad_sector_privado": "ID entidad privada (PK)",
-            "nombre": "Nombre de la empresa o entidad privada"
+            "id_capacitacion": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/¿En qué áreas temáticas de CAPACITACIÓN tendría interés la organización?",
+            "otra_capacitacion": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.2. CAPACITACIÓN/¿Cual otra/s área/s temática/s está interesada la organización? Detalle"
         }
     },
     "T9": {
-        "nombre_real": "demandas_sociales",
-        "descripcion_tabla": "Catálogo de tipos de necesidades o reclamos (ej. salud, educación)",
-        "columnas": {
-            "id_demanda": "ID demanda social (PK)",
-            "tipo_demanda": "Descripción de la necesidad (ej. Apoyo escolar, Comedor)"
-        }
+        "nombre_real": "ciudad",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T10": {
-        "nombre_real": "demandas_por_organizacion",
-        "descripcion_tabla": "Relación entre organizaciones y sus demandas sociales activas",
+        "nombre_real": "demandas_sociales",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_demandasocial": "ID demanda (FK a demandas_sociales)",
-            "id_organizacion": "ID organización (FK)"
+            "cuales": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.1. ¿Cuáles son las principales demandas sociales que se realizan a la/en la organización?",
+            "quienes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.2. ¿Quiénes usualmente las efectúan?",
+            "como": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.3. ¿Cómo las efectúan?",
+            "respuesta": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.14. Demandas sociales a la organización/6.14.4. ¿Cómo responde la organización a las mismas?"
         }
     },
     "T11": {
-        "nombre_real": "recursos_financieros",
-        "descripcion_tabla": "Gestión del presupuesto y porcentajes de origen de fondos (propios, estado, otros)",
+        "nombre_real": "detalle_propuesta_niniez_juventud",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_organizacion": "ID organización (FK)",
-            "administracion_presupuesto": "Si la organización administra un presupuesto anual (Boolean como texto)",
-            "porcentaje_recursos_autogenerados": "Porcentaje de fondos propios o autogenerados",
-            "porcentaje_aportes_estatales": "Porcentaje de fondos provenientes del Estado",
-            "porcentaje_otros_aportes": "Porcentaje de fondos de otros orígenes"
+            "descripcion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Descripción de propuesta para niñez\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Descripción de propuesta para adolescentes/jóvenes",
+            "edades": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Edades\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Edades",
+            "cant_participantes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Cantidad de participantes\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Cantidad de participantes",
+            "dias_horarios": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Días y Horarios\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Días y Horarios",
+            "inicio_funcion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Desde cuando funciona?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Desde cuando funciona?",
+            "sexo_coordinador": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Sexo coordinador/a\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Sexo coordinador/a\nOpciones: F (Femenino), M (Masculino) y O (Otrxs)",
+            "otro_sexo": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Cual?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Cuál?",
+            "formacion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Formación\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Formación",
+            "edad_coordinador": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/Edad\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/Edad",
+            "suma_org": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/PROPUESTA/¿Cómo se sumó a la Organización?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/PROPUESTA/¿Cómo se sumó a la Organización?"
         }
     },
     "T12": {
-        "nombre_real": "recurso_financiero_no_recibido_externo_causas",
-        "descripcion_tabla": "Motivos o causas por los que la organización no recibe fondos externos",
-        "columnas": {
-            "id_causanorecext": "ID motivo no recepción (FK a causas externas)"
-        }
+        "nombre_real": "dificultad",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T13": {
-        "nombre_real": "recursos_finacieros_otros_fines",
-        "descripcion_tabla": "Uso de fondos de aportantes externos y sus fines específicos",
+        "nombre_real": "dificultad_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_entidad_aportante": "ID aportante (FK a entidadesaportantes)",
-            "id_fin_recurso_financiero": "ID destino/uso del dinero (FK)"
+            "id_organizacion": "10. AUTODIAGNÓSTICO/10.1.1. ¿Cuál es la dificultad MÁS relevante que encuentra en su trabajo?\n10. AUTODIAGNÓSTICO/10.1.2 ¿Cuál/es otra/s dificultad/es encuentra en su trabajo,  además de la anterior?",
+            "otra_dificultad": "10. AUTODIAGNÓSTICO/¡A qué otra dificultad se refiere?\n10. AUTODIAGNÓSTICO/¿Cual/es otra/s dificultad/es encuentra en su trabajo?"
         }
     },
     "T14": {
-        "nombre_real": "recursos_finacieros_privados_fines",
-        "descripcion_tabla": "Uso de fondos de empresas privadas y sus fines específicos",
+        "nombre_real": "direccion",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_entidad_sector_privado": "ID empresa (FK a entidadessectorprivado)",
-            "id_fin_recurso_financiero": "ID destino/uso del dinero (FK)"
+            "id_ciudad": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Ciudad",
+            "calle": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Calle",
+            "numero": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Número/Puerta",
+            "piso": "1.DATOS FORMALES DE LA ORGANIZACIÓN/Dirección/Piso",
+            "domicilio_legal": "Indica si es el domicilio legal de la organización"
         }
     },
     "T15": {
-        "nombre_real": "organismos_internacionales",
-        "descripcion_tabla": "Catálogo de entes internacionales (ONU, OEA, etc.)",
+        "nombre_real": "eje",
+        "descripcion_tabla": "",
         "columnas": {}
     },
     "T16": {
-        "nombre_real": "recursos_finacieros_organismos_internacionales_fines",
-        "descripcion_tabla": "Uso de fondos de organismos internacionales y sus fines específicos",
+        "nombre_real": "eje_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_organismo_internacional": "ID ente internacional (FK)"
+            "id_eje": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.5. Ejes de Acción",
+            "otro_eje": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.5.1. ¿Cual/es es/son el/los otro/s eje/s de acción/es?"
         }
     },
     "T17": {
-        "nombre_real": "recursos_finacieros_estado_fines",
-        "descripcion_tabla": "Uso de fondos públicos (Estado) y sus fines específicos",
+        "nombre_real": "email_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_recurso_financiero_estado": "ID tipo de recurso estatal (FK)",
-            "id_dependencia_estado": "ID dependencia gubernamental (FK)"
+            "email": "1.DATOS FORMALES DE LA ORGANIZACIÓN/E-mail"
         }
     },
     "T18": {
-        "nombre_real": "actores",
-        "descripcion_tabla": "Catálogo de actores sociales, individuos o instituciones participantes",
+        "nombre_real": "entrevista",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_actor": "ID del actor (PK)",
-            "nombreactor": "Nombre o descripción del actor participante"
+            "fecha_entrevista": "Datos Generales/Fecha de realización de la entrevista",
+            "nombre_entrevistador": "Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Nombre Entrevistador/a",
+            "apellido_entrevistador": "Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Apellido Entrevistador/a",
+            "nombre_supervisor": "Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Nombre Supervisor/a",
+            "apellido_supervisor": "Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Apellido Supervisor/a",
+            "id_ciudad": "Datos Generales/1. Datos Entrevistador/a (en caso que corresponda)/Ciudad",
+            "index_entrevista": "_index",
+            "nombre_archivo": "Nombre del archivo que se utilizo para importar los datos de esta entrevista",
+            "hoja_registro": "HOJA DE REGISTRO (A completar por censista/supervisor/a)"
         }
     },
     "T19": {
-        "nombre_real": "actores_evaluacion_x_organizacion",
-        "descripcion_tabla": "Relación de actores que participan en la evaluación de la organización",
-        "columnas": {
-            "id_actor": "ID actor (FK a actores)",
-            "id_organizacion": "ID organización (FK)"
-        }
+        "nombre_real": "equipamiento",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T20": {
-        "nombre_real": "actores_planificacion_por_organizacion",
-        "descripcion_tabla": "Relación de actores que participan en la planificación de la organización",
+        "nombre_real": "equipamiento_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_actor": "ID actor (FK a actores)",
-            "id_organizacion": "ID organización (FK)"
+            "id_equipamiento": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.3. Recursos Materiales/7.3.1 Equipamiento de la organización. Indique con qué recursos cuenta la Institución para desarrollar sus actividades/Tipo de equipamiento"
         }
     },
     "T21": {
-        "nombre_real": "alcance_de_difusion",
-        "descripcion_tabla": "Catálogo de niveles de alcance de comunicación (ej. Local, Provincial, Nacional)",
+        "nombre_real": "espacio_cuidado",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_alcance": "ID alcance (PK)",
-            "nombre_alcance": "Nombre del nivel de cobertura o alcance"
+            "edades": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Edades de quienes concurren",
+            "a_cargo": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/¿A cargo de quien está el espacio?",
+            "formacion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Formación",
+            "cantidad_ninies": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/Cantidad de niñes",
+            "propuesta": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.6. Espacios de Cuidado/Desarrolo de Espacios de Cuidado/¿En qué consiste la propuesta?"
         }
     },
     "T22": {
-        "nombre_real": "organizacion_interna",
-        "descripcion_tabla": "Misión, toma de decisiones, población objetivo y métodos de trabajo de la institución",
+        "nombre_real": "espacio_formacion",
+        "descripcion_tabla": "",
         "columnas": {
-            "objetivos": "Misión y metas (incluye hambre, salud, educación, defensa profesional)",
-            "barrios": "Nombres de barrios, calles o límites geográficos específicos",
-            "zona_accionar": "Categoría de ubicación: Urbana, Periurbana, Rural",
-            "tipo_poblacion": "Clase social, oficio o condición (ej: pobres, farmacéuticos, jubilados)",
-            "organigrama": "Cómo se toman las decisiones y quién tiene el mando",
-            "documentos_escritos": "¿Tienen manuales o estatutos? (SI/NO)",
-            "planificacion": "¿Existe planeamiento? (SI/NO/A VECES)",
-            "espescen_planif": "Frecuencia o método de planificación (Sistemáticos/Eventuales)",
-            "espesceneval": "Frecuencia o método de evaluación (Sistemáticos/Eventuales)",
-            "publicaciones": "Revistas (Voces, Trípticos), programas de radio o afiches",
-            "demandas_sociales": "Necesidades, reclamos o pedidos que recibe de la comunidad",
-            "como_responde_la_institucion": "Acciones ante pedidos (derivaciones, trámites, proyectos, asesoría legal)",
-            "capacidad_formular_propuestas": "Proyectos específicos realizados (ej: ordenanzas, autonomía PAMI)",
-            "pagina_web": "URL o sitio web (ej: www.instituto...)"
+            "descripcion_espacio": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/Espacio de capacitación/formación",
+            "quien_organiza": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/¿Quién organiza?\nOpciones: PO (La propia organización), OO (Otra/s organización/es), IG (Iglesia), UN (Universidad), ES (Escuela), IT (Institutos Terciarios), SI (Sindicatos), PP (Partidos Políticos), GO (Instancias de Gobierno(Municipio, Provincia, Nación)), OT (Otros)",
+            "quien_participa": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.12. Politicas de capacitación/formación de la organización/Detalle los 3 espacios de capacitación más importantes/¿Quienes participan?"
         }
     },
     "T23": {
-        "nombre_real": "area_tematica",
-        "descripcion_tabla": "Catálogo de rubros o sectores de trabajo (Salud, Vivienda, Educación, etc.)",
-        "columnas": {
-            "nombr_earea": "Nombre del sector o tema de intervención"
-        }
+        "nombre_real": "expectativa",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T24": {
-        "nombre_real": "area_tematica_por_organizacion",
-        "descripcion_tabla": "Áreas temáticas atendidas por cada organización con orden de importancia",
+        "nombre_real": "expectativa_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_areatematica": "ID del área (FK a area_tematica)",
-            "prioridad": "Orden de importancia (1: área principal, 2+: secundarias)"
+            "id_expectativa": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/11.1.1. Respecto de la UNICEN. ¿Cuál es su PRINCIPAL expectativa como organización?\n11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/11.1.2. Respecto de la UNICEN. ¿Cuál/es otras expectativa tiene como organización, aparte de la anterior?",
+            "detalle_espectativa": "11. PERSPECTIVAS RESPECTO DE LA UNICEN/11.1. EXPECTATIVAS RESPECTO DE LA UNICEN/¿Cual otra/s expectativa/s tienen como organización? Detalle"
         }
     },
     "T25": {
-        "nombre_real": "alcance_accionar_por_organizacion",
-        "descripcion_tabla": "Niveles de alcance geográfico o social de la organización y su prioridad",
-        "columnas": {
-            "prioridad": "Importancia del alcance (1: alcance primario)"
-        }
+        "nombre_real": "forma_documentacion_plan_eval",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T26": {
-        "nombre_real": "autodiagnostico",
-        "descripcion_tabla": "Opiniones de la organización sobre el rol de las ONGs y su relación con el Estado",
+        "nombre_real": "forma_documentacion_plan_eval_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "opinion_rol_organizaciones": "Visión actual: qué rol cumplen hoy las ONGs (ej. reemplazo del Estado)",
-            "opinion_rol_deberian_cumplir": "Visión ideal: qué rol deberían cumplir en el futuro"
+            "id_forma_documentacion_plan_eval": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.3. De qué forma lo hace?",
+            "otra_forma_doc": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/Cuál/es es/son la/s otra/s forma/s de registrar las tareas que desarrolla?"
         }
     },
     "T27": {
-        "nombre_real": "autodiagnostico_dificultades",
-        "descripcion_tabla": "Problemas o obstáculos que la organización identifica en su gestión diaria",
+        "nombre_real": "forma_plan_eval_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_dificultad": "ID de la dificultad (FK al catálogo de dificultades)",
-            "prioridad": "Gravedad o importancia del problema identificado"
+            "organigrama": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.8. Organigrama de la organización/6.8.1. Cómo están organizados, ¿cómo dividen la tarea? ¿cómo toman las decisiones?",
+            "documentacion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.1. ¿Cuenta la organización con documento escrito y/o de proyectos de la misma?",
+            "registro": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.9. Documentos escritos y formas de registro/6.9.2. ¿La organización registra la tarea que desarrolla utilizando formas de registro?",
+            "planificacion_accionar": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.1. ¿La organización suelen planificar su accionar?",
+            "evaluacion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.1. ¿Suelen evaluar el trabajo de la organización?"
         }
     },
     "T28": {
-        "nombre_real": "autodiagnostico_rol_deberian_cumplir",
-        "descripcion_tabla": "Relación de roles que la organización considera que DEBERÍA cumplir en la sociedad",
+        "nombre_real": "fundador",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_rolorganizacion": "ID del rol ideal (FK al catálogo de roles)"
+            "nombre_fundador": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.3. ¿Cuáles fueron sus “fundadores/as”?/Nombre y Apellido del Referente/Fundador/a",
+            "caracteristica": "4. HISTORIA DE LA ORGANIZACIÓN (carácter de entrevista- tratamiento cualitativo)/4.3. ¿Cuáles fueron sus “fundadores/as”?/Características del Referente/Fundador/a: (indicar cualquier dato o característica que nos permita conocer el perfil. Por ejemplo: vecino/a del barrio, trabajador/a metalúrgico, de la salud, de la educación…, etc.)"
         }
     },
     "T29": {
-        "nombre_real": "autodiagnostico_rol_organizaciones",
-        "descripcion_tabla": "Relación de roles que la organización considera que CUMPLE actualmente",
-        "columnas": {
-            "id_rolorganizacion": "ID del rol actual (FK al catálogo de roles)"
-        }
+        "nombre_real": "generacion_fondo",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T30": {
-        "nombre_real": "capacitacion_tema",
-        "descripcion_tabla": "Catálogo de temas de formación (Educación, Laboral, Espiritualidad, etc.)",
+        "nombre_real": "generacion_fondo_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "capacitacion_tema": "Nombre del tema de capacitación"
+            "id_generacion_fondo": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/7.2.1. Formas de generación de Fondos Propios",
+            "otros_fondos": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.2. Recursos Financieros (da cuenta de los recursos económicos que maneja la Organización) en %/Detalle las otras estrategias de generación de fondos propios"
         }
     },
     "T31": {
-        "nombre_real": "capacitacion_tema_por_organizacion",
-        "descripcion_tabla": "Temas de capacitación específicos que brinda o recibe cada organización",
+        "nombre_real": "genero",
+        "descripcion_tabla": "",
         "columnas": {}
     },
     "T32": {
-        "nombre_real": "codigos_contenido_registro",
-        "descripcion_tabla": "Catálogo de tipos de datos registrados (Reuniones, Datos Personales, Producción, etc.)",
+        "nombre_real": "genero_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "nombre_codigo": "Descripción de la información que se registra"
+            "id_genero": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3.2. Según identidad(es) de género(s) quienes participan de la organización?"
         }
     },
     "T33": {
-        "nombre_real": "codigo_por_forma_registro_por_organizacion",
-        "descripcion_tabla": "Vincula qué información registra la organización y el método/forma de registro usado",
-        "columnas": {
-            "id_codigocontenido": "ID del contenido (FK a codigos_contenido_registro)",
-            "id_formaregistro": "ID de la forma/soporte de registro (FK)",
-            "prioridad": "Orden de importancia del método de registro"
-        }
+        "nombre_real": "identidad",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T34": {
-        "nombre_real": "como_efectuan_demandas",
-        "descripcion_tabla": "Catálogo de modalidades en que la comunidad realiza pedidos (Individual, Colectivo, etc.)",
+        "nombre_real": "identidad_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "nombrecomo": "Descripción de la modalidad de la demanda"
+            "id_identidad": "5. IDENTIDAD DE LA ORGANIZACIÓN/Seleccione  a cual/es identidad/es pertenece (puede seleccionar más de uno)",
+            "otro_tipo": "5. IDENTIDAD DE LA ORGANIZACIÓN/Detallar descripción de \"Otra Organización\""
         }
     },
     "T35": {
-        "nombre_real": "como_efectuan_demandas_por_organizacion",
-        "descripcion_tabla": "Relación entre organizaciones y las vías por las que reciben pedidos de la comunidad",
+        "nombre_real": "jovenes_memoria",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_comoefectuandem": "ID modalidad de demanda (FK como_efectuan_demandas)"
+            "anio_participacion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Año de participación",
+            "cant_participantes": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Cantidad de Jóvenes que  participaron",
+            "temas": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7.4. Participación en Jóvenes y Memoria/Detalles de participación en Jóvenes y Memoria/Temas"
         }
     },
     "T36": {
-        "nombre_real": "condiciones_contratacion",
-        "descripcion_tabla": "Catálogo de tipos de vínculo laboral o contratación (Becas, Dependencia, Pasantías)",
-        "columnas": {
-            "condiciones_contratacion": "Descripción de condición de contratación del personal"
-        }
+        "nombre_real": "medio_difusion",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T37": {
-        "nombre_real": "dependencia_estado",
-        "descripcion_tabla": "Entes gubernamentales relacionados y su jurisdicción (Nacional, Provincial, Municipal)",
+        "nombre_real": "medio_difusion_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "nombre": "Nombre del organismo o dependencia estatal",
-            "nivel": "Nivel de gobierno: Nacional, Provincial o Municipal"
+            "id_medio": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Forma",
+            "descripcion_medio": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Cuales medios de comunicación?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Nombre de la/s publicación/es\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/URL de la Pagina web\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Facebook\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Instagram\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Usuario de Twitter\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.13. Formas de difusión y socialización del accionar/Cuales otros medios de comunicación?"
         }
     },
     "T38": {
-        "nombre_real": "dificultades",
-        "descripcion_tabla": "Catálogo de obstáculos o limitaciones identificadas (Sobredemanda, falta de recursos, etc.)",
+        "nombre_real": "objetivo_interno",
+        "descripcion_tabla": "",
         "columnas": {
-            "dificultad": "Descripción de la dificultad o problema institucional"
+            "nombre_objetivo": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1. Objetivos de la Organización/6.1.1 Objetivo actual de la organización",
+            "descripcion_objetivo": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.1. Objetivos de la Organización/6.1.2. Describir sintéticamente a qué se dedica tu organización según el objetivo anterior (el campo de acción)"
         }
     },
     "T39": {
-        "nombre_real": "entrevista",
-        "descripcion_tabla": "Datos técnicos de la entrevista realizada: entrevistado, cargo, fecha y duración",
+        "nombre_real": "org_relacionada",
+        "descripcion_tabla": "Organización/es con las que se relaciona",
         "columnas": {
-            "id_organizacion": "ID organización (FK/PK)",
-            "id_entrevistador": "ID del encuestador (FK a entrevistador)",
-            "nombre_entrevistado": "Nombre completo del entrevistado",
-            "cargo_entrevistado": "Puesto o función del entrevistado (ej. Director, Secretario)",
-            "antiguedad_entrevistado": "Tiempo que lleva el entrevistado en la institución",
-            "fecha_entrevista": "Fecha exacta del encuentro",
-            "hs_entrevista": "Duración de la entrevista (ej. 1:30 hs)"
+            "tipo": "Indica el tipo de relación con la organización. M - Org. Madre o H - Org. Hija.",
+            "nombre_organizacion": "2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Nombre Organización\n2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Nombre Organización",
+            "ubicacion": "2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Ubicación\n2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Ubicación",
+            "referente": "2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Referente\n2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Referente",
+            "alcance": "2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.1.1. Organización/es con las que se relaciona/repetir_organizacion_madre/Alcance\n2. IDENTIFICACIÓN DEL TIPO DE ORGANIZACIÓN/2.2.1. Organización/es Relacionada/s/repetir_organizacion_hija/Alcance\nOpciones: L (local), R (regional), N (nacional) e I (internacional)"
         }
     },
     "T40": {
-        "nombre_real": "entrevistador",
-        "descripcion_tabla": "Catálogo de personas encargadas de realizar las entrevistas",
+        "nombre_real": "participante",
+        "descripcion_tabla": "",
         "columnas": {}
     },
     "T41": {
-        "nombre_real": "equipamiento",
-        "descripcion_tabla": "Catálogo de recursos materiales disponibles (PC, Internet, Vehículos, etc.)",
+        "nombre_real": "participante_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "nombre_equipamiento": "Nombre del recurso o herramienta técnica"
+            "id_participante": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.3.1. Según edad quienes participan de la organización?"
         }
     },
     "T42": {
-        "nombre_real": "forma_de_organizacion",
-        "descripcion_tabla": "Catálogo de estilos de jerarquía (Comisiones, Grupos de trabajo, etc.)",
-        "columnas": {
-            "nombre": "Descripción de la forma de organización interna"
-        }
-    },
-    "T43": {
-        "nombre_real": "formas_de_registro",
-        "descripcion_tabla": "Catálogo de soportes usados para documentar tareas (Actas, Informes, Videos)",
+        "nombre_real": "participante_plan_eval",
+        "descripcion_tabla": "",
         "columnas": {}
     },
-    "T44": {
-        "nombre_real": "historia",
-        "descripcion_tabla": "Crónica histórica: fecha de fundación, fundadores, objetivos iniciales y contexto político",
+    "T43": {
+        "nombre_real": "participante_plan_eval_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "anioorigen": "Año de creación o fundación de la institución",
-            "origen": "Naturaleza del origen (ej. Laico, Religioso)",
-            "id_religion": "ID de la religión vinculada (FK)",
-            "fundadores": "Nombres de las personas que crearon la organización",
-            "resumenfundadores": "Perfil o motivación de los fundadores (ej. afectados por problemas comunes)",
-            "objetivos_fundacionales": "Metas originales al momento de la creación",
-            "resenia_accion": "Reseña histórica de actividades y significado del nombre (ej. Chapaleofú)",
-            "resumen_resenia": "Contexto histórico o político del origen (ej. Pos-peronismo, desempleo)"
+            "id_participante_plan_eval": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.3. ¿Quiénes participan?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.3. ¿Quiénes participan?",
+            "tipo": "El tipo es E (evaluacion) o P (planificacion)",
+            "otro_participante": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/Quienes?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/Quienes?"
         }
     },
+    "T44": {
+        "nombre_real": "periodo_plan_eval",
+        "descripcion_tabla": "",
+        "columnas": {}
+    },
     "T45": {
-        "nombre_real": "identidad",
-        "descripcion_tabla": "Catálogo de tipos de entidad por su identidad (Biblioteca, Cooperativa, Centro Comunitario)",
+        "nombre_real": "periodo_plan_eval_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "nombreidentidad": "Nombre del tipo de identidad institucional"
+            "id_periodo_plan_eval": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.10. Uso de la planificación en la organización/6.10.2. ¿En qué MOMENTOS se planifica?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.11. Uso de la evaluación en la organización/6.11.2. ¿En qué MOMENTOS se evalúa?",
+            "tipo": "E - evaluacion\nP - planificacion"
         }
     },
     "T46": {
-        "nombre_real": "identidad_x_organizacion",
-        "descripcion_tabla": "Vincula a la organización con su identidad o tipo de entidad social",
-        "columnas": {}
+        "nombre_real": "problematica",
+        "descripcion_tabla": "",
+        "columnas": {
+            "descripcion_problema": "9. VISIÓN O LECTURA DE LA REALIDAD/9.1. Enuncie en orden de prioridad los problemas que la organización identifica como prioritarios en nuestra ciudad/Problema",
+            "causa": "9. VISIÓN O LECTURA DE LA REALIDAD/9.1. Enuncie en orden de prioridad los problemas que la organización identifica como prioritarios en nuestra ciudad/Causa"
+        }
     },
     "T47": {
-        "nombre_real": "frecuencia_capacitacion",
-        "descripcion_tabla": "Catálogo de periodicidad de capacitaciones (Anual, Semestral, etc.)",
+        "nombre_real": "propuesta_niniez_juventud",
+        "descripcion_tabla": "",
         "columnas": {
-            "tipo": "Descripción de la frecuencia (ej. Trimestral)"
+            "tipo_propuesta": "Indica el tipo de propuesta que puede ser N (Niniez) o J (Adolescentes/Jóvenes)",
+            "como_surge": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.1. ¿Cómo surgen estas propuestas?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.1. ¿Cómo surgen estas propuestas?",
+            "como_funciona": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.2. ¿Cómo funcionan?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.2. ¿Cómo funcionan?",
+            "opinion": "6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.1. PROPUESTA/S para NIÑEZ/6.7.1.3. ¿Qué opinas vos que significan las propuestas para las/los participantes?\n6. ORGANIZACIÓN INTERNA Y ACCIONAR DE LA ORGANIZACIÓN/6.7. MODULO INFANCIAS JUVENTUDES/6.7.2. PROPUESTAS para ADOLESCENTES/JÓVENES/6.7.2.3. ¿Qué opinas vos que significan las propuestas para las/los participantes?"
         }
     },
     "T48": {
-        "nombre_real": "modalidad_de_capacitacion",
-        "descripcion_tabla": "Catálogo de formatos de enseñanza (Charlas, Cursos, Talleres)",
+        "nombre_real": "provincia",
+        "descripcion_tabla": "",
         "columnas": {}
     },
     "T49": {
-        "nombre_real": "modalidad_capacitacion_por_organizacion",
-        "descripcion_tabla": "Detalle de formación: frecuencia, modalidad y si es trabajo rentado o voluntario",
+        "nombre_real": "ref_entrevistado",
+        "descripcion_tabla": "",
         "columnas": {
-            "id_frecuencia": "ID frecuencia (FK a frecuencia_capacitacion)",
-            "rentado": "Booleano: ¿La capacitación es paga/rentada?",
-            "voluntario": "Booleano: ¿La capacitación es voluntaria/ad honorem?"
+            "nombre_entrevistado": "Datos Generales/2. Datos Entrevistado/a/repetir_persona/Nombre Referente Entrevistado/a",
+            "apellido_entrevistado": "Datos Generales/2. Datos Entrevistado/a/repetir_persona/Apellido Referente Entrevistado/a",
+            "cargo_entrevistado": "Datos Generales/2. Datos Entrevistado/a/repetir_persona/Cargo que desempeña en la organización",
+            "antiguedad": "Datos Generales/2. Datos Entrevistado/a/repetir_persona/Antigüedad en la misma"
         }
     },
     "T50": {
-        "nombre_real": "modo_accionar",
-        "descripcion_tabla": "Catálogo de formas de intervención (capacitación, asistencia directa, subsidios)",
-        "columnas": {
-            "nombre_modo": "Descripción del modo de acción (ej. Asistencia Financiera, Becas)"
-        }
+        "nombre_real": "telefono_org",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T51": {
-        "nombre_real": "modo_accionar_por_organizacion",
-        "descripcion_tabla": "Modalidades de acción de cada organización y su orden de importancia",
-        "columnas": {
-            "prioridad": "Prioridad del modo de accionar (1: principal)"
-        }
+        "nombre_real": "tipo_organizacion",
+        "descripcion_tabla": "",
+        "columnas": {}
     },
     "T52": {
-        "nombre_real": "momento_planificacion_evaluacion",
-        "descripcion_tabla": "Catálogo de frecuencias temporales (Anual, Semestral, Trimestral)",
+        "nombre_real": "tipo_organizacion_org",
+        "descripcion_tabla": "",
         "columnas": {
-            "tipo": "Descripción del ciclo temporal"
+            "id_tipo_organizacion": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.3. En particular, ¿ha realizado actividades conjuntas con algunas de las siguientes organizaciones?/Tipo  de Organización"
         }
     },
     "T53": {
-        "nombre_real": "momento_evaluacion_por_organizacion",
-        "descripcion_tabla": "Vincula organizaciones con sus periodos o frecuencias de evaluación",
-        "columnas": {}
+        "nombre_real": "trabajadores_org",
+        "descripcion_tabla": "",
+        "columnas": {
+            "miembros_trabajando": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/Mencione cuántos miembros de la organización trabajan cotidianamente o al menos un día por semana en ella: (cantidad integrantes)",
+            "mujeres_rent": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Mujeres Rentadas",
+            "varones_rent": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Varones Rentados",
+            "otros_rent": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Otrxs Integrantes Rentadxs",
+            "mujeres_vol": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Voluntarias Mujeres",
+            "varones_vol": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Integrantes Voluntarios Varones",
+            "otros_vol": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.1. Relación con la organización/Otrxs Integrantes Voluntarixs",
+            "dias_trabajo_rent": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes rentadxs/Cantidad de días semanales de trabajo, en promedio",
+            "horas_trabajo_rent": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes rentadxs/Cantidad de hs de trabajo por día, en promedio",
+            "dias_trabajo_vol": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes voluntarixs/Cantidad de días semanales de trabajo, en promedio",
+            "horas_trabajo_vol": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.2. Días y horas de trabajo/Integrantes voluntarixs/Cantidad de hs de trabajo, en promedio",
+            "cant_trabajadores_smvm_1": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/¿Cuántos trabajadores cobran hasta 1 SMVM?",
+            "cant_trabajadores_smvm_2": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/¿Cuántos trabajadores cobran entre 1 y 2 SMVM?",
+            "cant_trabajadores_smvm_3": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.3. Entre qué montos gira la renta de les trabajadores (relevar valores extremos)/Más de 2 SMVM",
+            "cant_cond_contr_relac_dep": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Personal en relación de dependencia",
+            "cant_cond_contr_subsidio": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Subsidios/Planes sociales /salario social complementario",
+            "cant_cond_contr_monotributo": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Monotributo/ Monotributo social",
+            "cant_cond_contr_pasantia": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Pasantías",
+            "cant_cond_contr_otros": "7. RECURSOS/TRABAJADORES DE LA ORGANIZACIÓN/7.1.4. ¿En qué condiciones de contratación se encuentran les trabajadores? (señalar cantidades)/Otros"
+        }
     },
     "T54": {
-        "nombre_real": "momento_planificacion_por_organizacion",
-        "descripcion_tabla": "Vincula organizaciones con sus periodos o frecuencias de planificación",
-        "columnas": {}
+        "nombre_real": "vinculo_organizacion",
+        "descripcion_tabla": "",
+        "columnas": {
+            "nombre_organizacion": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Organización social",
+            "motivo": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Motivo(s)",
+            "actividades": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.2. Vinculación con otras organizaciones. ¿Con qué organizaciones se relaciona más frecuentemente?/Actividad(es)"
+        }
     },
     "T55": {
-        "nombre_real": "vinculacion_motivos",
-        "descripcion_tabla": "Catálogo de razones para aliarse con otras instituciones (Convenios, Derivación de casos)",
+        "nombre_real": "vinculo_organizacion_estatal",
+        "descripcion_tabla": "",
         "columnas": {
-            "descripcion": "Descripción del motivo de la vinculación"
-        }
-    },
-    "T56": {
-        "nombre_real": "vinculacion_organismos_sociales",
-        "descripcion_tabla": "Red de alianzas: vincula organizaciones relevadas con otras entidades y sus acuerdos",
-        "columnas": {
-            "id_organizacion_relevada": "ID de la organización del censo (FK)",
-            "id_organizacion_vinculada": "ID de la otra entidad con la que se relaciona (FK)",
-            "misma_tematica": "Booleano: ¿Trabajan en el mismo tema o rubro?",
-            "acuerdos_formales": "Detalle de convenios o acuerdos escritos (ej. SI, FORMALES)"
-        }
-    },
-    "T57": {
-        "nombre_real": "resumen_objetivo_organizacion_interna_por_organizacion",
-        "descripcion_tabla": "Etiquetas de resumen de objetivos (Promoción, Asistencia, Reclamo)",
-        "columnas": {
-            "nombre_resumen_objetivos": "Categoría del objetivo (ej. Reivindicación, Servicio)"
-        }
-    },
-    "T58": {
-        "nombre_real": "organismo",
-        "descripcion_tabla": "Catálogo de entes oficiales de registro (Personería Jurídica, Mutuales, etc.)",
-        "columnas": {
-            "nombre_organismo": "Nombre del ente (ej. Inspección General de Justicia)"
-        }
-    },
-    "T59": {
-        "nombre_real": "organismo_en_el_que_esta_registrado",
-        "descripcion_tabla": "Estado legal: fechas de registro, últimos balances presentados y supervisiones",
-        "columnas": {
-            "fecha_registro": "Fecha de inscripción inicial en el organismo",
-            "fecha_ultima_presentacion_mem_y_balance": "Fecha de la última memoria y balance presentado",
-            "anio_ultima_supervision": "Año en que el organismo realizó la última auditoría/supervisión"
-        }
-    },
-    "T60": {
-        "nombre_real": "opinion_politica_social",
-        "descripcion_tabla": "Catálogo de opiniones subjetivas sobre la política social actual",
-        "columnas": {
-            "opinion": "Calificación de la política (ej. Corrupta, Normal, Desconoce)"
-        }
-    },
-    "T61": {
-        "nombre_real": "recursos_humanos_detalle",
-        "descripcion_tabla": "Información detallada de cada integrante: cargo, educación, sueldo, carga horaria y demografía",
-        "columnas": {
-            "id_organizacion": "ID organización (FK)",
-            "funciones": "Cargo o rol específico (ej. Directivos, Maestranza, Técnicos)",
-            "nivel_educativo": "Nivel de instrucción (Primario, Secundario, Universitario)",
-            "profesion": "Título o profesión específica del integrante",
-            "rentado": "Indica si percibe salario (SÍ/NO)",
-            "id_origenrenta": "ID origen de fondos para el sueldo (FK a recursos_humanos_origen_renta)",
-            "monto": "Rango salarial o monto percibido",
-            "horas_por_semana": "Carga horaria semanal dedicada a la organización",
-            "sexo": "Género del integrante (M/F)",
-            "edad": "Edad del integrante"
-        }
-    },
-    "T62": {
-        "nombre_real": "recursos_humanos_origen_renta",
-        "descripcion_tabla": "Catálogo de fuentes de financiamiento para salarios (Estado, Fondos Propios, Pasantías)",
-        "columnas": {
-            "descripcion": "Descripción de la fuente de pago (ej. Plan de Empleo, Propia ONG)"
-        }
-    },
-    "T63": {
-        "nombre_real": "recursos_materiales_equipamiento",
-        "descripcion_tabla": "Vincula a la organización con los recursos técnicos y herramientas que posee",
-        "columnas": {}
-    },
-    "T64": {
-        "nombre_real": "religion",
-        "descripcion_tabla": "Catálogo de credos o religiones (ej. Catolicismo, Judaísmo, Laico)",
-        "columnas": {}
-    },
-    "T65": {
-        "nombre_real": "resumen_objetivos_fundacionales_por_organizacion",
-        "descripcion_tabla": "Etiquetas de objetivos iniciales al momento de fundación (ej. Reivindicación, Servicio)",
-        "columnas": {}
-    },
-    "T66": {
-        "nombre_real": "rol_organizaciones",
-        "descripcion_tabla": "Catálogo de percepciones sobre la función de las ONGs frente al Estado (Suplir, Denunciar, etc.)",
-        "columnas": {
-            "rol_organizacion": "Descripción del rol (ej. Interpelar al Estado, Contener población)"
-        }
-    },
-    "T67": {
-        "nombre_real": "supervisor",
-        "descripcion_tabla": "Catálogo de supervisores responsables de controlar la calidad del relevamiento",
-        "columnas": {}
-    },
-    "T68": {
-        "nombre_real": "tipo_organizacion_relacionada",
-        "descripcion_tabla": "Catálogo de naturalezas de entes vinculados (Estatal, Gremio, Fundación)",
-        "columnas": {}
-    },
-    "T69": {
-        "nombre_real": "vinculacion_estado_detalle",
-        "descripcion_tabla": "Detalle de gestiones específicas ante el Estado (subsidios, trámites, proyectos)",
-        "columnas": {
-            "motivos": "Texto libre con el detalle del trámite (ej. pases de transporte, certificados discapacidad)"
-        }
-    },
-    "T70": {
-        "nombre_real": "vinculacion_otras_organizaciones",
-        "descripcion_tabla": "Relación con otras ONGs o entidades privadas y existencia de acuerdos formales",
-        "columnas": {
-            "misma_matematica": "Booleano: ¿Comparten el mismo rubro de trabajo?"
-        }
-    },
-    "T71": {
-        "nombre_real": "vision_realidad_opinion_politica_social",
-        "descripcion_tabla": "Relación entre la organización y su postura sobre la política social actual",
-        "columnas": {}
-    },
-    "T72": {
-        "nombre_real": "vision_problemas_causas",
-        "descripcion_tabla": "Diagnóstico cualitativo: identificación de problemas sociales (Inseguridad, Salud) y sus causas",
-        "columnas": {
-            "problema": "Nombre del problema social identificado (ej. Educación)",
-            "causa": "Explicación subjetiva de por qué ocurre ese problema"
-        }
-    },
-    "T73": {
-        "nombre_real": "vision_realidad",
-        "descripcion_tabla": "Opiniones subjetivas sobre política social local, situación de la infancia y trabajo infantil",
-        "columnas": {
-            "opinion_politica_social_local": "Visión sobre la gestión política social en el municipio (ej. Tandil, IMT)",
-            "opinion_infancia_juventud": "Opinión sobre la realidad de niños y adolescentes (ej. rebeldía, contención)",
-            "opinion_trabajo_infantil": "Postura y percepción sobre el trabajo infantil a nivel local"
-        }
-    },
-    "T74": {
-        "nombre_real": "recursos_finacieros_presupuesto",
-        "descripcion_tabla": "Montos monetarios del presupuesto anual desglosados por origen de fondos",
-        "columnas": {
-            "anio": "Año correspondiente al presupuesto (usar 0 si es dato general)",
-            "propia": "Monto de fondos propios o autogenerados (numeric)",
-            "estado_nacional": "Monto recibido del Estado Nacional (numeric)",
-            "estado_provincial": "Monto recibido del Estado Provincial (numeric)",
-            "estado_municipal": "Monto recibido del Municipio (numeric)",
-            "sector_privado": "Monto recibido de empresas o sector privado (numeric)",
-            "organismos_internacionales": "Monto recibido de entes internacionales (numeric)"
-        }
-    },
-    "T75": {
-        "nombre_real": "recursos_finacieros_autogenerados_formas",
-        "descripcion_tabla": "Catálogo de métodos de recaudación propia (Rifas, Cuotas, Aranceles)",
-        "columnas": {}
-    },
-    "T76": {
-        "nombre_real": "recursos_finacieros_autogenerados_fines",
-        "descripcion_tabla": "Relación entre organizaciones y sus métodos de generación de recursos propios",
-        "columnas": {}
-    },
-    "T77": {
-        "nombre_real": "recursos_finacieros_causas_no_recibidos_externos",
-        "descripcion_tabla": "Catálogo de motivos por los que no se reciben fondos externos (Desconocimiento, Inaccesibilidad)",
-        "columnas": {}
-    },
-    "T78": {
-        "nombre_real": "recursos_finacieros_estado_tipos",
-        "descripcion_tabla": "Catálogo de tipos de recursos estatales (Becas, Subsidios)",
-        "columnas": {}
-    },
-    "T79": {
-        "nombre_real": "recursos_finacieros_fines",
-        "descripcion_tabla": "Catálogo de destinos del dinero (Equipamiento, Construcción, Inmuebles)",
-        "columnas": {}
-    },
-    "T80": {
-        "nombre_real": "quienes_efectuan_demandas",
-        "descripcion_tabla": "Catálogo de quiénes solicitan ayuda (Destinatarios, Vecinos, Agentes)",
-        "columnas": {
-            "nombre_quienes": "Descripción del grupo que efectúa la demanda (ej. Familiares)"
-        }
-    },
-    "T81": {
-        "nombre_real": "quienes_efectuan_demandas_por_organizacion",
-        "descripcion_tabla": "Relación entre organizaciones y los perfiles de personas que les realizan pedidos",
-        "columnas": {}
-    },
-    "T82": {
-        "nombre_real": "proyectos",
-        "descripcion_tabla": "Detalle de programas y áreas de trabajo: descripción, fechas, población y estado actual",
-        "columnas": {
-            "descripcion": "Nombre o descripción de la actividad (ej. Área educativa, Espectáculos)",
-            "numero_poblacion_atendida": "Cantidad de personas beneficiadas por el proyecto",
-            "fecha_inicio": "Fecha de comienzo del proyecto",
-            "estado": "Situación del proyecto (ej. ACTIVO, FINALIZADO)"
-        }
-    },
-    "T83": {
-        "nombre_real": "proyecto_por_organizacion_relacionada",
-        "descripcion_tabla": "Vinculación de proyectos con otras instituciones colaboradoras",
-        "columnas": {}
-    },
-    "T84": {
-        "nombre_real": "perfil_edad",
-        "descripcion_tabla": "Catálogo de rangos de edad de la población (Niños, Adolescentes, Jóvenes)",
-        "columnas": {
-            "perfil_edad": "Nombre del grupo etario atendido"
-        }
-    },
-    "T85": {
-        "nombre_real": "perfil_edad_por_organizacion",
-        "descripcion_tabla": "Vincula organizaciones con las edades de las personas a las que ayudan y su prioridad",
-        "columnas": {}
-    },
-    "T86": {
-        "nombre_real": "problemas_sociedad",
-        "descripcion_tabla": "Catálogo de problemas que la organización busca resolver (Pobreza, Trabajo infantil, Violencia)",
-        "columnas": {
-            "problema_sociedad": "Descripción de la problemática (ej. Falta de trabajo)"
-        }
-    },
-    "T87": {
-        "nombre_real": "problema_sociedad_por_organizacion",
-        "descripcion_tabla": "Relación entre organizaciones y los problemas sociales que intentan mitigar y su prioridad",
-        "columnas": {}
-    },
-    "T88": {
-        "nombre_real": "vinculacion",
-        "descripcion_tabla": "Detalle de conexiones con el Estado, partidos políticos, programas sociales y participación en redes o foros",
-        "columnas": {
-            "id_organizacion": "ID organización (FK/PK)",
-            "vinculacion_instancias_estatales": "¿Posee relación con niveles del Estado? (SI/NO)",
-            "acuerdos_convenios": "Detalle de acuerdos o convenios vigentes",
-            "redes_foros": "¿Participa en redes, federaciones o foros? (Boolean)",
-            "funcionarios_politicos": "Relación o contacto con funcionarios políticos",
-            "proyectos_partidos_politicos": "¿Participa en proyectos de partidos políticos? (Boolean)",
-            "implementacion_programas_sociales": "¿Ejecuta programas sociales públicos? (SI/NO)",
-            "cual_programa_social": "Nombre del programa social (ej. Plan Trabajar)",
-            "evaluacion_programa_social": "Opinión o evaluación sobre el impacto de los programas sociales en la organización",
-            "cuales_redes_foros": "Nombres de las redes o foros donde participa (ej. FEHGRA, IMT, Asociaciones)"
-        }
-    },
-    "T89": {
-        "nombre_real": "organizacion_tipo",
-        "descripcion_tabla": "Clasificación de la organización según su dependencia jerárquica y si tiene otras sedes a cargo",
-        "columnas": {
-            "descripcion": "Nombre del tipo organizativo (ej. Tipo 1, Tipo 2)",
-            "dependencia_casa_matriz_local": "¿Depende de una sede central en la misma localidad? (Boolean)",
-            "dependencia_casa_matriz_externa": "¿Depende de una sede central externa/nacional/extranjera? (Boolean)",
-            "organizaciones_a_cargo": "¿Esta organización tiene otras entidades bajo su mando? (Boolean)"
-        }
-    },
-    "T90": {
-        "nombre_real": "organizacion_casa_matriz_externa",
-        "descripcion_tabla": "Catálogo de sedes centrales, federaciones o ministerios nacionales de los que depende la organización",
-        "columnas": {
-            "nombre": "Nombre de la casa matriz o ente superior (ej. Ministerio de Defensa, Federación)",
-            "nivel": "Ámbito de la casa matriz (Nacional, Internacional, etc.)"
+            "tipo_vinculo_est": "Los valores posibles sería Municipal, Provincial o  Nacional codificado como M, P, N",
+            "detalle_dependencias": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/Motivos de vinculación",
+            "motivo_vinculacion": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/Motivo de Vinculación\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/Motivos de vinculación\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/Detalle de Dependencias (Ministerios- Secretarías- Consejos)",
+            "relacion_pandemia": "8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/MUNICIPAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/PROVINCIAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...\n8. VINCULACIÓN CON OTRAS ORGANIZACIONES Y/O INSTITUCIONES/8.1.1. ¿Con qué nivel organizacional del Estado se vincula? Detallar dependencias con las cuales se relaciona más frecuentemente/NACIONAL/¿En el marco de la pandemia/cuarentena, la relación de la organización con el Estado ...\nLos valores posibles son ''Se mantuvo igual'', ''Se fortaleció'', ''Se debilitó'' codificado como I, F, D"
         }
     }
 }

@@ -7,8 +7,9 @@ load_dotenv()
 # 1. Definimos las rutas del proyecto relativas a este archivo
 # Estas variables globales son seguras porque no ejecutan ninguna conexión, solo arman strings.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SQL_INPUT = os.getenv("SQL_COMMENTS_PATH", os.path.join(BASE_DIR, "sql", "03_comments.sql"))
-JSON_OUTPUT = os.getenv("SCHEMA_MAP_PATH", os.path.join(BASE_DIR, "data", "master_schema.json"))
+ROOT_DIR = os.path.dirname(BASE_DIR)
+SQL_INPUT = os.getenv("SQL_COMMENTS_PATH", os.path.join(BASE_DIR, "scripts_sql", "03_comments.sql"))
+JSON_OUTPUT = os.getenv("SCHEMA_MAP_PATH", os.path.join(ROOT_DIR, "data", "master_schema.json"))
 
 # 2. Encapsulamos la conexión en funciones (Factory Pattern)
 def get_db_uri() -> str:

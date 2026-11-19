@@ -1,48 +1,32 @@
 {
   "metadatos": {
-    "fecha": "2026-11-04 19:33:39 UTC",
+    "fecha": "2026-11-10 13:22:39 UTC",
     "split": "dev",
     "top_k": 10,
     "casos_evaluables": 39
   },
   "metricas": {
-    "fecha": "2026-11-04 19:33:39 UTC",
+    "fecha": "2026-11-10 13:22:39 UTC",
     "split": "dev",
     "top_k": 10,
     "casos_evaluables": 39,
-    "recall_at_5": 0.84004884004884,
-    "recall_at_10": 0.9236874236874237,
-    "precision_at_5": 0.441025641025641,
-    "precision_at_10": 0.25555555555555554,
-    "complete_recovery_at_5": 0.6153846153846154,
-    "complete_recovery_at_5_pct": 61.53846153846154,
-    "complete_recovery_at_10": 0.7948717948717948,
-    "complete_recovery_at_10_pct": 79.48717948717949,
-    "tp": 97,
-    "fp": 285,
-    "fn": 10,
-    "promedio_sobrantes_por_caso": 7.3076923076923075,
-    "promedio_omitidas_por_caso": 0.2564102564102564,
-    "latencia_p50_ms": 3.1691789990873076,
-    "latencia_p95_ms": 4.904026000258455
+    "recall_at_5": 0.8821733821733821,
+    "recall_at_10": 0.9444444444444445,
+    "precision_at_5": 0.4666666666666667,
+    "precision_at_10": 0.26324786324786326,
+    "complete_recovery_at_5": 0.6923076923076923,
+    "complete_recovery_at_5_pct": 69.23076923076923,
+    "complete_recovery_at_10": 0.8461538461538461,
+    "complete_recovery_at_10_pct": 84.61538461538461,
+    "tp": 100,
+    "fp": 282,
+    "fn": 7,
+    "promedio_sobrantes_por_caso": 7.230769230769231,
+    "promedio_omitidas_por_caso": 0.1794871794871795,
+    "latencia_p50_ms": 4.556869999760238,
+    "latencia_p95_ms": 6.9616590000805445
   },
   "diagnosticos": [
-    {
-      "id": "DEV_004A",
-      "pregunta": "¿A qué grupos etarios están dirigidas las organizaciones relevadas?",
-      "gold_no_recuperadas": [
-        {
-          "tabla": "T84",
-          "rank": null,
-          "score": 0.0
-        },
-        {
-          "tabla": "T85",
-          "rank": 21,
-          "score": 12.0
-        }
-      ]
-    },
     {
       "id": "DEV_007",
       "pregunta": "Si realizan evaluaciones y quienes las realizan.",
@@ -99,18 +83,7 @@
         {
           "tabla": "T74",
           "rank": 15,
-          "score": 20
-        }
-      ]
-    },
-    {
-      "id": "DEV_049",
-      "pregunta": "¿Qué organizaciones trabajan en áreas vinculadas con problemas sociales y poseen proyectos activos?",
-      "gold_no_recuperadas": [
-        {
-          "tabla": "T23",
-          "rank": 32,
-          "score": 10
+          "score": 20.0
         }
       ]
     },

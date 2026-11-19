@@ -244,3 +244,50 @@ def test_contar_matches_reconoce_singular_plural(text_utils):
 
     # Assert
     assert matches == 1
+
+
+def test_should_detect_org_suffix_as_relation_table_when_bridge_table_provided(
+    text_utils: TextUtils,
+) -> None:
+    """Verifica que las tablas puente con sufijo '_org' del nuevo esquema se reconozcan como relación.
+
+    Args:
+        text_utils: Instancia de utilidades de texto.
+
+    Returns:
+        None.
+    """
+    # Arrange
+    tablas_puente = ["area_org", "participante_org", "identidad_org", "eje_org"]
+
+    # Act & Assert
+    for nombre in tablas_puente:
+        assert text_utils._es_tabla_relacion(nombre) is True, (
+            f"La tabla puente '{nombre}' debe ser reconocida como tabla de relación"
+        )
+
+
+def test_should_not_treat_entity_org_tables_as_relation_tables(
+    text_utils: TextUtils,
+) -> None:
+    """Verifica que las tablas de entidad/detalle con sufijo '_org' no se penalicen como tablas puente.
+
+    Args:
+        text_utils: Instancia de utilidades de texto.
+
+    Returns:
+        None.
+    """
+    # Arrange
+    tablas_entidad = [
+        "trabajadores_org",
+        "forma_plan_eval_org",
+        "telefono_org",
+        "email_org",
+    ]
+
+    # Act & Assert
+    for nombre in tablas_entidad:
+        assert text_utils._es_tabla_relacion(nombre) is False, (
+            f"La tabla de entidad '{nombre}' no debe ser tratada como tabla puente"
+        )

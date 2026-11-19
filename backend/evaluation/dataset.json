@@ -3,113 +3,113 @@
     "id": "DEV_001",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "¿Qué organizaciones tienen proyectos actualmente activos?",
-    "gold_tables": ["T1","T82","T83"]
+    "question": "¿Qué organizaciones realizan proyectos o actividades?",
+    "gold_tables": ["T1", "T2"]
   },
   {
     "id": "DEV_002",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿Qué proyectos tienen actualmente las organizaciones relevadas?",
-    "gold_tables": ["T1","T83","T82"]
+    "gold_tables": ["T1", "T2"]
   },
   {
     "id": "DEV_003",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿A qué población atienden las organizaciones relevadas?",
-    "gold_tables": ["T1", "T22"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_004A",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿A qué grupos etarios están dirigidas las organizaciones relevadas?",
-    "gold_tables": ["T1","T84","T85"]
+    "gold_tables": ["T1", "T40", "T41"]
   },
   {
     "id": "DEV_004B",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿A qué población están dirigidas las organizaciones según sus características?",
-    "gold_tables": ["T1","T22"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_005",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿Qué organizaciones reciben aportes del sector privado?",
-    "gold_tables": ["T1","T8","T14"]
+    "gold_tables": ["T1"]
   },
-    {
+  {
     "id": "DEV_060",
     "split": "dev",
     "difficulty": "meeting",
     "question": "¿Qué entidades del sector privado realizan aportes a las organizaciones relevadas?",
-    "gold_tables": ["T1","T8","T14"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_006",
     "split": "dev",
     "difficulty": "meeting",
-    "question": "¿Qué montos de presupuesto anual declaran las organizaciones relevadas provenientes de fuentes estatales, discriminados por origen?",
-    "gold_tables": ["T1", "T74"]
+    "question": "¿Qué aportes estatales y composición porcentual de financiamiento estatal declaran las organizaciones relevadas, discriminados por origen?",
+    "gold_tables": ["T1", "T4"]
   },
   {
     "id": "DEV_007",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Si realizan evaluaciones y quienes las realizan.",
-    "gold_tables": ["T1","T18","T19"]
+    "gold_tables": ["T1", "T27", "T42", "T43"]
   },
   {
     "id": "DEV_008",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "meeting",
     "question": "que forma de organizacion de trabajo predomina.",
-    "gold_tables": ["T42","T22"]
+    "gold_tables": null
   },
   {
     "id": "DEV_009",
     "split": "dev",
     "difficulty": "meeting",
     "question": "A que areas temáticas se dedica la organizacion.",
-    "gold_tables": ["T1","T23","T24"]
+    "gold_tables": ["T1", "T5", "T6"]
   },
   {
     "id": "DEV_010",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cuantas organizaciones hay que se dedique a x area temática.",
-    "gold_tables": ["T1","T23","T24"]
+    "gold_tables": ["T1", "T5", "T6"]
   },
   {
     "id": "DEV_012",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Que rol estan cumpliendo las organizaciones.",
-    "gold_tables": ["T1","T66","T29"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_013",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cual es el rol principal que cumple una organizacion de acuerdo a lo que piensan.",
-    "gold_tables": ["T1","T66","T29","T28"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_014",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Cual es el rol que deberian cumplir.",
-    "gold_tables": ["T1","T66","T28"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_015",
     "split": "dev",
     "difficulty": "meeting",
     "question": "Preguntas sobre la entrevista, quein es la org y quienes contestan y los datos de las tablas.",
-    "gold_tables": ["T39","T1"]
+    "gold_tables": ["T1", "T18", "T49"]
   },
   {
     "id": "DEV_016",
@@ -122,15 +122,15 @@
     "id": "DEV_017",
     "split": "dev",
     "difficulty": "simple",
-    "question": "¿Cuántos proyectos activos tiene cada organización relevada?",
-    "gold_tables": ["T1","T82","T83"]
+    "question": "¿Cuántos proyectos o actividades realiza cada organización relevada?",
+    "gold_tables": ["T1", "T2"]
   },
   {
     "id": "DEV_021",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Qué organizaciones reciben aportes del sector privado y qué entidades realizan esos aportes?",
-    "gold_tables": ["T1","T8","T14"]
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_022",
@@ -151,14 +151,14 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "Que tipos de organizaciones hay?",
-    "gold_tables": ["T89"]
+    "gold_tables": ["T33"]
   },
   {
     "id": "DEV_025",
     "split": "dev",
     "difficulty": "simple",
     "question": "Decime todas las organizaciones que son {tipo}.",
-    "gold_tables": ["T89","T1"],
+    "gold_tables": ["T1", "T33", "T34"],
     "notes": "Consulta parametrizada por tipo de organización."
   },
   {
@@ -166,28 +166,28 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Qué organizaciones pertenecen a cada tipo de organización?",
-    "gold_tables": ["T89","T1"]
+    "gold_tables": ["T1", "T33", "T34"]
   },
   {
     "id": "DEV_028",
     "split": "dev",
     "difficulty": "simple",
-    "question": "¿Qué proyectos activos tiene cada organización relevada?",
-    "gold_tables": ["T1","T83","T82"]
+    "question": "¿Qué proyectos o actividades realiza cada organización relevada?",
+    "gold_tables": ["T1", "T2"]
   },
   {
     "id": "DEV_030",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "simple",
     "question": "¿Qué entidades aportantes están registradas?",
-    "gold_tables": ["T7"]
+    "gold_tables": null
   },
   {
     "id": "DEV_031",
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Cuáles son las organizaciones que poseen recursos materiales?",
-    "gold_tables": ["T1","T6"],
+    "gold_tables": ["T1", "T19", "T20"],
     "notes": "Incluye posibles preguntas puntuales por cada tipo de recurso."
   },
   {
@@ -195,29 +195,29 @@
     "split": "dev",
     "difficulty": "simple",
     "question": "¿Qué organizaciones cuentan con recursos humanos?",
-    "gold_tables": ["T1","T3"],
+    "gold_tables": ["T1", "T53"],
     "notes": "Interesa discriminar principalmente entre personal rentado y no rentado."
   },
   {
     "id": "DEV_033",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "simple",
     "question": "¿Cuál es el presupuesto/ingresos anual estimado de cada organización?",
-    "gold_tables": ["T1", "T74"]
+    "gold_tables": null
   },
   {
     "id": "DEV_034",
     "split": "dev",
     "difficulty": "simple",
-    "question": "¿Cómo se compone el presupuesto del mismo?",
-    "gold_tables": ["T1","T11","T74"]
+    "question": "¿Cómo se compone porcentualmente el financiamiento de las organizaciones relevadas según el origen de los recursos?",
+    "gold_tables": ["T1"]
   },
   {
     "id": "DEV_035",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "simple",
     "question": "Cuales es el presupuesto promedio de {x tipo}.",
-    "gold_tables": ["T89","T1","T11","T74"],
+    "gold_tables": null,
     "notes": "Consulta parametrizada por tipo de organización."
   },
   {
@@ -233,28 +233,28 @@
     "split": "dev",
     "difficulty": "medium",
     "question": "¿Cuáles son las organizaciones relacionadas con otras organizaciones?",
-    "gold_tables": ["T1", "T70"]
+    "gold_tables": ["T1", "T39", "T54"]
   },
   {
     "id": "DEV_042",
     "split": "dev",
     "difficulty": "medium",
     "question": "¿Qué organizaciones reciben recursos financieros provenientes de fuentes (o aportes) externas?",
-    "gold_tables": ["T1","T74","T11"]
+    "gold_tables": ["T1", "T4"]
   },
   {
     "id": "DEV_043",
     "split": "dev",
     "difficulty": "medium",
     "question": "¿Cuáles son las organizaciones que trabajan sobre {áreas temáticas}?",
-    "gold_tables": ["T1","T23","T24"]
+    "gold_tables": ["T1", "T5", "T6"]
   },
   {
     "id": "DEV_044",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "medium",
     "question": "¿Qué proyectos están relacionados con más de una organización?",
-    "gold_tables": ["T83","T82"]
+    "gold_tables": null
   },
   {
     "id": "DEV_045",
@@ -265,10 +265,10 @@
   },
   {
     "id": "DEV_046",
-    "split": "dev",
+    "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Cuáles son las organizaciones que reciben recursos financieros externos y a qué fines destinan esos fondos?",
-    "gold_tables": ["T1","T79","T11","T13"],
+    "gold_tables": null,
     "notes": "En estas notas, 'externo' se refiere a casa matriz externa."
   },
   {
@@ -276,28 +276,28 @@
     "split": "dev",
     "difficulty": "complex",
     "question": "¿Qué organizaciones participan en proyectos y además mantienen vínculos con otras organizaciones?",
-    "gold_tables": ["T1", "T70", "T83", "T82"]
+    "gold_tables": ["T1", "T2", "T39", "T54"]
   },
   {
     "id": "DEV_048",
     "split": "dev",
     "difficulty": "complex",
-    "question": "¿Cuáles son las organizaciones que poseen recursos humanos y materiales y además cuentan con presupuesto registrado?",
-    "gold_tables": ["T1","T74","T3","T6"]
+    "question": "¿Cuáles son las organizaciones que poseen recursos humanos y equipamiento y además registran composición porcentual de recursos financieros?",
+    "gold_tables": ["T1", "T19", "T20", "T53"]
   },
   {
     "id": "DEV_049",
     "split": "dev",
     "difficulty": "complex",
-    "question": "¿Qué organizaciones trabajan en áreas vinculadas con problemas sociales y poseen proyectos activos?",
-    "gold_tables": ["T1","T23","T24","T86","T83","T82","T87"]
+    "question": "¿Qué organizaciones trabajan en áreas vinculadas con problemáticas sociales y desarrollan proyectos o actividades?",
+    "gold_tables": ["T1", "T2", "T5", "T6", "T46"]
   },
   {
     "id": "DEV_050",
     "split": "dev",
     "difficulty": "complex",
-    "question": "¿Cuáles son las organizaciones que reciben aportes externos y participan en proyectos relacionados con otras organizaciones?",
-    "gold_tables": ["T1","T83","T82","T74"]
+    "question": "¿Cuáles son las organizaciones que reciben aportes estatales externos y mantienen vínculos interinstitucionales con otras organizaciones?",
+    "gold_tables": ["T1", "T4", "T39", "T54"]
   },
   {
     "id": "DEV_051",
@@ -332,7 +332,7 @@
     "split": "pending_review",
     "difficulty": "complex",
     "question": "¿Qué organizaciones participaron en proyectos auditados y financiados por entidades aportantes?",
-    "gold_tables":null
+    "gold_tables": null
   },
   {
     "id": "DEV_059",
